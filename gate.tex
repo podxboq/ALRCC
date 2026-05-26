@@ -1,0 +1,65 @@
+\subsection{Quantum Gates}
+A single-qubit gate $\gate{A}$ can be applied over the first qubit of a ket $\ket{a_1 a_2} $ and the result is $\gate{A}\ket{a_1}\otimes \ket{a_2}$.
+It can also be applied over the last of both qubits and then the result is $\ket{a_1}\otimes \gate{A}\ket{a_2}$.
+
+\begin{notation}
+	Let $\gate{A}$ be a single-qubit gate and $\ket{a}=\ket{a_1\cdots a_n}$ is a ket with $n$ qubits, the following equivalent notation is used:
+	\[
+		\bigotimes_{k=1}^n\gate{A}^{\delta_{hk}}\ket{a_k}=
+		\begin{cases}
+			\ket{a_1\cdots a_h\gate{A}a_{h+1}\cdots a_n}\\
+			\ket{a}\gate{A}_h\\
+			\stateket{a}{h}{\gate{A}}
+		\end{cases}
+		,
+	\]
+	where $h\in\N_n$.
+\end{notation}
+For example, if $\ket{a}=\ket{a_1 a_2}$ then
+\[
+	\gate{A}\ket{a_1}\otimes \ket{a_2} =
+	\begin{cases}
+		\ket{a_1\gate{A}a_2}\\
+		\ket{a}\gate{A}_1\\
+		\stateket{a}{1}{\gate{A}}
+	\end{cases}.
+\]
+
+\begin{proposition}
+	Let $\gate{A}$ be one single-qubit gate.
+	Then, for any  two  distinct indexes $h,k \in \mathbb{N}_n$
+	\begin{equation}
+		\label{eq:conmutacion-gates}
+		\gate{A}_k\gate{A}_{h} = \gate{A}_{h}\gate{A}_k.
+	\end{equation}
+
+\end{proposition}
+\begin{proof}
+	Let $\ket{a}$ be a ket.
+	For any two distinct indexes $h,k \in \mathbb{N}_n$
+	\begin{align*}
+		\ket{a}\gate{A}_k\gate{A}_{h}
+		&=\stateket{a}{k}{\gate{A}}\gate{A}_{h}=\stateket{a}{kh}{\gate{AA}}=\stateket{a}{h}{\gate{A}}\gate{A}_{k}=\ket{a}\gate{A}_{h}\gate{A}_k.
+	\end{align*}
+\end{proof}
+
+By the equality~(\ref{eq:conmutacion-gates}) the following notation is well defined.
+\begin{notation}
+	Let $\Gamma=\set{k_1,\dots,k_l}\subseteq\mathbb{N}_n$ be a set.
+	Let $\gate{A}$ be a single-qubit gate, the following notation is used:
+	\begin{align}
+		\gate{A}_{\Gamma} &= \gate{A}_{k_1,\dots,k_l}=\prod_{k\in\Gamma}\gate{A}_k
+	\end{align}
+\end{notation}
+
+Note that, according to the previous notation, for the specific case of the empty set $\Gamma=\emptyset$, the resulting quantum gate is the identity gate $\gate{A}_\emptyset=\gate{I}$.
+
+For example, if $\ket{a}=\ket{a_1 a_2}$ and $\Gamma = \set{1,2}$, then
+\[
+	\gate{A}\ket{a_1}\otimes \gate{A}\ket{a_2} =
+	\begin{cases}
+		\ket{a_1\gate{A}a_2\gate{A}}\\
+		\ket{a}\gate{A}_{1,2}=\ket{a}\gate{A}_{\Gamma}\\
+		\stateket{a}{1,2}{\gate{A}}=\stateket{a}{\Gamma}{\gate{A}}
+	\end{cases}.
+\]

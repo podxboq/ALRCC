@@ -1,0 +1,138 @@
+\section{Specific Properties of the Controlled Pauli-\gate{X} Gate}
+In this section, some specific properties involving  the controlled Pauli-\gate{X} gate are demonstrated.
+
+   \begin{proposition}
+       Let $h,k \in \mathbb{N}_n$ be two indexes.
+       Then
+       \begin{equation}
+           \stategate{X}{h}{k}\stategate{Z}{}{k}\stategate{X}{h}{k} = \stategate{Z}{}{h,k}
+       \end{equation}
+   \end{proposition}
+   \begin{proof}
+       If $\ket{a}$ is a ket and $h\neq k\in \mathbb{N}_n$ are two indexes, then
+       \begin{align*}
+           \ket{a}\stategate{X}{h}{k}\stategate{Z}{}{k}\stategate{X}{h}{k}
+           &=\alpha_{h0}\stateket{a}{h}{0}\stategate{Z}{}{k}\stategate{X}{h}{k}+
+           \alpha_{h1}\stateket{a}{hk}{1X}\stategate{Z}{}{k}\stategate{X}{h}{k}=\\
+           &=\alpha_{h0}\stateket{a}{hk}{0Z}\stategate{X}{h}{k}+
+           \alpha_{h1}\stateket{a}{hk}{1ZX}\stategate{X}{h}{k}=\\
+           &=\alpha_{h0}\stateket{a}{hk}{0Z}+\alpha_{h1}\stateket{a}{hk}{1XZX}=\\
+           &=\alpha_{h0}\stateket{a}{hk}{0Z}-\alpha_{h1}\stateket{a}{hk}{1Z}=\\
+           &=\alpha_{h0}\stateket{a}{h}{0}\gate{Z}_k-\alpha_{h1}\stateket{a}{h}{1}\gate{Z}_k=\\
+           &=\ket{a}\stategate{Z}{}{h,k}
+       \end{align*}
+   \end{proof}
+
+   For the following result it is necessary to introduce the SWAP gate, which acts over two qubits, exchanging the state of both positions:
+   \begin{align}
+       \label{eq:swap}
+       \begin{split}
+           \ket{a}(SWAP)_{h,k}&=\alpha_{h0}\alpha_{k0}\stateket{a}{hk}{00}+\alpha_{h0}\alpha_{k1}\stateket{a}{hk}{10}+\\
+           &+\alpha_{h1}\alpha_{k0}\stateket{a}{hk}{01}+\alpha_{h1}\alpha_{k1}\stateket{a}{hk}{11}
+       \end{split}
+   \end{align}
+   \begin{proposition}
+       Let $h,k \in \mathbb{N}_n$ be two indexes.
+       Then
+       \begin{equation}
+           \stategate{X}{h}{k}\stategate{X}{k}{h}\stategate{X}{h}{k} = \stategate{(SWAP)}{}{h,k}
+       \end{equation}
+   \end{proposition}
+   \begin{proof}
+       If $\ket{a}$ is a ket and $h\neq k \in \mathbb{N}_n$ are two indexes, then
+       \begin{align*}
+           \ket{a}\stategate{X}{h}{k}\stategate{X}{k}{h}\stategate{X}{h}{k}
+           &=\alpha_{h0}\stateket{a}{h}{0}\stategate{X}{h}{k}\stategate{X}{k}{h}+
+           \alpha_{h1}\stateket{a}{hk}{1X}\stategate{X}{h}{k}\stategate{X}{k}{h}=\\
+           &=\alpha_{h0}\stateket{a}{h}{0}\stategate{X}{k}{h}\stategate{X}{h}{k}+
+           \alpha_{h1}\alpha_{k0}\stateket{a}{hk}{11}\stategate{X}{k}{h}\stategate{X}{h}{k}+\\
+           &+\alpha_{h1}\alpha_{k1}\stateket{a}{hk}{10}\stategate{X}{k}{h}\stategate{X}{h}{k}
+           =\alpha_{h0}\alpha_{k0}\stateket{a}{hk}{00}\stategate{X}{h}{k}+\\
+           &+\alpha_{h0}\alpha_{k1}\stateket{a}{hk}{11}\stategate{X}{h}{k}
+           +\alpha_{h1}\alpha_{k0}\stateket{a}{hk}{01}\stategate{X}{h}{k}+\\
+           &+\alpha_{h1}\alpha_{k1}\stateket{a}{hk}{10}\stategate{X}{h}{k}
+           =\alpha_{h0}\alpha_{k0}\stateket{a}{hk}{00}+\\
+           &+\alpha_{h0}\alpha_{k1}\stateket{a}{hk}{10}
+           +\alpha_{h1}\alpha_{k0}\stateket{a}{hk}{01}+ \alpha_{h1}\alpha_{k1}\stateket{a}{hk}{11}=\\
+           &=\stategate{(SWAP)}{}{h,k}
+       \end{align*}
+   \end{proof}
+
+   \begin{proposition}
+       Let $h,k \in \mathbb{N}_n$ be two indexes.
+       Then
+       \begin{equation}
+           \gate{H}_{hk}\stategate{X}{k}{h}\gate{H}_{hk} = \stategate{X}{h}{k}
+       \end{equation}
+   \end{proposition}
+   \begin{proof}
+       If $\ket{a}$ is a ket and $h\neq k \in \mathbb{N}_n$ are two indexes, then
+       \begin{align*}
+           \ket{a}\gate{H}_{kh}\stategate{X}{k}{h}\gate{H}_{kh}
+           &=\alpha_{h0}\stateket{a}{h}{+}\gate{H}_k\stategate{X}{k}{h}\gate{H}_{kh} + \alpha_{h1}\stateket{a}{h}{-}\gate{H}_k\stategate{X}{k}{h}\gate{H}_{kh}=\\
+           &=\alpha_{h0}\alpha_{k0}\stateket{a}{hk}{++}\stategate{X}{k}{h}\gate{H}_{kh} + \alpha_{h0}\alpha_{k1}\stateket{a}{hk}{+-}\stategate{X}{k}{h}\gate{H}_{kh}+\\
+           &+\alpha_{h1}\alpha_{k0}\stateket{a}{hk}{-+}\stategate{X}{k}{h}\gate{H}_{kh} + \alpha_{h1}\alpha_{k1}\stateket{a}{hk}{--}\stategate{X}{k}{h}\gate{H}_{kh}=\\
+           &=\alpha_{h0}\alpha_{k0}\stateket{a}{hk}{++}\gate{H}_{hk} + \alpha_{h0}\alpha_{k1}\stateket{a}{hk}{+-}\gate{H}_{hk}+\\
+           &+\alpha_{h1}\alpha_{k0}\stateket{a}{hk}{--}\gate{H}_{hk} + \alpha_{h1}\alpha_{k1}\stateket{a}{hk}{-+}\gate{H}_{hk}=\\
+           &=\alpha_{h0}\alpha_{k0}\stateket{a}{hk}{+0}\gate{H}_h + \alpha_{h0}\alpha_{k1}\stateket{a}{hk}{+1}\gate{H}_h+\\
+           &+\alpha_{h1}\alpha_{k0}\stateket{a}{hk}{-1}\gate{H}_h + \alpha_{h1}\alpha_{k1}\stateket{a}{hk}{-0}\gate{H}_h=\\
+           &=\alpha_{h0}\stateket{a}{h}{+}\gate{H}_h+\alpha_{h1}\stateket{a}{h}{-}\gate{H}_h\gate{X}_k=\\
+           &=\alpha_{h0}\stateket{a}{h}{0}+\alpha_{h1}\stateket{a}{h}{1}\stategate{X}{}{k}=\\
+           &=\ket{a}\stategate{X}{h}{k}
+       \end{align*}
+   \end{proof}
+
+   \begin{proposition}
+       Let $j,h,k,l \in \mathbb{N}_n$ be four indexes.
+       Then
+       \begin{equation}
+           \label{eq:mainresult}
+           \stategate{X}{jhk}{l}\gate{X}_h\stategate{X}{jhk}{l} = \stategate{X}{jk}{l}\gate{X}_h
+       \end{equation}
+   \end{proposition}
+   \begin{proof}
+       If $\ket{a}$ is a ket and $j,h,k,l \in \mathbb{N}_n$ are four distinct indexes, then
+       the ket
+       $\ket{b}=\ket{a}\stategate{X}{jhk}{l}\gate{X}_h\stategate{X}{jhk}{l}$
+       is for construction, as shown below
+       \begin{align*}
+           \ket{b}
+           &=\alpha_{j0}\alpha_{h0}\alpha_{k0}\stateket{a}{jhk}{000}\gate{X}_h\stategate{X}{jhk}{l} +
+             \alpha_{j0}\alpha_{h0}\alpha_{k1}\stateket{a}{jhk}{001}\gate{X}_h\stategate{X}{jhk}{l}+\\
+           &+\alpha_{j0}\alpha_{h1}\alpha_{k0}\stateket{a}{jhk}{010}\gate{X}_h\stategate{X}{jhk}{l} +
+             \alpha_{j0}\alpha_{h1}\alpha_{k1}\stateket{a}{jhk}{011}\gate{X}_h\stategate{X}{jhk}{l}+\\
+           &+\alpha_{j1}\alpha_{h0}\alpha_{k0}\stateket{a}{jhk}{100}\gate{X}_h\stategate{X}{jhk}{l} +
+             \alpha_{j1}\alpha_{h0}\alpha_{k1}\stateket{a}{jhk}{101}\gate{X}_h\stategate{X}{jhk}{l}+\\
+           &+\alpha_{j1}\alpha_{h1}\alpha_{k0}\stateket{a}{jhk}{110}\gate{X}_h\stategate{X}{jhk}{l} +
+             \alpha_{j1}\alpha_{h1}\alpha_{k1}\stateket{a}{jhkl}{111\gate{X}}\gate{X}_h\stategate{X}{jhk}{l}=\\
+           &=\alpha_{j0}\alpha_{h0}\alpha_{k0}\stateket{a}{jhk}{010}\stategate{X}{jhk}{l} +
+             \alpha_{j0}\alpha_{h0}\alpha_{k1}\stateket{a}{jhk}{011}\stategate{X}{jhk}{l}+\\
+           &+\alpha_{j0}\alpha_{h1}\alpha_{k0}\stateket{a}{jhk}{000}\stategate{X}{jhk}{l} +
+             \alpha_{j0}\alpha_{h1}\alpha_{k1}\stateket{a}{jhk}{001}\stategate{X}{jhk}{l}+\\
+           &+\alpha_{j1}\alpha_{h0}\alpha_{k0}\stateket{a}{jhk}{110}\stategate{X}{jhk}{l} +
+             \alpha_{j1}\alpha_{h0}\alpha_{k1}\stateket{a}{jhk}{111}\stategate{X}{jhk}{l}+\\
+           &+\alpha_{j1}\alpha_{h1}\alpha_{k0}\stateket{a}{jhk}{100}\stategate{X}{jhk}{l} +
+             \alpha_{j1}\alpha_{h1}\alpha_{k1}\stateket{a}{jhkl}{101\gate{X}}\stategate{X}{jhk}{l}=\\
+           &=\alpha_{j0}\alpha_{h0}\alpha_{k0}\stateket{a}{jhk}{010} +
+             \alpha_{j0}\alpha_{h0}\alpha_{k1}\stateket{a}{jhk}{011}+\\
+           &+\alpha_{j0}\alpha_{h1}\alpha_{k0}\stateket{a}{jhk}{000} +
+             \alpha_{j0}\alpha_{h1}\alpha_{k1}\stateket{a}{jhk}{001}+\\
+           &+\alpha_{j1}\alpha_{h0}\alpha_{k0}\stateket{a}{jhk}{110} +
+             \alpha_{j1}\alpha_{h0}\alpha_{k1}\stateket{a}{jhkl}{111\gate{X}}+\\
+           &+\alpha_{j1}\alpha_{h1}\alpha_{k0}\stateket{a}{jhk}{100} +
+             \alpha_{j1}\alpha_{h1}\alpha_{k1}\stateket{a}{jhkl}{101\gate{X}}=\\
+           &=\boxed{orange}{\alpha_{j0}\alpha_{h0}\alpha_{k0}\stateket{a}{jhk}{000}\gate{X}_h}+
+           \boxed{green}{\alpha_{j0}\alpha_{h0}\alpha_{k1}\stateket{a}{jhk}{001}\gate{X}_h}+\\
+           &+\boxed{orange}{\alpha_{j0}\alpha_{h1}\alpha_{k0}\stateket{a}{jhk}{010}\gate{X}_h}+
+           \boxed{green}{\alpha_{j0}\alpha_{h1}\alpha_{k1}\stateket{a}{jhk}{011}\gate{X}_h}+\\
+           &+\boxed{blue}{\alpha_{j1}\alpha_{h0}\alpha_{k0}\stateket{a}{jhk}{100}\gate{X}_h}+
+           \boxed{red}{\alpha_{j1}\alpha_{h0}\alpha_{k1}\stateket{a}{jhkl}{101\gate{X}}\gate{X}_h}+\\
+           &+\boxed{blue}{\alpha_{j1}\alpha_{h1}\alpha_{k0}\stateket{a}{jhk}{110}\gate{X}_h}+
+           \boxed{red}{\alpha_{j1}\alpha_{h1}\alpha_{k1}\stateket{a}{jhkl}{111\gate{X}}\gate{X}_h}=\\
+           &=\alpha_{j0}\alpha_{k0}\stateket{a}{jk}{00}\gate{X}_h+
+             \alpha_{j0}\alpha_{k1}\stateket{a}{jk}{01}\gate{X}_h+\\
+           &+\alpha_{j1}\alpha_{k0}\stateket{a}{jk}{10}\gate{X}_h+
+             \alpha_{j1}\alpha_{k1}\stateket{a}{jkl}{11\gate{X}}\gate{X}_h=\\
+           &=\ket{a}\stategate{X}{jk}{l}\gate{X}_h
+       \end{align*}
+   \end{proof}

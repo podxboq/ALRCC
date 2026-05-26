@@ -1,0 +1,88 @@
+\section{General Basic Properties}
+	Some generic properties of  gates in a quantum circuit are proven below.
+	\begin{proposition}
+		Let $\gate{A}$ be a single-qubit gate such that $\gate{A}\gate{A}=\gate{I}$. Then $\forall h,k \in \mathbb{N}_n$
+		\begin{align}
+			\label{eq:puerta-involutiva}
+			\gate{A}_k\gate{A}_k &= \gate{I}\\
+			\label{eq:cpuerta-involutiva}
+			\stategate{A}{h}{k}\stategate{A}{h}{k} &= \gate{I}
+		\end{align}
+		.
+	\end{proposition}
+	\begin{proof}
+		Let $\ket{a}$ be a ket and two indexes $h,k \in \mathbb{N}_n$.
+		To prove expression~(\ref{eq:puerta-involutiva}):
+		\begin{align*}
+			\ket{a}\gate{A}_k\gate{A}_k
+			&=\stateket{a}{k}{\gate{A}}\gate{A}_k=\ket{a}^k_{\gate{AA}}=\stateket{a}{k}{\gate{I}}=\ket{a}.
+		\end{align*}
+		Analogously, to prove expression~(\ref{eq:cpuerta-involutiva}), according to~(\ref{eq:generic-controlled-gate}):
+		\begin{align*}
+			\ket{a}\stategate{A}{h}{k}\stategate{A}{h}{k}
+			&=\alpha_{h0}\stateket{a}{h}{0}\stategate{A}{h}{k}+\alpha_{h1}\stateket{a}{hk}{1A}\stategate{A}{h}{k}=\\
+			&=\alpha_{h0}\stateket{a}{h}{0}+\alpha_{h1}\stateket{a}{hk}{1AA}=\\
+			&=\alpha_{h0}\stateket{a}{h}{0}+\alpha_{h1}\stateket{a}{h}{1}=\ket{a}.
+		\end{align*}
+	\end{proof}
+
+	\begin{proposition}
+		Let $\gate{A}$ and $\gate{B}$ be two single-qubit gates, and $\Gamma, \Lambda \subset \mathbb{N}_n$ be two sets such that $\Gamma\cap\Lambda=\emptyset$.
+		Then
+		\begin{equation}
+			\label{eq:conmutacion-sets}
+			\gate{A}_\Gamma\gate{B}_{\Lambda} = \gate{B}_{\Lambda}\gate{A}_{\Gamma}
+		\end{equation}
+	\end{proposition}
+	\begin{proof}
+		Let $\Gamma=\set{h_1,\dots,h_l}$ and $\Lambda=\set{k_1,\dots,k_m}$ be two subsets of $\mathbb{N}_n$. Then
+		\begin{align*}
+			\gate{A}_{\Gamma}\gate{B}_{\Lambda}=\gate{A}_{\Gamma}\gate{B}_{k_1}\cdots\gate{B}_{k_m}=\gate{A}_{h_1}\cdots\gate{A}_{h_l}\gate{B}_{k_1}\cdots\gate{B}_{k_m}.
+		\end{align*}
+		Since $\Gamma\cap\Lambda=\emptyset$, then $h_l\neq k_1$. Thus, according to expression~(\ref{eq:conmutacion-cgates}), the following is true $\gate{A}_{h_l}\gate{B}_{k_1}=\gate{B}_{k_1}\gate{A}_{h_l}$.
+		The same reasoning is valid for all indexes of $\Gamma$, so $\gate{A}_{\Gamma}\gate{B}_{k_1}=\gate{B}_{k_1}\gate{A}_{\Gamma}$. Consequently,
+		\begin{align*}
+			\gate{A}_{\Gamma}\gate{B}_{\Lambda}&=\gate{A}_{\Gamma}\gate{B}_{k_1}\cdots\gate{B}_{k_m}=\gate{B}_{k_1}\gate{A}_{\Gamma}\gate{B}_{k_2}\cdots\gate{B}_{k_m}=\\
+			&=\dots = \gate{B}_{k_1}\cdots\gate{B}_{k_m}\gate{A}_{\Gamma}=\gate{B}_{\Lambda}\gate{A}_{\Gamma}
+		\end{align*}
+	\end{proof}
+
+	\begin{proposition}
+		Let $\gate{A}$ be a single-qubit gate.
+		Then, for any two sets $\Gamma, \Lambda \subset \mathbb{N}_n$
+		\begin{equation}
+			\label{eq:junta-puertas}
+			\gate{A}_\Gamma\gate{A}_{\Lambda} = \gate{A}_{\Gamma\cup\Lambda}\gate{A}_{\Gamma\cap\Lambda}
+		\end{equation}
+
+	\end{proposition}
+	\begin{proof}
+		From basic set theory, $\Gamma\cup\Lambda$ can be expressed as $(\Gamma-(\Gamma\cap\Lambda))\cup(\Lambda-(\Gamma\cap\Lambda))\cup(\Gamma\cap\Lambda)$. Then, the following is true
+		\begin{align*}
+			\gate{A}_{\Gamma}\gate{B}_{\Lambda}&=\prod_{h\in\Gamma}\gate{A}_{h}\prod_{k\in\Lambda}\gate{A}_{k}=\\
+			&=\prod_{h\in\Gamma-(\Gamma\cap\Lambda)}\gate{A}_{h}\prod_{h^\prime\in\Gamma\cap\Lambda}\gate{A}_{h^\prime}\prod_{k\in\Lambda-(\Gamma\cap\Lambda)}\gate{A}_{k}\prod_{k^\prime\in\Gamma\cap\Lambda}\gate{A}_{k^\prime}=\\
+			&=\prod_{h\in(\Gamma-(\Gamma\cap\Lambda))\cup(\Lambda-(\Gamma\cap\Lambda))\cup(\Gamma\cap\Lambda)}\gate{A}_{h}\prod_{k^\prime\in\Gamma\cap\Lambda}\gate{A}_{k^\prime}=\\
+			&=\prod_{h\in\Gamma\cup\Lambda}\gate{A}_{h}\prod_{k^\prime\in\Gamma\cap\Lambda}\gate{A}_{k^\prime}=\gate{A}_{\Gamma\cup\Lambda}\gate{A}_{\Gamma\cap\Lambda}
+		\end{align*}
+	\end{proof}
+
+	Below a theoretical result shows that  if a single-qubit gate is applied over a subset of qubits that are eigenstates of the gate  with eigenvalue -1, then the result coincides with that of the result with another subset with the same cardinality parity (see~\cite{NielsenChuang}). On the other hand, if this latter subset has a different cardinality parity, then the result coincides with the product of the first result with the eigenvalue.
+	\begin{proposition}
+		Let $\gate{A}$ be a single-qubit gate. Let $\ket{a}$ be a ket and $\Gamma, \Lambda \subseteq \mathbb{N}_n$ such that $\forall k \in \Gamma \cup \Lambda, \ket{a} \gate{A}_{k} = -\ket{a}$. Then
+		\begin{equation}
+			\ket{a} \stategate{A}{}{\Gamma} = (-1)^{|\Lambda|-|\Gamma|}\ket{a} \stategate{A}{}{\Lambda}.
+		\end{equation}
+	\end{proposition}
+	\begin{proof}
+		If $\Gamma=\set{k_1,\dots,k_l}$ where $l=|\Gamma|$, then
+		\begin{align*}
+			\ket{a} \stategate{A}{}{\Gamma} &= \ket{a} \prod_{k \in \Gamma} \gate{A}_k = \ket{a}\gate{A}_{k_1} \stategate{A}{}{k_2}\dots\stategate{A}{}{k_l} =\\
+			&= (-1)\ket{a}\gate{A}_{k_2}\dots\stategate{A}{}{k_l} =\dots = (-1)^{|\Gamma|} \ket{a}.
+		\end{align*}
+		Analogously, $\ket{a} \stategate{A}{}{\Lambda} = (-1)^{|\Lambda|} \ket{a}$.
+		Then
+		\begin{align*}
+			\ket{a} \stategate{A}{}{\Gamma} &= (-1)^{|\Gamma|} \ket{a} = (-1)^{|\Gamma|-|\Lambda|}(-1)^{|\Lambda|} \ket{a}=\\
+			&=(-1)^{|\Gamma|-|\Lambda|}\ket{a} \stategate{A}{}{\Lambda}.
+		\end{align*}
+	\end{proof}

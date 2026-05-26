@@ -1,0 +1,27 @@
+We want to add the binary numbers $010\ (2)$ and $110\ (3)$.
+We need four ancillas and so the circuit have ten qubits.
+
+This circuit is write like:
+\begin{equation*}
+	C = \stategate{X}{8}{10}\stategate{X}{4,7}{10}\stategate{X}{7}{9}\stategate{X}{4}{9}\stategate{X}{5,6}{8}\stategate{X}{1,2}{4}\stategate{X}{6}{7}\stategate{X}{2}{3}\stategate{X}{5}{7}\stategate{X}{1}{3}
+\end{equation*}
+
+and it operate over the ket $\ket{a}=\ket{010}\otimes\ket{0}\otimes\ket{110}\otimes\ket{0}\otimes\ket{00}=\ket{0100110000}$ by steps:
+
+\begin{align*}
+	C^1\ket{a}    = \stategate{X}{1}{3}   \ket{0100110000} &= \ket{0100110000}\\
+	C^2\ket{a}    = \stategate{X}{5}{7}   \ket{0100110000} &= \ket{0100111000}\\
+	C^3\ket{a}    = \stategate{X}{2}{3}   \ket{0100111000} &= \ket{0110111000}\\
+	C^4\ket{a}    = \stategate{X}{6}{7}   \ket{0110111000} &= \ket{0110110000}\\
+	C^5\ket{a}    = \stategate{X}{1,2}{4} \ket{0110110000} &= \ket{0110110000}\\
+	C^6\ket{a}    = \stategate{X}{5,6}{8} \ket{0110110000} &= \ket{0110110100}\\
+	C^7\ket{a}    = \stategate{X}{4}{9}   \ket{0110110100} &= \ket{0110110100}\\
+	C^8\ket{a}    = \stategate{X}{7}{9}   \ket{0110110100} &= \ket{0110110100}\\
+	C^9\ket{a}    = \stategate{X}{4,7}{10}\ket{0110110100} &= \ket{0110110100}\\
+	C^{10}\ket{a} = \stategate{X}{8}{10}  \ket{0110110100} &= \ket{0110110101}\\
+\end{align*}
+
+And now we measure over the qubits in the positions 3, 9 and 10:
+\begin{equation*}
+	_{\set{3,9,10}}\rfloor\ket{0110110101}=101\ (5)
+\end{equation*}

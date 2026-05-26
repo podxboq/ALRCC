@@ -1,0 +1,25 @@
+\subsection{Pauli Gates}
+	The well-known Pauli gates $\gate{I}, \gate{X}, \gate{Y}, \gate{Z}$ can be expressed according to the  notation  introduced above as follows:
+	\begin{align}
+		\ket{a}\gate{I}_k &= a_{k0}\stateket{a}{k}{0}+a_{k1}\stateket{a}{k}{1} \\
+		\ket{a}\gate{X}_k &= a_{k0}\stateket{a}{k}{1}+a_{k1}\stateket{a}{k}{0}\\
+		\ket{a}\gate{Y}_k &= ia_{k0}\stateket{a}{k}{1}-i a_{k1}\stateket{a}{k}{0}\\
+		\ket{a}\gate{Z}_k &= a_{k0}\stateket{a}{k}{0}-a_{k1}\stateket{a}{k}{1}
+	\end{align}
+
+\subsection{Pauli Rotation gates}
+The three Pauli rotation gates $\gate{RX}, \gate{RY}$ and $\gate{RZ}$ are defined by taking exponentials of the respectively Pauli gate.
+
+For a value $\theta\in[0, 2\pi)$ is
+\begin{align}
+    \ket{a}\gate{RX}(\theta)_k &= \left(a_{k0}\cos(\frac{\theta}{2})-a_{k1}\sin(\frac{\theta}{2})i\right)\stateket{a}{k}{0}+\left(a_{k1}\cos(\frac{\theta}{2})-a_{k0}\sin(\frac{\theta}{2})i\right)\stateket{a}{k}{1}\\
+    \ket{a}\gate{RY}(\theta)_k &= \left(a_{k0}\cos(\frac{\theta}{2})+a_{k1}\sin(\frac{\theta}{2})\right)\stateket{a}{k}{0}+\left(a_{k1}\cos(\frac{\theta}{2})-a_{k0}\sin(\frac{\theta}{2})\right)\stateket{a}{k}{1}\\
+    \ket{a}\gate{RX}(\theta)_k &= a_{k0}\left(\cos(\frac{\theta}{2})-\sin(\frac{\theta}{2})i\right)\stateket{a}{k}{0}+a_{k1}\left(\cos(\frac{\theta}{2})+\sin(\frac{\theta}{2})i\right)\stateket{a}{k}{1}
+\end{align}
+
+\begin{proposition}
+	Let A be one of the three Pauli Matrix X, Y or Z. Let $k\in\N_n$ and $\theta, \varphi\in[0, 2\pi)$.
+	\begin{equation}
+		\gate{RA}(\theta)_k\gate{RA}(\varphi)_k=\gate{RA}(\theta+\varphi)_k
+	\end{equation}
+\end{proposition}

@@ -1,0 +1,57 @@
+\subsection{kets}
+
+In general, for $n$ qubits $\ket{a_1}\dots\ket{a_n}$, the composite ket  $\ket{a}=\ket{a_1\cdots a_n}\in\Q_n$  can be written as shown below:
+\begin{equation}
+	\label{eq:nqubit-coordenadas}
+	\ket{a}=a_{k0}\ket{a_1\cdots a_{k-1}0a_{k+1}\cdots a_n}+a_{k1}\ket{a_1\cdots a_{k-1}1a_{k+1}\cdots a_n}.
+\end{equation}
+
+For example, for two qubits $\ket{a}$ and $\ket{b}$, the following can be written:
+\begin{align}
+	\ket{ab}&=a_0\ket{0b}+a_1\ket{1b}\\
+	&=b_0\ket{a0}+b_1\ket{a1}\\
+	\label{eq:2qubit-coordenadas}
+	&=a_0 b_0\ket{00}+a_0 b_1\ket{01}+a_1 b_1\ket{10}+a_1 b_1\ket{11}
+\end{align}
+
+\begin{notation}
+	For any ket $\ket{a}=\ket{a_1\dots a_n}$ of $n$ qubits, the following notation is used:
+	\begin{equation}
+		\label{eq:nqubit-only-one-state}
+		\stateket{a}{k}{\gamma} = \ket{a_1\cdots a_{k-1}\gamma a_{k+1}\cdots a_n},
+	\end{equation}
+	where $k \in \mathbb{N}_n$ and $\gamma\in\B$.
+\end{notation}
+
+Consequently, the expression~(\ref{eq:nqubit-coordenadas}) can be written as follows:
+\begin{equation}
+	\label{eq:canonical-state}
+	\ket{a}= a_{k0}\stateket{a}{k}{0}+a_{k1}\stateket{a}{k}{1}.
+\end{equation}
+
+For instance, if $\ket{a_1},\ket{a_2}$ and $\ket{a_3}$ are three qubits, then:
+\begin{itemize}
+	\item $\stateket{a_1}{1}{0}=\ket{0}$ and $\stateket{a_1}{1}{1}=\ket{1}$.
+	\item $\stateket{a_1 a_2}{2}{0}=\ket{a_1 0}$.
+	\item $\ket{a_1 a_2 a_3}=a_{20}\ket{a_1 0 a_3}+a_{21}\ket{a_1 1 a_3}=a_{20}\stateket{a}{2}{0}+a
+	_{21}\stateket{a}{2}{1}$.
+	\item $\stateket{00a_3}{3}{1}=\ket{001}$.
+\end{itemize}
+
+\begin{notation}
+	Para una notación más general basado en conjuntos de índices, dado el conjunto $\Gamma=\set{k_1,\dots,k_l}$ y $\gamma\in\B^l$ denotamos por:
+	\[
+		\stateket{a}{\Gamma}{\gamma}=((1-\delta_{1\Gamma})\ket{a_1}+\delta_{1\Gamma}\ket{\ext{\gamma}{\Gamma}_1})\otimes\dots\otimes ((1-\delta_{n\Gamma})\ket{a_n}+\delta_{n\Gamma}\ket{\ext{\gamma}{\Gamma}_n})
+	\]
+\end{notation}
+
+Veamos exactamente que valor toma $(1-\delta_{k\Gamma})\ket{a_k}+\delta_{k\Gamma}\ket{\ext{\gamma}{\Gamma}_k}$:
+\begin{itemize}
+	\item Si $k\in\Gamma\so\delta_{k\Gamma}=1$ y $\ext{\gamma}{\Gamma}_k=\gamma_k$, por lo tanto $(1-\delta_{k\Gamma})\ket{a_k}+\delta_{k\Gamma}\ket{\ext{\gamma}{\Gamma}_k}=(1-1)\ket{a_k}+\ket{\gamma_k}=\ket{\gamma_k}$.
+	\item Si $k\notin\Gamma\so\delta_{k\Gamma}=0$ y $\ext{\gamma}{\Gamma}_k=0$, por lo tanto $(1-\delta_{k\Gamma})\ket{a_k}+\delta_{k\Gamma}\ket{\ext{\gamma}{\Gamma}_k}=(1-0)\ket{a_k}+0\ket{0}=\ket{a_k}$.
+\end{itemize}
+
+For example, if $\Gamma=\set{1,3,7}\subset \N^8$, $\gamma=(1,0,1)\in\B^3$ and $\ket{a}=\ket{0}\in\Q^8$ then
+\[
+	\ket{a}^{\Gamma}_{\gamma}=\ket{10000010}.
+\]

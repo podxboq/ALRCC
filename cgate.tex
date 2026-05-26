@@ -1,0 +1,60 @@
+\subsection{Controlled Quantum Gates}
+Controlled quantum gates are applied to kets formed by multiple qubits so that one or more qubits serve as controllers for a specific operation on one or more qubits of the ket.
+
+The simplest controlled gate $\gate{A}$ over a ket $\ket{a}=\ket{a_1\dots a_n}$ has only one control qubit $\ket{a_h}$ and only one target qubit $\ket{a_k}$.
+
+\begin{notation}
+	Let $\ket{a}=\ket{a_1\cdots a_n}$ be a ket.
+	Let $\gate{A}$ be a single-qubit quantum gate.
+	The controlled quantum gate with control qubit $\ket{a_h}$ and target qubit $\ket{a_k}$ is denoted by $\stategate{A}{h}{k}$:
+	\begin{equation}
+	\begin{split}
+		\label{eq:generic-controlled-gate}
+		\ket{a}\stategate{A}{h}{k}&=a_{h0}\stateket{a}{h}{0}+a_{h1} \stateket{a}{h}{1}\stategate{A}{}{k}= \\
+		&=a_{h0}\stateket{a}{h}{0}+a_{h1} \stateket{a}{hk}{1\gate{A}}.
+	\end{split}
+\end{equation}
+\end{notation}
+
+Podemos expresar tambien la puerta cuántica controlada $\stategate{A}{h}{k}$ como
+\begin{align*}
+	\ket{a}\stategate{A}{h}{k}&=a_{h0}\stateket{a}{h}{0}+a_{h1} \stateket{a}{hk}{1\gate{A}}= \\
+	&=a_{h0}\stateket{a}{h}{0}+a_{h1} \stateket{a}{hk}{1\gate{A}}+a_{h1}\stateket{a}{h}{1}-a_{h1} \stateket{a}{h}{1}=\\
+	&=\ket{a}-a_{h1} \stateket{a}{h}{1}+a_{h1} \stateket{a}{hk}{1\gate{A}}
+\end{align*}
+
+\begin{proposition}
+	Let $\gate{A}$ be a single-qubit gate.
+	Then, for any  three distinct indexes $h,k,k^\prime \in \mathbb{N}_n$
+	\begin{align}
+		\stategate{A}{h}{k}\stategate{A}{h}{k^\prime} &= \stategate{A}{h}{k^\prime}\stategate{A}{h}{k}
+	\end{align}
+\end{proposition}
+
+\begin{proof}
+	Let $\ket{a}$ be a ket.\ For any three distinct  indexes $h,k,k^\prime \in \mathbb{N}_n$:
+	\begin{equation}
+		\label{eq:conmutacion-cgates}
+		\begin{split}
+			\ket{a}\stategate{A}{h}{k}\stategate{A}{h}{k^\prime}
+			&=\alpha_{h0}\stateket{a}{h}{0}\stategate{A}{h}{k^\prime}+\alpha_{h1}\stateket{a}{hk}{1\gate{A}}\stategate{A}{h}{k^\prime}=\\
+			&=\alpha_{h0}\stateket{a}{h}{0}+\alpha_{h1}\stateket{a}{hkk^\prime}{1\gate{AA}}=\\
+			&=\alpha_{h0}\stateket{a}{h}{0}\stategate{A}{h}{k}+\alpha_{h1}\stateket{a}{hk^\prime}{1\gate{A}}\stategate{A}{h}{k}=\\
+			&=\ket{a}\stategate{A}{h}{k^\prime}\stategate{A}{h}{k}
+		\end{split}
+	\end{equation}
+\end{proof}
+
+By the proof of (\ref{eq:conmutacion-cgates}) the following notation is well defined.
+\begin{notation}
+	Let $\ket{a}=\ket{a_1\cdots a_n}$ be a ket.
+	Let $\gate{A}$ be a single-qubit quantum gate.
+	The controlled quantum gate with various control qubits $\Gamma=\set{h_1,\dots,h_l}\subset\mathbb{N}_n$  and various target qubits $\Lambda=\set{k_1,\dots,k_m}\subset\mathbb{N}_n$ such that $\Gamma\cap\Lambda=\emptyset$ is denoted by:
+	\begin{align*}
+	\ket{a}\gate{A}^{\Gamma}_{\Lambda}&=\ket{a}\stategate{A}{h_1,\dots,h_l}{k_1,\dots, k_m}=a_{h_{1}0}\stateket{a}{h_1}{0}+a_{h_{1}1}a_{h_{2}0}\stateket{a}{h_{1}h_{2}}{10}+\dots+\\
+	&+a_{h_{1}1}a_{h_{2}1}\cdots a_{h_{l}0}\stateket{a}{h_{1}h_{2}\dots h_{l-1}h_{l}}{11\dots 10}+
+	a_{h_{1}1}a_{h_{2}1}\cdots a_{h_{l}1}\stateket{a}{h_{1}h_{2}\dots h_{l}k_1\dots k_m}{11\dots 1\gate{A}\dots \gate{A}}=\\
+	&=\ket{a}-a_{h_{1}1}a_{h_{2}1}\cdots a_{h_{l}1}\stateket{a}{\Gamma}{1}+a_{h_{1}1}a_{h_{2}1}\cdots a_{h_{l}1}\stateket{a}{\Gamma\Lambda}{1\gate{A}}.
+	\end{align*}
+\end{notation}
+Note that, according to the previous notation, for the specific case of the empty set $\Gamma=\emptyset$, the resulting quantum gate is $\stategate{A}{\Gamma}{\Lambda}=\gate{A}_{\Lambda}$.

@@ -1,0 +1,17 @@
+\subsection{Hadamard Gate}
+The Hadamard gate is a well-known single-qubit gate that maps the basis states $\ket{0}$ and $\ket{1}$  to $\ket{+}=\frac{\ket{0}+\ket{1}}{\sqrt{2}}$ and $\ket{-}=\frac{\ket{0}-\ket{1}}{\sqrt{2}}$, respectively.
+
+Thus, the Hadamard gate can be expressed using the introduced notation as follows:
+\begin{equation}
+    \label{eq:hadamard}
+    \begin{split}
+        \ket{a}\gate{H}_k&=\alpha_{k+}\ket{a}^{k}_{+}+\alpha_{k-}\ket{a}^{k}_{-}=\\
+        &=\alpha_{k0}\ket{a}^{k}_{0}+\alpha_{k1}\ket{a}^{k}_{1}=\\
+        &=\frac{\alpha_{k+}+\alpha_{k-}}{\sqrt{2}}\ket{a}^{k}_{0}+\frac{\alpha_{k+}-\alpha_{k-}}{\sqrt{2}}\ket{a}^{k}_{1}
+    \end{split}
+\end{equation}
+
+A Hadamard similarity transform interchanges X and Z gates,
+\begin{align}
+    \gate{H}_k\gate{X}_k\gate{H}_k &= \gate{Z}_k & \gate{H}_k\gate{Y}_k\gate{H}_k &= \gate{-Y}_k & \gate{H}_k\gate{Z}_k\gate{H}_k &= X_k
+\end{align}

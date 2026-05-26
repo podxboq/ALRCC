@@ -1,0 +1,59 @@
+\section{Deutsch Algorithm}\label{sec:deutsch-algorithm}
+The Deutsch Algorithm is one of the first quantum algorithms which showed more efficient than their classical counterpart.
+
+Let $f:\B\longrightarrow\B$ be a function.
+There are only four distinct functions, the constant functions $0$ and $1$, and the balanced functions identity and the opposite or flip function.
+If we need to know if $f$ is constant or balanced, we need to evaluate $f$ twice, but with a quantum algorithm we only need evaluate once, as was shown by Deutsch~\cite{Deutsch1985}.
+
+Una sencilla prueba para saber si una función es constante o balanceada es restar las imágenes, pues $f(0)-f(1)=0$ si la función es constante y $f(0)-f(1)=1$ si es balanceada.
+Si pensamos en un estado superpuesto, $f(\ket{0}-\ket{1})=0$ si la función es constante y $f(\ket{0}-\ket{1})=1$ si es balanceada, la idea es convertir esta expresión en un operador sobre estados cuánticos.
+
+Let $\gate{U}$ the unitary operator defined by
+\[
+	\ket{xy}U=\ket{x(y\oplus f(x))},
+\]
+where $\oplus$ is an addition mod 2.
+If we applied the operator $\gate{U}$ over the $\ket{+-}$ state we have:
+\[
+	\begin{split}
+	\ket{+-}U &= \frac{1}{\sqrt{2}}(\ket{+0}-\ket{+1})U=\frac{1}{2}(\ket{00}+\ket{10}-\ket{01}-\ket{11})U=\\
+	&= \frac{1}{2}(\ket{0(0\oplus f(0))}+\ket{1(0\oplus f(1))}-\ket{0(1\oplus f(0))}-\ket{1(1\oplus f(1))})=\\
+		&=\begin{cases}
+				\frac{1}{2}(\ket{00}+\ket{11}-\ket{01}-\ket{10})=\ket{+-}\text{ if $f(0)=0$ and $f(1) = 1$}\\
+				\frac{1}{2}(\ket{00}+\ket{10}-\ket{01}-\ket{11})=\ket{--}\text{ if $f(0)=0$ and $f(1) = 0$}\\
+				\frac{1}{2}(\ket{01}+\ket{11}-\ket{00}-\ket{10})=-\ket{+-}\text{ if $f(0)=1$ and $f(1) = 1$}\\
+				\frac{1}{2}(\ket{01}+\ket{10}-\ket{00}-\ket{11})=-\ket{--}\text{ if $f(0)=1$ and $f(1) = 0$}
+	\end{cases}
+	\end{split}
+\]
+so, the final state is:
+\[
+	\ket{+-}U=\begin{cases}
+		            \ket{+-} & \text{ if $f$ is constant} \\
+		            \ket{--} & \text{ if $f$ is balanced}
+	\end{cases}.
+\]
+
+Let us consider a quantum circuit which implements the Deutsch algorithm.
+\[
+	\gate{D}=\gate{X}_1\gate{H}_{1,2}\gate{U}\gate{H}_2
+\]
+
+Let's begin
+
+\begin{equation}
+	\label{eq:deutchs-circuit}
+	\begin{split}
+		\ket{0}\gate{D}&=\ket{00}\gate{X}_1\gate{H}_{1,2}\gate{U}\gate{H}_2=\ket{10}\gate{H}_{1,2}\gate{U}\gate{H}_2=\frac{1}{\sqrt{2}}\ket{-+}\gate{U}\gate{H}_2=\\
+		&=\frac{1}{\sqrt{2}}\ket{-(+\oplus f(-))}\gate{H}_2=\frac{1}{\sqrt{2}}(\ket{-+}\oplus\ket{- f(-)})\gate{H}_2=\\
+		&=\frac{1}{\sqrt{2}}(\ket{-0}\oplus\ket{- f(-)}\gate{H}_2=\\
+		&=\frac{1}{2}(\ket{0-}-\ket{1+}\oplus\ket{0 f(-)}\gate{H}_2-\ket{1 f(-)}X_2\gate{H}_2)
+	\end{split}
+\end{equation}
+
+Ahora vamos a ver como queda le segundo qubit.
+\begin{equation*}
+	\begin{split}
+		\ket{+}\gate{U}\gate{H}&=
+	\end{split}
+\end{equation*}

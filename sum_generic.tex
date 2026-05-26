@@ -1,0 +1,345 @@
+We can sum $2+3$ with kets with three qubits, so the number $2$ in binary is $010$ and the number $3$ in binary is $110$.
+We need four ancillas and so the circuit have ten qubits.
+
+This circuit is write like:
+\begin{equation}
+	C = \stategate{X}{8}{10}\stategate{X}{4,7}{10}\stategate{X}{7}{9}\stategate{X}{4}{9}\stategate{X}{5,6}{8}\stategate{X}{1,2}{4}\stategate{X}{6}{7}\stategate{X}{2}{3}\stategate{X}{5}{7}\stategate{X}{1}{3}
+\end{equation}
+
+and it operate over a ket $\ket{a}=\ket{010}\otimes\ket{0}\otimes\ket{110}\otimes\ket{0}\otimes\ket{00}=\ket{0100110000}$ by steps:
+
+\begin{align*}
+	C^1\ket{a} &= \stategate{X}{1}{3}\ket{0100110000} = \ket{0100110000}\\
+	C^2\ket{a} &= \stategate{X}{5}{7}\ket{0100110000} = \ket{0100111000}\\
+	C^3\ket{a} &= \stategate{X}{2}{3}\ket{0100111000} = \ket{0110111000}\\
+	C^4\ket{a} &= \stategate{X}{6}{7}\ket{0110111000} = \ket{0110110000}\\
+	C^5\ket{a} &= \stategate{X}{1,2}{4}\ket{0110110000} = \ket{0110110000}\\
+	C^6\ket{a} &= \stategate{X}{5,6}{8}\ket{0110110000} = \ket{0110110100}\\
+	C^7\ket{a} &= \stategate{X}{4}{9}\ket{0110110100} = \ket{0110110100}\\
+	C^8\ket{a} &= \stategate{X}{7}{9}\ket{0110110100} = \ket{0110110100}\\
+	C^9\ket{a} &= \stategate{X}{4,7}{10}\ket{0110110100} = \ket{0110110100}\\
+	C^{10}\ket{a} &= \stategate{X}{8}{10}\ket{0110110100} = \ket{0110110101}\\
+\end{align*}
+
+And now we measure over the qubits in the positions 3, 9 and 10:
+\begin{equation}
+	_{\set{3,9,10}}\rfloor\ket{0110110101}=101
+\end{equation}
+And $101$ in decimal is $5$.
+
+This circuit is write like:
+\begin{equation}
+	C = \stategate{X}{8}{10}\stategate{X}{4,7}{10}\stategate{X}{7}{9}\stategate{X}{4}{9}\stategate{X}{5,6}{8}\stategate{X}{1,2}{4}\stategate{X}{6}{7}\stategate{X}{2}{3}\stategate{X}{5}{7}\stategate{X}{1}{3}
+\end{equation}
+and it operate over a ket $\ket{a}=\ket{a_1 a_2 a_3 a_4 a_5 a_6 a_7 a_8 a_9 a_{10}}$ by steps:
+
+\begin{align*}
+	C^1\ket{a} &= \stategate{X}{1}{3}\ket{a} = a_{10} \stateket{a}{1}{0} + a_{11}\stategate{X}{}{3}\stateket{a}{1}{1}\\
+	C^2\ket{a} &= a_{10} \stategate{X}{5}{7}\stateket{a}{1}{0} + a_{11}\stategate{X}{5}{7}\stategate{X}{}{3}\stateket{a}{1}{1} = a_{10}a_{50} \stateket{a}{15}{00} + a_{10}a_{51} \stategate{X}{}{7}\stateket{a}{15}{01} + a_{11}a_{50}\stategate{X}{}{3}\stateket{a}{15}{10}+\\
+	&+a_{11}a_{51}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{15}{11}\\
+	C^3\ket{a} &= a_{10}a_{50} \stategate{X}{2}{3}\stateket{a}{15}{00} + a_{10}a_{51} \stategate{X}{2}{3}\stategate{X}{}{7}\stateket{a}{15}{01} + a_{11}a_{50}\stategate{X}{2}{3}\stategate{X}{}{3}\stateket{a}{15}{10} + a_{11}a_{51}\stategate{X}{2}{3}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{15}{11}=\\
+	&= a_{10}a_{20}a_{50} \stateket{a}{125}{000} + a_{10}a_{20}a_{50} \stategate{X}{}{3}\stateket{a}{125}{000} + \\
+	&+ a_{10}a_{20}a_{51} \stategate{X}{}{7}\stateket{a}{125}{001} +a_{10}a_{21}a_{51} \stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{125}{001} +\\ &+a_{11}a_{20}a_{50}\stategate{X}{}{3}\stateket{a}{125}{100} +a_{11}a_{21}a_{50}\stategate{X}{}{3}\stategate{X}{}{3}\stateket{a}{125}{110} +\\ &+a_{11}a_{20}a_{51}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{125}{101}+a_{11}a_{20}a_{51}\stategate{X}{}{3}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{125}{111}=\\
+	&= a_{10}a_{20}a_{50} \stateket{a}{125}{000} + a_{10}a_{20}a_{50} \stategate{X}{}{3}\stateket{a}{125}{000} + \\
+	&+ a_{10}a_{20}a_{51} \stategate{X}{}{7}\stateket{a}{125}{001} +a_{10}a_{21}a_{51} \stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{125}{001} +\\ &+a_{11}a_{20}a_{50}\stategate{X}{}{3}\stateket{a}{125}{100} +a_{11}a_{21}a_{50}\stateket{a}{125}{110} +\\ &+a_{11}a_{20}a_{51}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{125}{101}+a_{11}a_{20}a_{51}\stategate{X}{}{7}\stateket{a}{125}{111}\\
+	C^4\ket{a}&= a_{10}a_{20}a_{50}\stategate{X}{6}{7} \stateket{a}{125}{000} + a_{10}a_{20}a_{50} \stategate{X}{6}{7}\stategate{X}{}{3}\stateket{a}{125}{000} + \\
+	&+ a_{10}a_{20}a_{51} \stategate{X}{6}{7}\stategate{X}{}{7}\stateket{a}{125}{001} +a_{10}a_{21}a_{51} \stategate{X}{6}{7}\stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{125}{001} +\\ &+a_{11}a_{20}a_{50}\stategate{X}{6}{7}\stategate{X}{}{3}\stateket{a}{125}{100} +a_{11}a_{21}a_{50}\stategate{X}{6}{7}\stateket{a}{125}{110} +\\ &+a_{11}a_{20}a_{51}\stategate{X}{6}{7}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{125}{101}+a_{11}a_{20}a_{51}\stategate{X}{6}{7}\stategate{X}{}{7}\stateket{a}{125}{111}=\\
+	&=a_{10}a_{20}a_{50}a_{60} \stateket{a}{1256}{0000} +
+	  a_{10}a_{20}a_{50}a_{61}\stategate{X}{}{7} \stateket{a}{1256}{0001} +\\
+	&+a_{10}a_{20}a_{50}a_{60} \stategate{X}{}{3}\stateket{a}{1256}{0000} +
+	  a_{10}a_{20}a_{50}a_{60} \stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{0001} + \\
+	&+a_{10}a_{20}a_{51}a_{60} \stategate{X}{}{7}\stateket{a}{1256}{0010} +
+	  a_{10}a_{20}a_{51}a_{61} \stategate{X}{}{7}\stategate{X}{}{7}\stateket{a}{1256}{0011} +\\
+	&+a_{10}a_{21}a_{51}a_{60} \stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{1256}{0010} +
+	  a_{10}a_{21}a_{51}a_{61} \stategate{X}{}{7}\stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{1256}{0011} +\\
+	&+a_{11}a_{20}a_{50}a_{60}\stategate{X}{}{3}\stateket{a}{1256}{1000}+
+	  a_{11}a_{20}a_{50}a_{61}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{1001}+\\
+	&+a_{11}a_{21}a_{50}a_{60}\stateket{a}{1256}{1100} +
+	  a_{11}a_{21}a_{50}a_{61}\stategate{X}{}{7}\stateket{a}{1256}{1101} +\\
+	&+a_{11}a_{20}a_{51}a_{60} \stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{1010}+
+	  a_{11}a_{20}a_{51}a_{61} \stategate{X}{}{7}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{1011}+\\
+	&+a_{11}a_{20}a_{51}a_{60} \stategate{X}{}{7}\stateket{a}{1256}{1110}+
+	  a_{11}a_{20}a_{51}a_{61} \stategate{X}{}{7}\stategate{X}{}{7}\stateket{a}{1256}{1111}\\
+	&=a_{10}a_{20}a_{50}a_{60} \stateket{a}{1256}{0000} +
+	  a_{10}a_{20}a_{50}a_{61} \stategate{X}{}{7} \stateket{a}{1256}{0001} +\\
+	&+a_{10}a_{20}a_{50}a_{60} \stategate{X}{}{3}\stateket{a}{1256}{0000} +
+	  a_{10}a_{20}a_{50}a_{60} \stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{0001} + \\
+	&+a_{10}a_{20}a_{51}a_{60} \stategate{X}{}{7}\stateket{a}{1256}{0010} +
+	  a_{10}a_{20}a_{51}a_{61} \stateket{a}{1256}{0011} +\\
+	&+a_{10}a_{21}a_{51}a_{60} \stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{1256}{0010} +
+	  a_{10}a_{21}a_{51}a_{61} \stategate{X}{}{3}\stateket{a}{1256}{0011} +\\
+	&+a_{11}a_{20}a_{50}a_{60} \stategate{X}{}{3}\stateket{a}{1256}{1000}+
+	  a_{11}a_{20}a_{50}a_{61} \stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{1001}+\\
+	&+a_{11}a_{21}a_{50}a_{60} \stateket{a}{1256}{1100} +
+	  a_{11}a_{21}a_{50}a_{61} \stategate{X}{}{7}\stateket{a}{1256}{1101} +\\
+	&+a_{11}a_{20}a_{51}a_{60} \stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{1010}+
+	  a_{11}a_{20}a_{51}a_{61} \stategate{X}{}{3}\stateket{a}{1256}{1011}+\\
+	&+a_{11}a_{20}a_{51}a_{60} \stategate{X}{}{7}\stateket{a}{1256}{1110}+
+	  a_{11}a_{20}a_{51}a_{61} \stateket{a}{1256}{1111}\\
+\end{align*}
+
+\begin{align*}
+	C^5\ket{a} &=
+	  a_{10}a_{20}a_{50}a_{60} \stategate{X}{1,2}{4}\stateket{a}{1256}{0000} +
+	  a_{10}a_{20}a_{50}a_{61} \stategate{X}{1,2}{4}\stategate{X}{}{7} \stateket{a}{1256}{0001} +\\
+	&+a_{10}a_{20}a_{50}a_{60} \stategate{X}{1,2}{4}\stategate{X}{}{3}\stateket{a}{1256}{0000} +
+	  a_{10}a_{20}a_{50}a_{60} \stategate{X}{1,2}{4}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{0001} + \\
+	&+a_{10}a_{20}a_{51}a_{60} \stategate{X}{1,2}{4}\stategate{X}{}{7}\stateket{a}{1256}{0010} +
+	  a_{10}a_{20}a_{51}a_{61} \stategate{X}{1,2}{4}\stateket{a}{1256}{0011} +\\
+	&+a_{10}a_{21}a_{51}a_{60} \stategate{X}{1,2}{4}\stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{1256}{0010} +
+	  a_{10}a_{21}a_{51}a_{61} \stategate{X}{1,2}{4}\stategate{X}{}{3}\stateket{a}{1256}{0011} +\\
+	&+a_{11}a_{20}a_{50}a_{60} \stategate{X}{1,2}{4}\stategate{X}{}{3}\stateket{a}{1256}{1000}+
+	  a_{11}a_{20}a_{50}a_{61} \stategate{X}{1,2}{4}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{1001}+\\
+	&+a_{11}a_{21}a_{50}a_{60} \stategate{X}{1,2}{4}\stateket{a}{1256}{1100} +
+	  a_{11}a_{21}a_{50}a_{61} \stategate{X}{1,2}{4}\stategate{X}{}{7}\stateket{a}{1256}{1101} +\\
+	&+a_{11}a_{20}a_{51}a_{60} \stategate{X}{1,2}{4}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{1010}+
+	  a_{11}a_{20}a_{51}a_{61} \stategate{X}{1,2}{4}\stategate{X}{}{3}\stateket{a}{1256}{1011}+\\
+	&+a_{11}a_{20}a_{51}a_{60} \stategate{X}{1,2}{4}\stategate{X}{}{7}\stateket{a}{1256}{1110}+
+	  a_{11}a_{20}a_{51}a_{61} \stateket{a}{1256}{1111}=\\
+	&=a_{10}a_{20}a_{50}a_{60} \stateket{a}{1256}{0000} +
+	  a_{10}a_{20}a_{50}a_{61} \stategate{X}{}{7} \stateket{a}{1256}{0001} +\\
+	&+a_{10}a_{20}a_{50}a_{60} \stategate{X}{}{3}\stateket{a}{1256}{0000} +
+	  a_{10}a_{20}a_{50}a_{60} \stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{0001} + \\
+	&+a_{10}a_{20}a_{51}a_{60} \stategate{X}{}{7}\stateket{a}{1256}{0010} +
+	  a_{10}a_{20}a_{51}a_{61} \stateket{a}{1256}{0011} +\\
+	&+a_{10}a_{21}a_{51}a_{60} \stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{1256}{0010} +
+	  a_{10}a_{21}a_{51}a_{61} \stategate{X}{}{3}\stateket{a}{1256}{0011} +\\
+	&+a_{11}a_{20}a_{50}a_{60} \stategate{X}{}{3}\stateket{a}{1256}{1000}+
+	  a_{11}a_{20}a_{50}a_{61} \stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{1001}+\\
+	&+a_{11}a_{21}a_{50}a_{60} \stategate{X}{}{4}\stateket{a}{1256}{1100} +
+	  a_{11}a_{21}a_{50}a_{61} \stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{1256}{1101} +\\
+	&+a_{11}a_{20}a_{51}a_{60} \stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{1010}+
+	  a_{11}a_{20}a_{51}a_{61} \stategate{X}{}{3}\stateket{a}{1256}{1011}+\\
+	&+a_{11}a_{20}a_{51}a_{60} \stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{1256}{1110}+
+	  a_{11}a_{20}a_{51}a_{61} \stategate{X}{}{4}\stateket{a}{1256}{1111}\\
+\end{align*}
+
+\begin{align*}
+	C^6\ket{a} &=
+	  a_{10}a_{20}a_{50}a_{60} \stategate{X}{5,6}{8}\stateket{a}{1256}{0000} +
+	  a_{10}a_{20}a_{50}a_{61} \stategate{X}{5,6}{8}\stategate{X}{}{7} \stateket{a}{1256}{0001} +\\
+	&+a_{10}a_{20}a_{50}a_{60} \stategate{X}{5,6}{8}\stategate{X}{}{3}\stateket{a}{1256}{0000} +
+	  a_{10}a_{20}a_{50}a_{60} \stategate{X}{5,6}{8}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{0001} + \\
+	&+a_{10}a_{20}a_{51}a_{60} \stategate{X}{5,6}{8}\stategate{X}{}{7}\stateket{a}{1256}{0010} +
+	  a_{10}a_{20}a_{51}a_{61} \stategate{X}{5,6}{8}\stateket{a}{1256}{0011} +\\
+	&+a_{10}a_{21}a_{51}a_{60} \stategate{X}{5,6}{8}\stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{1256}{0010} +
+	  a_{10}a_{21}a_{51}a_{61} \stategate{X}{5,6}{8}\stategate{X}{}{3}\stateket{a}{1256}{0011} +\\
+	&+a_{11}a_{20}a_{50}a_{60} \stategate{X}{5,6}{8}\stategate{X}{}{3}\stateket{a}{1256}{1000}+
+	  a_{11}a_{20}a_{50}a_{61} \stategate{X}{5,6}{8}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{1001}+\\
+	&+a_{11}a_{21}a_{50}a_{60} \stategate{X}{5,6}{8}\stategate{X}{}{4}\stateket{a}{1256}{1100} +
+	  a_{11}a_{21}a_{50}a_{61} \stategate{X}{5,6}{8}\stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{1256}{1101} +\\
+	&+a_{11}a_{20}a_{51}a_{60} \stategate{X}{5,6}{8}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{1010}+
+	  a_{11}a_{20}a_{51}a_{61} \stategate{X}{5,6}{8}\stategate{X}{}{3}\stateket{a}{1256}{1011}+\\
+	&+a_{11}a_{20}a_{51}a_{60} \stategate{X}{5,6}{8}\stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{1256}{1110}+
+	  a_{11}a_{20}a_{51}a_{61} \stategate{X}{5,6}{8}\stategate{X}{}{4}\stateket{a}{1256}{1111}=\\
+	&=a_{10}a_{20}a_{50}a_{60} \stateket{a}{1256}{0000} +
+	  a_{10}a_{20}a_{50}a_{61} \stategate{X}{}{7} \stateket{a}{1256}{0001} +\\
+	&+a_{10}a_{20}a_{50}a_{60} \stategate{X}{}{3}\stateket{a}{1256}{0000} +
+	  a_{10}a_{20}a_{50}a_{60} \stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{0001} + \\
+	&+a_{10}a_{20}a_{51}a_{60} \stategate{X}{}{7}\stateket{a}{1256}{0010} +
+	  a_{10}a_{20}a_{51}a_{61} \stategate{X}{}{8}\stateket{a}{1256}{0011} +\\
+	&+a_{10}a_{21}a_{51}a_{60} \stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{1256}{0010} +
+	  a_{10}a_{21}a_{51}a_{61} \stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{1256}{0011} +\\
+	&+a_{11}a_{20}a_{50}a_{60} \stategate{X}{}{3}\stateket{a}{1256}{1000}+
+	  a_{11}a_{20}a_{50}a_{61} \stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{1001}+\\
+	&+a_{11}a_{21}a_{50}a_{60} \stategate{X}{}{4}\stateket{a}{1256}{1100} +
+	  a_{11}a_{21}a_{50}a_{61} \stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{1256}{1101} +\\
+	&+a_{11}a_{20}a_{51}a_{60} \stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{1010}+
+	  a_{11}a_{20}a_{51}a_{61} \stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{1256}{1011}+\\
+	&+a_{11}a_{20}a_{51}a_{60} \stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{1256}{1110}+
+	  a_{11}a_{20}a_{51}a_{61} \stategate{X}{}{8}\stategate{X}{}{4}\stateket{a}{1256}{1111}
+\end{align*}
+
+\begin{align*}
+	C^7\ket{a} &=
+	  a_{10}a_{20}a_{50}a_{60} \stategate{X}{4}{9}\stateket{a}{1256}{0000} +
+	  a_{10}a_{20}a_{50}a_{61} \stategate{X}{4}{9}\stategate{X}{}{7} \stateket{a}{1256}{0001} +\\
+	&+a_{10}a_{20}a_{50}a_{60} \stategate{X}{4}{9}\stategate{X}{}{3}\stateket{a}{1256}{0000} +
+	  a_{10}a_{20}a_{50}a_{60} \stategate{X}{4}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{0001} + \\
+	&+a_{10}a_{20}a_{51}a_{60} \stategate{X}{4}{9}\stategate{X}{}{7}\stateket{a}{1256}{0010} +
+	  a_{10}a_{20}a_{51}a_{61} \stategate{X}{4}{9}\stategate{X}{}{8}\stateket{a}{1256}{0011} +\\
+	&+a_{10}a_{21}a_{51}a_{60} \stategate{X}{4}{9}\stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{1256}{0010} +
+	  a_{10}a_{21}a_{51}a_{61} \stategate{X}{4}{9}\stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{1256}{0011} +\\
+	&+a_{11}a_{20}a_{50}a_{60} \stategate{X}{4}{9}\stategate{X}{}{3}\stateket{a}{1256}{1000}+
+	  a_{11}a_{20}a_{50}a_{61} \stategate{X}{4}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{1001}+\\
+	&+a_{11}a_{21}a_{50}a_{60} \stategate{X}{4}{9}\stategate{X}{}{4}\stateket{a}{1256}{1100} +
+	  a_{11}a_{21}a_{50}a_{61} \stategate{X}{4}{9}\stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{1256}{1101} +\\
+	&+a_{11}a_{20}a_{51}a_{60} \stategate{X}{4}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{1256}{1010}+
+	  a_{11}a_{20}a_{51}a_{61} \stategate{X}{4}{9}\stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{1256}{1011}+\\
+	&+a_{11}a_{20}a_{51}a_{60} \stategate{X}{4}{9}\stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{1256}{1110}+
+	  a_{11}a_{20}a_{51}a_{61} \stategate{X}{4}{9}\stategate{X}{}{8}\stategate{X}{}{4}\stateket{a}{1256}{1111}=\\
+	&=a_{10}a_{20}a_{40}a_{50}a_{60}                                     \stateket{a}{12456}{00000} + a_{10}a_{20}a_{41}a_{50}a_{60} \stategate{X}{}{9}                                     \stateket{a}{12456}{00100} +\\
+	&+a_{10}a_{20}a_{40}a_{50}a_{61} \stategate{X}{}{7}                  \stateket{a}{12456}{00001} + a_{10}a_{20}a_{41}a_{50}a_{61} \stategate{X}{}{9}\stategate{X}{}{7}                  \stateket{a}{12456}{00101} +\\
+	&+a_{10}a_{20}a_{40}a_{50}a_{60} \stategate{X}{}{3}                  \stateket{a}{12456}{00000} + a_{10}a_{20}a_{41}a_{50}a_{60} \stategate{X}{}{9}\stategate{X}{}{3}                  \stateket{a}{12456}{00100} +\\
+	&+a_{10}a_{20}a_{40}a_{50}a_{60} \stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{12456}{00001} + a_{10}a_{20}a_{41}a_{50}a_{60} \stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{12456}{00101} +\\
+	&+a_{10}a_{20}a_{40}a_{51}a_{60} \stategate{X}{}{7}                  \stateket{a}{12456}{00010} + a_{10}a_{20}a_{41}a_{51}a_{60} \stategate{X}{}{9}\stategate{X}{}{7}                  \stateket{a}{12456}{00110} +\\
+	&+a_{10}a_{20}a_{40}a_{51}a_{61} \stategate{X}{}{8}                  \stateket{a}{12456}{00011} + a_{10}a_{20}a_{41}a_{51}a_{61} \stategate{X}{}{9}\stategate{X}{}{8}                  \stateket{a}{12456}{00111} +\\
+	&+a_{10}a_{21}a_{40}a_{51}a_{60} \stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{12456}{00010} + a_{10}a_{21}a_{41}a_{51}a_{60} \stategate{X}{}{9}\stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{12456}{00110} +\\
+	&+a_{10}a_{21}a_{40}a_{51}a_{61} \stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{12456}{00011} + a_{10}a_{21}a_{41}a_{51}a_{61} \stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{12456}{00111} +\\
+	&+a_{11}a_{20}a_{40}a_{50}a_{60} \stategate{X}{}{3}                  \stateket{a}{12456}{10000} + a_{11}a_{20}a_{41}a_{50}a_{60} \stategate{X}{}{9}\stategate{X}{}{3}                  \stateket{a}{12456}{10100} +\\
+	&+a_{11}a_{20}a_{40}a_{50}a_{61} \stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{12456}{10001} + a_{11}a_{20}a_{41}a_{50}a_{61} \stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{12456}{10101} +\\
+	&+a_{11}a_{21}a_{40}a_{50}a_{60} \stategate{X}{}{4}                  \stateket{a}{12456}{11000} + a_{11}a_{21}a_{41}a_{50}a_{60} \stategate{X}{}{9}\stategate{X}{}{4}                  \stateket{a}{12456}{11100} +\\
+	&+a_{11}a_{21}a_{40}a_{50}a_{61} \stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{12456}{11001} + a_{11}a_{21}a_{41}a_{50}a_{61} \stategate{X}{}{9}\stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{12456}{11101} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{60} \stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{12456}{10010} + a_{11}a_{20}a_{41}a_{51}a_{60} \stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{12456}{10110} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{61} \stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{12456}{10011} + a_{11}a_{20}a_{41}a_{51}a_{61} \stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{12456}{10111} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{60} \stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{12456}{11010} + a_{11}a_{20}a_{41}a_{51}a_{60} \stategate{X}{}{9}\stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{12456}{11110} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{61} \stategate{X}{}{8}\stategate{X}{}{4}\stateket{a}{12456}{11011} + a_{11}a_{20}a_{41}a_{51}a_{61} \stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{4}\stateket{a}{12456}{11111} \\
+\end{align*}
+
+\begin{align*}
+	C^8\ket{a}
+	&=a_{10}a_{20}a_{40}a_{50}a_{60} \stategate{X}{7}{9}                                    \stateket{a}{12456}{00000} + a_{10}a_{20}a_{41}a_{50}a_{60} \stategate{X}{7}{9}\stategate{X}{}{9}                                     \stateket{a}{12456}{00100} +\\
+	&+a_{10}a_{20}a_{40}a_{50}a_{61} \stategate{X}{7}{9}\stategate{X}{}{7}                  \stateket{a}{12456}{00001} + a_{10}a_{20}a_{41}a_{50}a_{61} \stategate{X}{7}{9}\stategate{X}{}{9}\stategate{X}{}{7}                  \stateket{a}{12456}{00101} +\\
+	&+a_{10}a_{20}a_{40}a_{50}a_{60} \stategate{X}{7}{9}\stategate{X}{}{3}                  \stateket{a}{12456}{00000} + a_{10}a_{20}a_{41}a_{50}a_{60} \stategate{X}{7}{9}\stategate{X}{}{9}\stategate{X}{}{3}                  \stateket{a}{12456}{00100} +\\
+	&+a_{10}a_{20}a_{40}a_{50}a_{60} \stategate{X}{7}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{12456}{00001} + a_{10}a_{20}a_{41}a_{50}a_{60} \stategate{X}{7}{9}\stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{12456}{00101} +\\
+	&+a_{10}a_{20}a_{40}a_{51}a_{60} \stategate{X}{7}{9}\stategate{X}{}{7}                  \stateket{a}{12456}{00010} + a_{10}a_{20}a_{41}a_{51}a_{60} \stategate{X}{7}{9}\stategate{X}{}{9}\stategate{X}{}{7}                  \stateket{a}{12456}{00110} +\\
+	&+a_{10}a_{20}a_{40}a_{51}a_{61} \stategate{X}{7}{9}\stategate{X}{}{8}                  \stateket{a}{12456}{00011} + a_{10}a_{20}a_{41}a_{51}a_{61} \stategate{X}{7}{9}\stategate{X}{}{9}\stategate{X}{}{8}                  \stateket{a}{12456}{00111} +\\
+	&+a_{10}a_{21}a_{40}a_{51}a_{60} \stategate{X}{7}{9}\stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{12456}{00010} + a_{10}a_{21}a_{41}a_{51}a_{60} \stategate{X}{7}{9}\stategate{X}{}{9}\stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{12456}{00110} +\\
+	&+a_{10}a_{21}a_{40}a_{51}a_{61} \stategate{X}{7}{9}\stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{12456}{00011} + a_{10}a_{21}a_{41}a_{51}a_{61} \stategate{X}{7}{9}\stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{12456}{00111} +\\
+	&+a_{11}a_{20}a_{40}a_{50}a_{60} \stategate{X}{7}{9}\stategate{X}{}{3}                  \stateket{a}{12456}{10000} + a_{11}a_{20}a_{41}a_{50}a_{60} \stategate{X}{7}{9}\stategate{X}{}{9}\stategate{X}{}{3}                  \stateket{a}{12456}{10100} +\\
+	&+a_{11}a_{20}a_{40}a_{50}a_{61} \stategate{X}{7}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{12456}{10001} + a_{11}a_{20}a_{41}a_{50}a_{61} \stategate{X}{7}{9}\stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{12456}{10101} +\\
+	&+a_{11}a_{21}a_{40}a_{50}a_{60} \stategate{X}{7}{9}\stategate{X}{}{4}                  \stateket{a}{12456}{11000} + a_{11}a_{21}a_{41}a_{50}a_{60} \stategate{X}{7}{9}\stategate{X}{}{9}\stategate{X}{}{4}                  \stateket{a}{12456}{11100} +\\
+	&+a_{11}a_{21}a_{40}a_{50}a_{61} \stategate{X}{7}{9}\stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{12456}{11001} + a_{11}a_{21}a_{41}a_{50}a_{61} \stategate{X}{7}{9}\stategate{X}{}{9}\stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{12456}{11101} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{60} \stategate{X}{7}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{12456}{10010} + a_{11}a_{20}a_{41}a_{51}a_{60} \stategate{X}{7}{9}\stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{12456}{10110} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{61} \stategate{X}{7}{9}\stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{12456}{10011} + a_{11}a_{20}a_{41}a_{51}a_{61} \stategate{X}{7}{9}\stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{12456}{10111} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{60} \stategate{X}{7}{9}\stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{12456}{11010} + a_{11}a_{20}a_{41}a_{51}a_{60} \stategate{X}{7}{9}\stategate{X}{}{9}\stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{12456}{11110} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{61} \stategate{X}{7}{9}\stategate{X}{}{8}\stategate{X}{}{4}\stateket{a}{12456}{11011} + a_{11}a_{20}a_{41}a_{51}a_{61} \stategate{X}{7}{9}\stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{4}\stateket{a}{12456}{11111} =
+	\end{align*}
+	\begin{align*}
+	&=a_{10}a_{20}a_{40}a_{50}a_{60}a_{70}                                                       \stateket{a}{124567}{000000} + a_{10}a_{20}a_{40}a_{50}a_{60}a_{71} \stategate{X}{}{9}                                                      \stateket{a}{124567}{000001} +\\
+	&+a_{10}a_{20}a_{41}a_{50}a_{60}a_{70} \stategate{X}{}{9}                                    \stateket{a}{124567}{001000} + a_{10}a_{20}a_{41}a_{50}a_{60}a_{71}                                     \stateket{a}{124567}{001001} +\\
+	&+a_{10}a_{20}a_{40}a_{50}a_{61}a_{70} \stategate{X}{}{7}                                    \stateket{a}{124567}{000010} + a_{10}a_{20}a_{40}a_{50}a_{61}a_{71} \stategate{X}{}{9}\stategate{X}{}{7}                                    \stateket{a}{124567}{000011} +\\
+	&+a_{10}a_{20}a_{41}a_{50}a_{61}a_{70} \stategate{X}{}{9}\stategate{X}{}{7}                  \stateket{a}{124567}{001010} + a_{10}a_{20}a_{41}a_{50}a_{61}a_{71} \stategate{X}{}{7}                  \stateket{a}{124567}{001011} +\\
+	&+a_{10}a_{20}a_{40}a_{50}a_{60}a_{70} \stategate{X}{}{3}                                    \stateket{a}{124567}{000000} + a_{10}a_{20}a_{40}a_{50}a_{60}a_{71} \stategate{X}{}{9}\stategate{X}{}{3}                                    \stateket{a}{124567}{000001} +\\
+	&+a_{10}a_{20}a_{41}a_{50}a_{60}a_{70} \stategate{X}{}{9}\stategate{X}{}{3}                  \stateket{a}{124567}{001000} + a_{10}a_{20}a_{41}a_{50}a_{60}a_{71} \stategate{X}{}{3}                  \stateket{a}{124567}{001001} +\\
+	&+a_{10}a_{20}a_{40}a_{50}a_{60}a_{70} \stategate{X}{}{7}\stategate{X}{}{3}                  \stateket{a}{124567}{000010} + a_{10}a_{20}a_{40}a_{50}a_{60}a_{71} \stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3}                  \stateket{a}{124567}{000011} +\\
+	&+a_{10}a_{20}a_{41}a_{50}a_{60}a_{70} \stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{124567}{001010} + a_{10}a_{20}a_{41}a_{50}a_{60}a_{71} \stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{124567}{001011} +\\
+	&+a_{10}a_{20}a_{40}a_{51}a_{60}a_{70} \stategate{X}{}{7}                                    \stateket{a}{124567}{000100} + a_{10}a_{20}a_{40}a_{51}a_{60}a_{71} \stategate{X}{}{9}\stategate{X}{}{7}                                    \stateket{a}{124567}{000101} +\\
+	&+a_{10}a_{20}a_{41}a_{51}a_{60}a_{70} \stategate{X}{}{9}\stategate{X}{}{7}                  \stateket{a}{124567}{001100} + a_{10}a_{20}a_{41}a_{51}a_{60}a_{71} \stategate{X}{}{7}                  \stateket{a}{124567}{001101} +\\
+	&+a_{10}a_{20}a_{40}a_{51}a_{61}a_{70} \stategate{X}{}{8}                                    \stateket{a}{124567}{000110} + a_{10}a_{20}a_{40}a_{51}a_{61}a_{71} \stategate{X}{}{9}\stategate{X}{}{8}                                    \stateket{a}{124567}{000111} +\\
+	&+a_{10}a_{20}a_{41}a_{51}a_{61}a_{70} \stategate{X}{}{9}\stategate{X}{}{8}                  \stateket{a}{124567}{001110} + a_{10}a_{20}a_{41}a_{51}a_{61}a_{71} \stategate{X}{}{8}                  \stateket{a}{124567}{001111} +\\
+	&+a_{10}a_{21}a_{40}a_{51}a_{60}a_{70} \stategate{X}{}{3}\stategate{X}{}{7}                  \stateket{a}{124567}{000100} + a_{10}a_{21}a_{40}a_{51}a_{60}a_{71} \stategate{X}{}{9}\stategate{X}{}{3}\stategate{X}{}{7}                  \stateket{a}{124567}{000101} +\\
+	&+a_{10}a_{21}a_{41}a_{51}a_{60}a_{70} \stategate{X}{}{9}\stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{124567}{001100} + a_{10}a_{21}a_{41}a_{51}a_{60}a_{71} \stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{124567}{001101} +\\
+	&+a_{10}a_{21}a_{40}a_{51}a_{61}a_{70} \stategate{X}{}{8}\stategate{X}{}{3}                  \stateket{a}{124567}{000110} + a_{10}a_{21}a_{40}a_{51}a_{61}a_{71} \stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{3}                  \stateket{a}{124567}{000111} +\\
+	&+a_{10}a_{21}a_{41}a_{51}a_{61}a_{70} \stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{124567}{001110} + a_{10}a_{21}a_{41}a_{51}a_{61}a_{71} \stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{124567}{001111} +\\
+	&+a_{11}a_{20}a_{40}a_{50}a_{60}a_{70} \stategate{X}{}{3}                                    \stateket{a}{124567}{100000} + a_{11}a_{20}a_{40}a_{50}a_{60}a_{71} \stategate{X}{}{9}\stategate{X}{}{3}                                    \stateket{a}{124567}{100001} +\\
+	&+a_{11}a_{20}a_{41}a_{50}a_{60}a_{70} \stategate{X}{}{9}\stategate{X}{}{3}                  \stateket{a}{124567}{101000} + a_{11}a_{20}a_{41}a_{50}a_{60}a_{71} \stategate{X}{}{3}                  \stateket{a}{124567}{101001} +\\
+	&+a_{11}a_{20}a_{40}a_{50}a_{61}a_{70} \stategate{X}{}{7}\stategate{X}{}{3}                  \stateket{a}{124567}{100010} + a_{11}a_{20}a_{40}a_{50}a_{61}a_{71} \stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3}                  \stateket{a}{124567}{100011} +\\
+	&+a_{11}a_{20}a_{41}a_{50}a_{61}a_{70} \stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{124567}{101010} + a_{11}a_{20}a_{41}a_{50}a_{61}a_{71} \stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{124567}{101011} +\\
+	&+a_{11}a_{21}a_{40}a_{50}a_{60}a_{70} \stategate{X}{}{4}                                    \stateket{a}{124567}{110000} + a_{11}a_{21}a_{40}a_{50}a_{60}a_{71} \stategate{X}{}{9}\stategate{X}{}{4}                                    \stateket{a}{124567}{110001} +\\
+	&+a_{11}a_{21}a_{41}a_{50}a_{60}a_{70} \stategate{X}{}{9}\stategate{X}{}{4}                  \stateket{a}{124567}{111000} + a_{11}a_{21}a_{41}a_{50}a_{60}a_{71} \stategate{X}{}{4}                  \stateket{a}{124567}{111001} +\\
+	&+a_{11}a_{21}a_{40}a_{50}a_{61}a_{70} \stategate{X}{}{4}\stategate{X}{}{7}                  \stateket{a}{124567}{110010} + a_{11}a_{21}a_{40}a_{50}a_{61}a_{71} \stategate{X}{}{9}\stategate{X}{}{4}\stategate{X}{}{7}                  \stateket{a}{124567}{110011} +\\
+	&+a_{11}a_{21}a_{41}a_{50}a_{61}a_{70} \stategate{X}{}{9}\stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{124567}{111010} + a_{11}a_{21}a_{41}a_{50}a_{61}a_{71} \stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{124567}{111011} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{60}a_{70} \stategate{X}{}{7}\stategate{X}{}{3}                  \stateket{a}{124567}{100100} + a_{11}a_{20}a_{40}a_{51}a_{60}a_{71} \stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3}                  \stateket{a}{124567}{100101} +\\
+	&+a_{11}a_{20}a_{41}a_{51}a_{60}a_{70} \stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{124567}{101100} + a_{11}a_{20}a_{41}a_{51}a_{60}a_{71} \stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{124567}{101101} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{61}a_{70} \stategate{X}{}{8}\stategate{X}{}{3}                  \stateket{a}{124567}{100110} + a_{11}a_{20}a_{40}a_{51}a_{61}a_{71} \stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{3}                  \stateket{a}{124567}{100111} +\\
+	&+a_{11}a_{20}a_{41}a_{51}a_{61}a_{70} \stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{124567}{101110} + a_{11}a_{20}a_{41}a_{51}a_{61}a_{71} \stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{124567}{101111} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{60}a_{70} \stategate{X}{}{4}\stategate{X}{}{7}                  \stateket{a}{124567}{110100} + a_{11}a_{20}a_{40}a_{51}a_{60}a_{71} \stategate{X}{}{9}\stategate{X}{}{4}\stategate{X}{}{7}                  \stateket{a}{124567}{110101} +\\
+	&+a_{11}a_{20}a_{41}a_{51}a_{60}a_{70} \stategate{X}{}{9}\stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{124567}{111100} + a_{11}a_{20}a_{41}a_{51}a_{60}a_{71} \stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{124567}{111101} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{61}a_{70} \stategate{X}{}{8}\stategate{X}{}{4}                  \stateket{a}{124567}{110110} + a_{11}a_{20}a_{40}a_{51}a_{61}a_{71} \stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{4}                  \stateket{a}{124567}{110111} +\\
+	&+a_{11}a_{20}a_{41}a_{51}a_{61}a_{70} \stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{4}\stateket{a}{124567}{111110} + a_{11}a_{20}a_{41}a_{51}a_{61}a_{71} \stategate{X}{}{8}\stategate{X}{}{4}\stateket{a}{124567}{111111} =\\
+\end{align*}
+
+\begin{align*}
+	C^9\ket{a}
+	&=a_{10}a_{20}a_{40}a_{50}a_{60}a_{70}                                                       \stateket{a}{124567}{000000} + a_{10}a_{20}a_{40}a_{50}a_{60}a_{71} \stategate{X}{}{9}                                     \stateket{a}{124567}{000001} +\\
+	&+a_{10}a_{20}a_{41}a_{50}a_{60}a_{70} \stategate{X}{}{9}                                    \stateket{a}{124567}{001000} + a_{10}a_{20}a_{41}a_{50}a_{60}a_{71} \stategate{X}{}{10}                                    \stateket{a}{124567}{001001} +\\
+	&+a_{10}a_{20}a_{40}a_{50}a_{61}a_{70} \stategate{X}{}{7}                                    \stateket{a}{124567}{000010} + a_{10}a_{20}a_{40}a_{50}a_{61}a_{71} \stategate{X}{}{9}\stategate{X}{}{7}                   \stateket{a}{124567}{000011} +\\
+	&+a_{10}a_{20}a_{41}a_{50}a_{61}a_{70} \stategate{X}{}{9}\stategate{X}{}{7}                  \stateket{a}{124567}{001010} + a_{10}a_{20}a_{41}a_{50}a_{61}a_{71} \stategate{X}{}{10}\stategate{X}{}{7}                  \stateket{a}{124567}{001011} +\\
+	&+a_{10}a_{20}a_{40}a_{50}a_{60}a_{70} \stategate{X}{}{3}                                    \stateket{a}{124567}{000000} + a_{10}a_{20}a_{40}a_{50}a_{60}a_{71} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{124567}{000001} +\\
+	&+a_{10}a_{20}a_{41}a_{50}a_{60}a_{70} \stategate{X}{}{9}\stategate{X}{}{3}                  \stateket{a}{124567}{001000} + a_{10}a_{20}a_{41}a_{50}a_{60}a_{71} \stategate{X}{}{10}\stategate{X}{}{3}                  \stateket{a}{124567}{001001} +\\
+	&+a_{10}a_{20}a_{40}a_{50}a_{60}a_{70} \stategate{X}{}{7}\stategate{X}{}{3}                  \stateket{a}{124567}{000010} + a_{10}a_{20}a_{40}a_{50}a_{60}a_{71} \stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3} \stateket{a}{124567}{000011} +\\
+	&+a_{10}a_{20}a_{41}a_{50}a_{60}a_{70} \stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{124567}{001010} + a_{10}a_{20}a_{41}a_{50}a_{60}a_{71} \stategate{X}{}{10}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{124567}{001011} +\\
+	&+a_{10}a_{20}a_{40}a_{51}a_{60}a_{70} \stategate{X}{}{7}                                    \stateket{a}{124567}{000100} + a_{10}a_{20}a_{40}a_{51}a_{60}a_{71} \stategate{X}{}{9}\stategate{X}{}{7}                   \stateket{a}{124567}{000101} +\\
+	&+a_{10}a_{20}a_{41}a_{51}a_{60}a_{70} \stategate{X}{}{9}\stategate{X}{}{7}                  \stateket{a}{124567}{001100} + a_{10}a_{20}a_{41}a_{51}a_{60}a_{71} \stategate{X}{}{10}\stategate{X}{}{7}                  \stateket{a}{124567}{001101} +\\
+	&+a_{10}a_{20}a_{40}a_{51}a_{61}a_{70} \stategate{X}{}{8}                                    \stateket{a}{124567}{000110} + a_{10}a_{20}a_{40}a_{51}a_{61}a_{71} \stategate{X}{}{9}\stategate{X}{}{8}                   \stateket{a}{124567}{000111} +\\
+	&+a_{10}a_{20}a_{41}a_{51}a_{61}a_{70} \stategate{X}{}{9}\stategate{X}{}{8}                  \stateket{a}{124567}{001110} + a_{10}a_{20}a_{41}a_{51}a_{61}a_{71} \stategate{X}{}{10}\stategate{X}{}{8}                  \stateket{a}{124567}{001111} +\\
+	&+a_{10}a_{21}a_{40}a_{51}a_{60}a_{70} \stategate{X}{}{3}\stategate{X}{}{7}                  \stateket{a}{124567}{000100} + a_{10}a_{21}a_{40}a_{51}a_{60}a_{71} \stategate{X}{}{9}\stategate{X}{}{3}\stategate{X}{}{7} \stateket{a}{124567}{000101} +\\
+	&+a_{10}a_{21}a_{41}a_{51}a_{60}a_{70} \stategate{X}{}{9}\stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{124567}{001100} + a_{10}a_{21}a_{41}a_{51}a_{60}a_{71} \stategate{X}{}{10}\stategate{X}{}{3}\stategate{X}{}{7}\stateket{a}{124567}{001101} +\\
+	&+a_{10}a_{21}a_{40}a_{51}a_{61}a_{70} \stategate{X}{}{8}\stategate{X}{}{3}                  \stateket{a}{124567}{000110} + a_{10}a_{21}a_{40}a_{51}a_{61}a_{71} \stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{3} \stateket{a}{124567}{000111} +\\
+	&+a_{10}a_{21}a_{41}a_{51}a_{61}a_{70} \stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{124567}{001110} + a_{10}a_{21}a_{41}a_{51}a_{61}a_{71} \stategate{X}{}{10}\stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{124567}{001111} +\\
+	&+a_{11}a_{20}a_{40}a_{50}a_{60}a_{70} \stategate{X}{}{3}                                    \stateket{a}{124567}{100000} + a_{11}a_{20}a_{40}a_{50}a_{60}a_{71} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{124567}{100001} +\\
+	&+a_{11}a_{20}a_{41}a_{50}a_{60}a_{70} \stategate{X}{}{9}\stategate{X}{}{3}                  \stateket{a}{124567}{101000} + a_{11}a_{20}a_{41}a_{50}a_{60}a_{71} \stategate{X}{}{10}\stategate{X}{}{3}                  \stateket{a}{124567}{101001} +\\
+	&+a_{11}a_{20}a_{40}a_{50}a_{61}a_{70} \stategate{X}{}{7}\stategate{X}{}{3}                  \stateket{a}{124567}{100010} + a_{11}a_{20}a_{40}a_{50}a_{61}a_{71} \stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3} \stateket{a}{124567}{100011} +\\
+	&+a_{11}a_{20}a_{41}a_{50}a_{61}a_{70} \stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{124567}{101010} + a_{11}a_{20}a_{41}a_{50}a_{61}a_{71} \stategate{X}{}{10}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{124567}{101011} +\\
+	&+a_{11}a_{21}a_{40}a_{50}a_{60}a_{70} \stategate{X}{}{4}                                    \stateket{a}{124567}{110000} + a_{11}a_{21}a_{40}a_{50}a_{60}a_{71} \stategate{X}{}{9}\stategate{X}{}{4}                   \stateket{a}{124567}{110001} +\\
+	&+a_{11}a_{21}a_{41}a_{50}a_{60}a_{70} \stategate{X}{}{9}\stategate{X}{}{4}                  \stateket{a}{124567}{111000} + a_{11}a_{21}a_{41}a_{50}a_{60}a_{71} \stategate{X}{}{10}\stategate{X}{}{4}                  \stateket{a}{124567}{111001} +\\
+	&+a_{11}a_{21}a_{40}a_{50}a_{61}a_{70} \stategate{X}{}{4}\stategate{X}{}{7}                  \stateket{a}{124567}{110010} + a_{11}a_{21}a_{40}a_{50}a_{61}a_{71} \stategate{X}{}{9}\stategate{X}{}{4}\stategate{X}{}{7} \stateket{a}{124567}{110011} +\\
+	&+a_{11}a_{21}a_{41}a_{50}a_{61}a_{70} \stategate{X}{}{9}\stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{124567}{111010} + a_{11}a_{21}a_{41}a_{50}a_{61}a_{71} \stategate{X}{}{10}\stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{124567}{111011} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{60}a_{70} \stategate{X}{}{7}\stategate{X}{}{3}                  \stateket{a}{124567}{100100} + a_{11}a_{20}a_{40}a_{51}a_{60}a_{71} \stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3} \stateket{a}{124567}{100101} +\\
+	&+a_{11}a_{20}a_{41}a_{51}a_{60}a_{70} \stategate{X}{}{9}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{124567}{101100} + a_{11}a_{20}a_{41}a_{51}a_{60}a_{71} \stategate{X}{}{10}\stategate{X}{}{7}\stategate{X}{}{3}\stateket{a}{124567}{101101} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{61}a_{70} \stategate{X}{}{8}\stategate{X}{}{3}                  \stateket{a}{124567}{100110} + a_{11}a_{20}a_{40}a_{51}a_{61}a_{71} \stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{3} \stateket{a}{124567}{100111} +\\
+	&+a_{11}a_{20}a_{41}a_{51}a_{61}a_{70} \stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{124567}{101110} + a_{11}a_{20}a_{41}a_{51}a_{61}a_{71} \stategate{X}{}{10}\stategate{X}{}{8}\stategate{X}{}{3}\stateket{a}{124567}{101111} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{60}a_{70} \stategate{X}{}{4}\stategate{X}{}{7}                  \stateket{a}{124567}{110100} + a_{11}a_{20}a_{40}a_{51}a_{60}a_{71} \stategate{X}{}{9}\stategate{X}{}{4}\stategate{X}{}{7} \stateket{a}{124567}{110101} +\\
+	&+a_{11}a_{20}a_{41}a_{51}a_{60}a_{70} \stategate{X}{}{9}\stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{124567}{111100} + a_{11}a_{20}a_{41}a_{51}a_{60}a_{71} \stategate{X}{}{10}\stategate{X}{}{4}\stategate{X}{}{7}\stateket{a}{124567}{111101} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{61}a_{70} \stategate{X}{}{8}\stategate{X}{}{4}                  \stateket{a}{124567}{110110} + a_{11}a_{20}a_{40}a_{51}a_{61}a_{71} \stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{4} \stateket{a}{124567}{110111} +\\
+	&+a_{11}a_{20}a_{41}a_{51}a_{61}a_{70} \stategate{X}{}{9}\stategate{X}{}{8}\stategate{X}{}{4}\stateket{a}{124567}{111110} + a_{11}a_{20}a_{41}a_{51}a_{61}a_{71} \stategate{X}{}{10}\stategate{X}{}{8}\stategate{X}{}{4}\stateket{a}{124567}{111111} =\\
+\end{align*}
+
+\begin{align*}
+	C^{10}\ket{a}
+	&=a_{10}a_{20}a_{40}a_{50}a_{60}a_{70}a_{80}                                                        \stateket{a}{1245678}{0000000}
+	&+a_{10}a_{20}a_{40}a_{50}a_{60}a_{71}a_{81} \stategate{X}{}{10}\stategate{X}{}{9}                  \stateket{a}{1245678}{0000011} +\\
+	&+a_{10}a_{20}a_{41}a_{50}a_{60}a_{70}a_{80} \stategate{X}{}{9}                                     \stateket{a}{1245678}{0010000}
+	&+a_{10}a_{20}a_{41}a_{50}a_{60}a_{71}a_{81} \stategate{X}{}{10}                                    \stateket{a}{1245678}{0010011} +\\
+	&+a_{10}a_{20}a_{40}a_{50}a_{61}a_{70}a_{80}                                                        \stateket{a}{1245678}{0000110}
+	&+a_{10}a_{20}a_{40}a_{50}a_{61}a_{71}a_{81} \stategate{X}{}{9}                                     \stateket{a}{1245678}{0000101} +\\
+	&+a_{10}a_{20}a_{41}a_{50}a_{61}a_{70}a_{80} \stategate{X}{}{9}                                     \stateket{a}{1245678}{0010110}
+	&+a_{10}a_{20}a_{41}a_{50}a_{61}a_{71}a_{81} \stategate{X}{}{10}                                    \stateket{a}{1245678}{0010101} +\\
+	&+a_{10}a_{20}a_{40}a_{50}a_{60}a_{70}a_{80} \stategate{X}{}{3}                                     \stateket{a}{1245678}{0000000}
+	&+a_{10}a_{20}a_{40}a_{50}a_{60}a_{71}a_{81} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{1245678}{0000011} +\\
+	&+a_{10}a_{20}a_{41}a_{50}a_{60}a_{70}a_{80} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{1245678}{0010000}
+	&+a_{10}a_{20}a_{41}a_{50}a_{60}a_{71}a_{81} \stategate{X}{}{10}\stategate{X}{}{3}                  \stateket{a}{1245678}{0010011} +\\
+	&+a_{10}a_{20}a_{40}a_{50}a_{60}a_{70}a_{80} \stategate{X}{}{3}                                     \stateket{a}{1245678}{0000110}
+	&+a_{10}a_{20}a_{40}a_{50}a_{60}a_{71}a_{81} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{1245678}{0000101} +\\
+	&+a_{10}a_{20}a_{41}a_{50}a_{60}a_{70}a_{80} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{1245678}{0010110}
+	&+a_{10}a_{20}a_{41}a_{50}a_{60}a_{71}a_{81} \stategate{X}{}{10}\stategate{X}{}{3}                  \stateket{a}{1245678}{0010101} +\\
+	&+a_{10}a_{20}a_{40}a_{51}a_{60}a_{70}a_{80}                                                        \stateket{a}{1245678}{0001010}
+	&+a_{10}a_{20}a_{40}a_{51}a_{60}a_{71}a_{81} \stategate{X}{}{9}                                     \stateket{a}{1245678}{0001001} +\\
+	&+a_{10}a_{20}a_{41}a_{51}a_{60}a_{70}a_{80} \stategate{X}{}{9}                                     \stateket{a}{1245678}{0011010}
+	&+a_{10}a_{20}a_{41}a_{51}a_{60}a_{71}a_{81} \stategate{X}{}{10}                                    \stateket{a}{1245678}{0011001} +\\
+	&+a_{10}a_{20}a_{40}a_{51}a_{61}a_{70}a_{80}                                                        \stateket{a}{1245678}{0001101}
+	&+a_{10}a_{20}a_{40}a_{51}a_{61}a_{71}a_{81} \stategate{X}{}{9}                                     \stateket{a}{1245678}{0001110} +\\
+	&+a_{10}a_{20}a_{41}a_{51}a_{61}a_{70}a_{80} \stategate{X}{}{9}                                     \stateket{a}{1245678}{0011101}
+	&+a_{10}a_{20}a_{41}a_{51}a_{61}a_{71}a_{81} \stategate{X}{}{10}                                    \stateket{a}{1245678}{0011110} +\\
+	&+a_{10}a_{21}a_{40}a_{51}a_{60}a_{70}a_{80} \stategate{X}{}{3}                                     \stateket{a}{1245678}{0001010}
+	&+a_{10}a_{21}a_{40}a_{51}a_{60}a_{71}a_{81} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{1245678}{0001001} +\\
+	&+a_{10}a_{21}a_{41}a_{51}a_{60}a_{70}a_{80} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{1245678}{0011010}
+	&+a_{10}a_{21}a_{41}a_{51}a_{60}a_{71}a_{81} \stategate{X}{}{10}\stategate{X}{}{3}                  \stateket{a}{1245678}{0011001} +\\
+	&+a_{10}a_{21}a_{40}a_{51}a_{61}a_{70}a_{80} \stategate{X}{}{3}                                     \stateket{a}{1245678}{0001101}
+	&+a_{10}a_{21}a_{40}a_{51}a_{61}a_{71}a_{81} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{1245678}{0001110} +\\
+	&+a_{10}a_{21}a_{41}a_{51}a_{61}a_{70}a_{80} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{1245678}{0011101}
+	&+a_{10}a_{21}a_{41}a_{51}a_{61}a_{71}a_{81} \stategate{X}{}{10}\stategate{X}{}{3}                  \stateket{a}{1245678}{0011110} +\\
+	&+a_{11}a_{20}a_{40}a_{50}a_{60}a_{70}a_{80} \stategate{X}{}{3}                                     \stateket{a}{1245678}{1000000}
+	&+a_{11}a_{20}a_{40}a_{50}a_{60}a_{71}a_{81} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{1245678}{1000011} +\\
+	&+a_{11}a_{20}a_{41}a_{50}a_{60}a_{70}a_{80} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{1245678}{1010000}
+	&+a_{11}a_{20}a_{41}a_{50}a_{60}a_{71}a_{81} \stategate{X}{}{10}\stategate{X}{}{3}                  \stateket{a}{1245678}{1010011} +\\
+	&+a_{11}a_{20}a_{40}a_{50}a_{61}a_{70}a_{80} \stategate{X}{}{3}                                     \stateket{a}{1245678}{1000110}
+	&+a_{11}a_{20}a_{40}a_{50}a_{61}a_{71}a_{81} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{1245678}{1000101} +\\
+	&+a_{11}a_{20}a_{41}a_{50}a_{61}a_{70}a_{80} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{1245678}{1010110}
+	&+a_{11}a_{20}a_{41}a_{50}a_{61}a_{71}a_{81} \stategate{X}{}{10}\stategate{X}{}{3}                  \stateket{a}{1245678}{1010101} +\\
+	&+a_{11}a_{21}a_{40}a_{50}a_{60}a_{70}a_{80}                                                        \stateket{a}{1245678}{1110000}
+	&+a_{11}a_{21}a_{40}a_{50}a_{60}a_{71}a_{81} \stategate{X}{}{9}                                     \stateket{a}{1245678}{1110011} +\\
+	&+a_{11}a_{21}a_{41}a_{50}a_{60}a_{70}a_{80} \stategate{X}{}{9}                                     \stateket{a}{1245678}{1100000}
+	&+a_{11}a_{21}a_{41}a_{50}a_{60}a_{71}a_{81} \stategate{X}{}{10}                                    \stateket{a}{1245678}{1100011} +\\
+	&+a_{11}a_{21}a_{40}a_{50}a_{61}a_{70}a_{80}                                                        \stateket{a}{1245678}{1110110}
+	&+a_{11}a_{21}a_{40}a_{50}a_{61}a_{71}a_{81} \stategate{X}{}{9}                                     \stateket{a}{1245678}{1110101} +\\
+	&+a_{11}a_{21}a_{41}a_{50}a_{61}a_{70}a_{80} \stategate{X}{}{9}                                     \stateket{a}{1245678}{1100110}
+	&+a_{11}a_{21}a_{41}a_{50}a_{61}a_{71}a_{81} \stategate{X}{}{10}                                    \stateket{a}{1245678}{1100101} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{60}a_{70}a_{80} \stategate{X}{}{3}                                     \stateket{a}{1245678}{1001010}
+	&+a_{11}a_{20}a_{40}a_{51}a_{60}a_{71}a_{81} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{1245678}{1001001} +\\
+	&+a_{11}a_{20}a_{41}a_{51}a_{60}a_{70}a_{80} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{1245678}{1011010}
+	&+a_{11}a_{20}a_{41}a_{51}a_{60}a_{71}a_{81} \stategate{X}{}{10}\stategate{X}{}{3}                  \stateket{a}{1245678}{1011001} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{61}a_{70}a_{80} \stategate{X}{}{3}                                     \stateket{a}{1245678}{1001101}
+	&+a_{11}a_{20}a_{40}a_{51}a_{61}a_{71}a_{81} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{1245678}{1001110} +\\
+	&+a_{11}a_{20}a_{41}a_{51}a_{61}a_{70}a_{80} \stategate{X}{}{9}\stategate{X}{}{3}                   \stateket{a}{1245678}{1011101}
+	&+a_{11}a_{20}a_{41}a_{51}a_{61}a_{71}a_{81} \stategate{X}{}{10}\stategate{X}{}{3}                  \stateket{a}{1245678}{1011110} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{60}a_{70}a_{80}                                                        \stateket{a}{1245678}{1111010}
+	&+a_{11}a_{20}a_{40}a_{51}a_{60}a_{71}a_{81} \stategate{X}{}{9}                                     \stateket{a}{1245678}{1111001} +\\
+	&+a_{11}a_{20}a_{41}a_{51}a_{60}a_{70}a_{80} \stategate{X}{}{9}                                     \stateket{a}{1245678}{1101010}
+	&+a_{11}a_{20}a_{41}a_{51}a_{60}a_{71}a_{81} \stategate{X}{}{10}                                    \stateket{a}{1245678}{1101001} +\\
+	&+a_{11}a_{20}a_{40}a_{51}a_{61}a_{70}a_{80}                                                        \stateket{a}{1245678}{1111101}
+	&+a_{11}a_{20}a_{40}a_{51}a_{61}a_{71}a_{81} \stategate{X}{}{9}                                     \stateket{a}{1245678}{1111110} +\\
+	&+a_{11}a_{20}a_{41}a_{51}a_{61}a_{70}a_{80} \stategate{X}{}{9}                                     \stateket{a}{1245678}{1101101}
+	&+a_{11}a_{20}a_{41}a_{51}a_{61}a_{71}a_{81} \stategate{X}{}{10}                                    \stateket{a}{1245678}{1101110} =\\
+\end{align*}

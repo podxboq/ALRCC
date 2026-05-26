@@ -1,0 +1,38 @@
+\section{Basic notation}
+\subsection{Sets}
+Let $\Gamma=\set{k_1,\dots,k_l}\subseteq\N_n$ be a set with cardinality $|\Gamma|=l$ and $\gamma=(\gamma_{k})_{k=1}^l\in\B^l$, llamaremos $\ext{\gamma}{\Gamma}=(\ext{\gamma}{\Gamma}_k)_{k=1}^n$ al elemento de $\B^n$ definido por:
+\begin{equation*}
+	\ext{\gamma}{\Gamma}_k=
+	\begin{cases}
+		\gamma_k & \text{ si }k\in\Gamma\\
+		0 & \text{ si }k\notin\Gamma
+	\end{cases}
+\end{equation*}
+
+Por otro lado, si $\gamma\in\B^n$, llamaremos $\con{\gamma}{\Gamma}$ al elemento de $\B^l$ definido por $\con{\gamma}{\Gamma}=(\gamma_{k_m})_{m=1}^l$.
+
+Observemos que para todo elemento $\gamma\in\B^l$ se cumple que $\con{\ext{\gamma}{\Gamma}}{\Gamma}=\gamma$ mientras que en general si $\gamma\in\B^n$ entonces $\ext{\con{\gamma}{\Gamma}}{\Gamma}\neq\gamma$.
+
+También vamos a considerar que los elementos $(0,\dots,0)\in\Theta^l$ y $(1,\dots,1)\in\Theta^l$ lo denotaremos simplemente por $0$ y $1$.
+
+\subsection{Qubits}
+As introduced in~\cite{diracBraket}, qubits are normally written in the so-called bra–ket notation.
+Each qubit is represented as a ket, of the form $\ket{a}$, which denotes a vector in $\Q$.
+
+For instance, the computational basis states are written  as $\ket{0}$ and $\ket{1}$, and called ket 0 and ket 1, respectively (see~\cite{NielsenChuang}).
+Thus, any qubit can be described by a linear combination of these two basis states as $\ket{a} =\alpha_0\ket{0} +\alpha_1 \ket{1}$, where $\alpha_0,  \alpha_1 \in \mathbb{C}$ such that $ |\alpha_0|^{2}+|\alpha_1|^{2}=1$.
+
+\begin{notation}
+	For any qubit $\ket{a}$, the following notation is used:
+	\[a_{0}=\braket{a}{0}\text{ and }a_{1}=\braket{a}{1},\]
+\end{notation}
+so the qubit $\ket{a}$ can be write by:
+\begin{equation}
+	\label{eq:qubit-coordenadas}
+	\ket{a}=a_0\ket{0}+a_1\ket{1}
+\end{equation}
+
+For other basis, like for example $\set{\ket{+}, \ket{-}}$, where $\ket{+}=\frac{\ket{0}+\ket{1}}{2}$ and $\ket{-}=\frac{\ket{0}-\ket{1}}{2}$, then a qubit $\ket{a}$ can be described like:
+\begin{equation*}
+	\ket{a}=a_+\ket{+}+a_-\ket{-}
+\end{equation*}

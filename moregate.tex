@@ -1,0 +1,43 @@
+\subsection{More Quantum Gates}
+Two single-qubit gates $\gate{A}$ and $\gate{B}$ can be applied over the first and second qubit respectivement of a ket $\ket{a_1 a_2} $ and the result is $\gate{A}\ket{a_1}\otimes \gate{B}\ket{a_2}$.
+
+\begin{notation}
+	Let $\gate{A}$ be a single-qubit gate and $\ket{a}=\ket{a_1\cdots a_n}$ is a ket with $n$ qubits, the following equivalent notation is used:
+	\[
+		\bigotimes_{k=1}^n\gate{A}^{\delta_{hk}}\gate{B}^{\delta_{lk}}\ket{a_k}=
+		\begin{cases}
+			\ket{a_1\cdots a_h\gate{A}a_{h+1}\cdots a_l\gate{B}a_{l+1}\cdots a_n}\\
+			\ket{a}\gate{A}_h\gate{B}_l\\
+			\stateket{a}{h,l}{\gate{A}\gate{B}}
+		\end{cases}
+		,
+	\]
+	where $h,l\in\N_n$.
+\end{notation}
+For example, if $\ket{a}=\ket{a_1 a_2}$ then
+\[
+	\gate{A}\ket{a_1}\otimes \gate{B}\ket{a_2} =
+	\begin{cases}
+		\ket{a_1\gate{A}a_2\gate{B}}\\
+		\ket{a}\gate{A}_1\gate{B}_2\\
+		\stateket{a}{1,2}{\gate{A}\gate{B}}
+	\end{cases}.
+\]
+
+\begin{proposition}
+	Let $\gate{A}$ and $\gate{B}$ be two single-qubit gates.
+	Then, for any  two  distinct indexes $h,k \in \mathbb{N}_n$
+	\begin{equation}
+		\label{eq:conmutacion-two-gates}
+		\gate{A}_k\gate{B}_{h} = \gate{B}_{h}\gate{A}_k.
+	\end{equation}
+
+\end{proposition}
+\begin{proof}
+	Let $\ket{a}$ be a ket.
+	For any two distinct indexes $h,k \in \mathbb{N}_n$
+	\begin{align*}
+		\ket{a}\gate{A}_k\gate{B}_{h}
+		&=\stateket{a}{k}{\gate{A}}\gate{B}_{h}=\stateket{a}{kh}{\gate{AB}}=\stateket{a}{h}{\gate{B}}\gate{A}_{k}=\ket{a}\gate{B}_{h}\gate{A}_k.
+	\end{align*}
+\end{proof}
