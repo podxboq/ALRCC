@@ -1,0 +1,580 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsthm, amsmath, amssymb}
+\usepackage{hyperref}
+\usepackage{csquotes}
+\usepackage{biblatex}
+\addbibresource{bibliography.bib}
+\addbibresource{roadmap.bib}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{longtable}
+
+\geometry{margin=2.5cm}
+\setlength{\parskip}{0.8em}
+\setlength{\parindent}{0em}
+
+\newcommand{\gate}[1]{\text{#1}}
+\newcommand{\stateket}[3]{\ket{#1}^{#2}_{#3}}
+\newcommand{\stategate}[3]{\gate{#1}^{#2}_{#3}}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle #1|}
+\newcommand{\braket}[2]{\langle #1|#2\rangle}
+\newcommand{\pro}[1]{\textbf{#1}}
+\newcommand{\con}[1]{\textit{#1}}
+\newcommand{\gap}[1]{\textcolor{red}{\textbf{[Laguna: #1]}}}
+
+\title{%
+  \textbf{Análisis Crítico del Framework ALRCC}\\
+  \large Utilidad, Ámbito, Alcance y Necesidad del Lenguaje Algebraico\\
+  para Representación de Circuitos Cuánticos
+}
+\author{Análisis interno de investigación}
+\date{Mayo 2026}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+% ====================================================================
+\section{Introducción y contexto}
+% ====================================================================
+
+El proyecto ALRCC (\textit{Algebraic Language for Representation of Quantum Circuits})
+propone una notación algebraica para circuitos cuánticos que extiende la notación
+bra-ket estándar mediante índices y conjuntos de índices.
+Parte de una publicación previa del grupo~\cite{reina2024ix} y la amplía con el
+tratamiento basado en conjuntos para manejar un número arbitrario de índices.
+
+Los elementos notacionales núcleo son:
+
+\begin{itemize}
+  \item \textbf{Estado indexado:} $\stateket{a}{k}{\gamma}$ denota el ket
+        $\ket{a}$ con el qubit $k$ reemplazado por el valor $\gamma$.
+  \item \textbf{Puerta localizada:} $\gate{A}_k$ aplica la puerta $\gate{A}$
+        exclusivamente al qubit $k$.
+  \item \textbf{Puerta sobre conjunto:} $\gate{A}_\Gamma$ aplica $\gate{A}$
+        a cada qubit del conjunto $\Gamma \subseteq \mathbb{N}_n$.
+  \item \textbf{Puerta controlada general:} $\stategate{A}{\Gamma}{\Lambda}$
+        con conjunto de controles $\Gamma$ y conjunto de targets $\Lambda$,
+        $\Gamma \cap \Lambda = \emptyset$.
+\end{itemize}
+
+Este documento recoge un análisis crítico del estado actual del trabajo.
+
+% ====================================================================
+\section{Utilidad}
+% ====================================================================
+
+\subsection{Aportaciones reales}
+
+\begin{enumerate}
+  \item \textbf{Compacidad paramétrica.}
+        La escritura $\gate{X}_\Gamma$ para aplicar una puerta a un conjunto
+        arbitrario de qubits es genuinamente legible y escala con $n$ sin
+        aumentar la longitud de la expresión. Esto es ventajoso en algoritmos
+        donde el número de qubits es un parámetro (QFT, sumadores, redes de
+        acarreo, fan-out de control).
+
+  \item \textbf{Identidad algebraica de conjuntos.}
+        La proposición
+        \[
+          \gate{A}_\Gamma \gate{A}_\Lambda
+          = \gate{A}_{\Gamma \cup \Lambda}\, \gate{A}_{\Gamma \cap \Lambda}
+        \]
+        es una pieza realmente \emph{reescribible}: dada una expresión con
+        dos aplicaciones de la misma puerta sobre conjuntos solapados, la
+        identidad permite simplificarla en un solo paso. Éste es el tipo de
+        resultado que justifica un lenguaje algebraico.
+
+  \item \textbf{Patrón mecánico de prueba para puertas controladas.}
+        La descomposición de $\stategate{A}{\Gamma}{\Lambda}$ en función de
+        $a_{h_1 0}/a_{h_1 1}$ proporciona una estrategia de prueba
+        reproducible y reutilizable para demostrar propiedades de circuitos
+        con múltiples controles.
+\end{enumerate}
+
+\subsection{Limitaciones de utilidad}
+
+\begin{enumerate}
+  \item \textbf{Ausencia de conjunto de reglas de reescritura cerrado.}
+        Los resultados existentes son lemas dispersos, no un
+        \emph{cálculo} en sentido formal. Un usuario del lenguaje no dispone
+        de un conjunto definido de movimientos legales, y por tanto no puede
+        realizar simplificaciones sistemáticas.
+
+  \item \textbf{Ausencia de forma normal.}
+        Sin una forma normal, no es posible verificar la equivalencia de dos
+        circuitos por reducción sintáctica, ni comparar el coste antes y
+        después de una optimización. El archivo \texttt{sum\_generic.tex}
+        (344 líneas de expansión exhaustiva) es el síntoma más claro: el
+        lenguaje no está siendo usado para manipulación algebraica; se está
+        usando para cómputo manual indexado.
+
+  \item \textbf{Sin implementación operativa.}
+        Sin un parser o una librería (Python, Mathematica, Lean) que ejecute
+        reescrituras, el lenguaje no alcanza la práctica del campo.
+\end{enumerate}
+
+% ====================================================================
+\section{Ámbito}
+% ====================================================================
+
+\subsection{Qué cubre actualmente}
+
+\begin{longtable}{p{4cm} p{4cm} p{4.5cm}}
+  \toprule
+  \textbf{Cubierto}                      & \textbf{Parcialmente}                               & \textbf{Ausente}               \\
+  \midrule
+  Puertas 1-qubit con índice             & Controles y targets múltiples                       & Mediciones
+  (aparece $_{{\Gamma}}\rfloor$ en \texttt{sum.tex} sin definición)                                                             \\
+  \addlinespace
+  Conmutación en qubits disjuntos        & Hadamard, Pauli, $\gate{R}_X/\gate{R}_Y/\gate{R}_Z$ &
+  Operadores no unitarios, canales, ruido                                                                                       \\
+  \addlinespace
+  $\gate{A}_\Gamma$ con conjunto general & Ejemplos Deutsch y sumador                          & Estados
+  entrelazados generales                                                                                                        \\
+  \addlinespace
+  Involución de puertas auto-inversas    & ---                                                 & Algoritmos con entrelazamiento
+  esencial (Grover, QFT, Shor)                                                                                                  \\
+  \bottomrule
+\end{longtable}
+
+\subsection{El problema del entrelazamiento}
+
+Éste es el punto de ámbito más serio.
+La descomposición
+\[
+  \ket{a} = a_{k0}\, \stateket{a}{k}{0} + a_{k1}\, \stateket{a}{k}{1}
+\]
+y la notación $a_{k\gamma} = \braket{a_k}{\gamma}$ como amplitud del $k$-ésimo
+qubit están \textbf{bien definidas únicamente en estados producto}
+$\ket{a} = \ket{a_1} \otimes \cdots \otimes \ket{a_n}$.
+
+Un estado de Bell $\frac{1}{\sqrt{2}}(\ket{00}+\ket{11})$ no admite esas
+amplitudes monoqubit sin ambigüedad: $a_{1,0}$ no está definido independientemente.
+Mientras esto no se trate de forma explícita, la semántica del lenguaje es
+válida para estados separables más superposiciones controladas, pero
+\textbf{no para estados cuánticos generales}.
+
+Para extender el lenguaje al caso general se necesitaría reemplazar
+$a_{k\gamma}$ por el proyector parcial
+$(\bra{\gamma}_k \otimes I_{\text{resto}})\ket{a}$, con la semántica
+correspondiente.
+
+% ====================================================================
+\section{Alcance}
+% ====================================================================
+
+\subsection{Poder expresivo}
+
+El lenguaje es, en la práctica, sub-Clifford+T: soporta puertas de Pauli,
+Hadamard, rotaciones $\gate{R}_A(\theta)$ y controladas, pero la aritmética de
+fase global y los estados no-stabilizer no son objetos del cálculo sino valores
+de los coeficientes $a_{k\gamma}$.
+
+\subsection{Poder de prueba}
+
+Las proposiciones demostradas hasta ahora son, en su mayoría:
+\begin{itemize}
+  \item \con{Triviales por estructura tensorial:} conmutación de puertas en
+        qubits distintos (inmediata porque $\gate{A} \otimes I$ e $I \otimes \gate{B}$
+        siempre conmutan).
+  \item \con{Elementales:} involución ($\gate{A}^2 = \gate{I}$ si $\gate{A}$
+        es auto-inversa), propiedad de eigenvalores $-1$.
+\end{itemize}
+
+\textbf{No existe todavía un resultado no trivial demostrado en el lenguaje
+  que sea difícil con la notación matricial estándar.}
+Ese resultado sería el primer test de valor real del formalismo.
+
+\subsection{Sin soundness ni completitud}
+
+No hay enunciado ni demostración de que:
+\begin{itemize}
+  \item Dos expresiones iguales en el lenguaje corresponden a la misma
+        matriz unitaria (\textbf{soundness}).
+  \item Dos matrices iguales pueden reducirse a la misma expresión en el
+        lenguaje (\textbf{completitud}).
+\end{itemize}
+Sin estos teoremas, el lenguaje no tiene estatuto de \emph{cálculo}.
+
+% ====================================================================
+\section{Necesidad}
+% ====================================================================
+
+\subsection{El problema del estado del arte ausente}
+
+La bibliografía actual (46 entradas) no contiene ninguna referencia a:
+ZX-calculus, Coecke, Selinger, Backens, Vilmart, Penrose graphical calculus,
+Quipper, Silq, OpenQASM 3, PBS-calculus.
+
+Solo se recogen~\cite{Hutsell} y~\cite{Staton} en la línea de representaciones
+algebraicas de circuitos. Esto es una laguna grave: cualquier revisor de una
+revista de computación cuántica devolverá el manuscrito sin leer la sección
+técnica si la introducción no contextualiza frente a estas alternativas.
+
+\subsection{Las alternativas existentes}
+
+\begin{description}[leftmargin=2cm, style=nextline]
+  \item[ZX-calculus~\cite{CoeckeDuncan2008, Backens2014, JeandelvPerdrix2018}]
+        Lenguaje gráfico con semántica categórica. Demostrado completo para Clifford
+        (Backens 2014), para Clifford+T (Jeandel-Perdrix-Vilmart 2018) y para
+        circuitos cuánticos generales (Vilmart 2019). Tiene herramientas maduras
+        (PyZX~\cite{KissingerWetering2019}, Quantomatic) y resultados de reducción
+        de T-count publicados. \textbf{Es la propuesta de referencia para
+          manipulación algebraica de circuitos.}
+
+  \item[Tensor network notation / Penrose]
+        Notación algebraica con índices contraídos; ya cubre lo que
+        $\gate{A}_\Gamma$ expresa y conecta con simulación mediante MPS/TT.
+
+  \item[OpenQASM 3~\cite{CrossOQASM2022}]
+        Lenguaje textual ejecutable con tipos cuánticos y soporte paramétrico.
+
+  \item[Quipper~\cite{GreenQuipper2013}]
+        DSL en Haskell para circuitos cuánticos de alto nivel con generación
+        paramétrica y optimización.
+
+  \item[Silq~\cite{BichselSilq2020}]
+        Primer lenguaje cuántico de alto nivel con descomputación segura e
+        inferencia de tipos.
+
+  \item[Lambda-cálculo cuántico~\cite{SelingerValiron2006}]
+        Fundamento teórico para lenguajes cuánticos tipados con
+        semántica denotacional completa.
+\end{description}
+
+\subsection{La pregunta que el manuscrito debe responder}
+
+\begin{quote}
+  \textit{¿Qué problema concreto resuelve ALRCC que ZX-calculus, tensor
+    networks u OpenQASM no resuelven mejor?}
+\end{quote}
+
+Tres hipótesis de posicionamiento, ordenadas por defensibilidad:
+
+\begin{description}[leftmargin=2cm, style=nextline]
+  \item[(H1) Circuitos clásico-reversibles en criptografía cuántica.]
+        ALRCC sería especialmente adecuada para circuitos Toffoli-based
+        (sumadores, multiplicadores, funciones hash reversibles), donde la
+        estructura de control-conjunto $\stategate{A}{\Gamma}{\Lambda}$ es
+        natural. El ejemplo del sumador binario (\texttt{sum.tex}) apunta
+        directamente en esta dirección. Esta hipótesis es defendible y conecta
+        con la línea del grupo~\cite{reina2024ix}.
+        \textbf{Si se acepta esta hipótesis, el alcance honesto del manuscrito
+          es ``circuitos cuánticos clásico-reversibles'', no ``circuitos cuánticos
+          en general''.}
+
+  \item[(H2) Notación pedagógica / algebraica accesible.]
+        ALRCC es más próxima al bra-ket clásico y por tanto más accesible para
+        estudiantes de criptografía cuántica que quieren introducir optimización
+        simbólica sin aprender la teoría de categorías que subyace a ZX.
+
+  \item[(H3) Sintaxis lineal en \LaTeX / texto plano.]
+        ZX requiere diagramas; ALRCC se escribe en línea. Sin embargo,
+        OpenQASM ya ocupa este nicho en la práctica.
+\end{description}
+
+% ====================================================================
+\section{Problemas técnicos concretos}
+% ====================================================================
+
+\begin{enumerate}
+  \item \textbf{Polisemia del tercer argumento de $\stateket{a}{k}{\cdot}$.}
+        El subíndice tercer-argumento puede ser un bit ($0$, $1$), una puerta
+        ($\gate{A}$) o una mezcla ($1\gate{A}$ en puertas controladas). Esta
+        ambigüedad viola la condición básica de que un lenguaje formal tenga
+        tipos sintácticos distinguibles.
+
+  \item \textbf{Errata en la base ortonormal.}
+        En \texttt{notation.tex} y \texttt{qubit.tex} se escribe
+        $\ket{+} = \frac{\ket{0}+\ket{1}}{2}$.
+        La normalización correcta es $\ket{+} = \frac{\ket{0}+\ket{1}}{\sqrt{2}}$.
+
+  \item \textbf{Medición sin definición.}
+        El operador $_{{\Gamma}}\rfloor\ket{\cdot}$ aparece en \texttt{sum.tex}
+        sin definición, sin propiedades y sin prueba de coherencia con el
+        postulado de proyección. Las mediciones son imprescindibles para
+        cualquier algoritmo cuántico.
+
+  \item \textbf{Secciones incompletas.}
+        \texttt{universal\_gates.tex} está prácticamente vacío y
+        \texttt{deutsch.tex} trunca el cálculo en el momento crítico
+        (ecuación~(2) inacabada). Si el lenguaje no puede completar el
+        algoritmo de Deutsch-Jozsa, el ejemplo paradigmático del paper está
+        roto.
+
+  \item \textbf{La expansión de \texttt{sum\_generic.tex} contradice el objetivo.}
+        El fichero de 344 líneas muestra una expansión exhaustiva que no aplica
+        ninguna de las propiedades algebraicas demostradas. Si el propósito del
+        lenguaje es la \emph{manipulación algebraica}, la demostración del
+        sumador debería ser corta; no larga.
+
+  \item \textbf{Proposiciones triviales elevadas a resultados.}
+        La conmutación de puertas en qubits distintos ($\gate{A}_k \gate{A}_h
+          = \gate{A}_h \gate{A}_k$ para $k \neq h$) es consecuencia inmediata
+        de la factorización tensorial, no un resultado del lenguaje.
+        Presentarla como proposición con prueba sugiere escasez de resultados
+        no triviales.
+
+  \item \textbf{Mezcla de idiomas.}
+        El manuscrito alterna entre inglés y español (párrafos en
+        \texttt{notation.tex}, \texttt{cgate.tex} y \texttt{deutsch.tex}),
+        lo que impide su envío a cualquier revista o conferencia internacional.
+
+  \item \textbf{Contenido duplicado.}
+        \texttt{qubit.tex} y \texttt{notation.tex} contienen el mismo bloque
+        sobre la notación bra-ket.
+\end{enumerate}
+
+% ====================================================================
+\section{Recomendaciones prioritarias}
+% ====================================================================
+
+Las recomendaciones se ordenan por impacto en la publicabilidad del trabajo.
+
+\begin{enumerate}[label=\textbf{R\arabic*.}]
+
+  \item \textbf{Declarar el nicho de forma honesta y citarlo desde el
+          inicio.}
+        Optar por la hipótesis H1: ``lenguaje algebraico para optimización
+        simbólica de circuitos clásico-reversibles en contexto criptográfico,
+        como complemento textual a ZX-calculus''. Esto hace el alcance
+        defendible y la contribución original.
+
+  \item \textbf{Añadir una sección de estado del arte que cite y compare
+          con ZX-calculus.}
+        Como mínimo: Coecke-Duncan 2008, Backens 2014,
+        Jeandel-Perdrix-Vilmart 2018, Kissinger-van de Wetering 2019 (PyZX),
+        OpenQASM 3, Quipper.
+        Sin esto el paper no supera la revisión editorial.
+
+  \item \textbf{Formalizar el cálculo.}
+        Definir BNF de la sintaxis, semántica denotacional (functor a
+        matrices unitarias), y un conjunto de reglas de reescritura. Enunciar
+        y demostrar al menos \emph{soundness}. El objetivo a medio plazo es
+        un fragmento de completitud para circuitos Toffoli-based.
+
+  \item \textbf{Demostrar un resultado palanca.}
+        Encontrar un teorema de optimización (reducción de puertas Toffoli,
+        conteo de CNOTs, simplificación de carry-lookahead) que el lenguaje
+        demuestre en $k$ pasos frente a $k'$ pasos en la notación estándar,
+        con $k \ll k'$. Ese es el argumento central del paper.
+
+  \item \textbf{Extender la semántica al entrelazamiento.}
+        Redefinir $a_{k\gamma}$ como proyector parcial para estados generales,
+        o delimitar explícitamente el dominio a estados separables.
+
+  \item \textbf{Añadir definición y propiedades de la medición.}
+        Formalizar $_{{\Gamma}}\rfloor\ket{\cdot}$, su semántica probabilística
+        y la reducción de estado post-medición.
+
+  \item \textbf{Implementar un prototipo.}
+        Un módulo Python/SymPy o un notebook Mathematica que realice
+        reescrituras del lenguaje y exporte a Qiskit. Es lo que hace adoptable
+        una propuesta de notación.
+
+  \item \textbf{Correcciones de manuscrito.}
+        \begin{itemize}
+          \item Corregir la normalización de $\ket{+}$ (factor $1/\sqrt{2}$).
+          \item Traducir todos los párrafos en español.
+          \item Completar o eliminar \texttt{universal\_gates.tex} y
+                \texttt{deutsch.tex}.
+          \item Eliminar la duplicación entre \texttt{qubit.tex} y
+                \texttt{notation.tex}.
+          \item Resolver la polisemia del tercer argumento de
+                $\stateket{a}{k}{\cdot}$ mediante una gramática formal.
+        \end{itemize}
+\end{enumerate}
+
+% ====================================================================
+\section{Línea de trabajo: papers a leer y orden recomendado}
+% ====================================================================
+
+La línea de trabajo se estructura en cuatro fases. El criterio de orden es
+``necesidad mínima antes de continuar escribiendo'': cada fase desbloquea
+los argumentos que la siguiente requiere.
+
+% ----- FASE 1 -------------------------------------------------------
+\subsection*{Fase 1 — Fundamentos y estado del arte imprescindible (2--3 semanas)}
+
+\textit{Objetivo: entender qué existe ya y dónde encaja ALRCC.}
+
+\begin{enumerate}
+  \item[\checkmark] \textbf{Coecke \& Duncan (2008) --- Interacting quantum observables.}
+        Artículo fundacional del ZX-calculus. Establece los spiders, las
+        reglas de reescritura y la semántica. Leer completo.
+        \textit{Por qué primero:} es la propuesta más directamente competidora;
+        todo el discurso de posicionamiento de ALRCC necesita conocerla.
+
+  \item \textbf{Backens (2014) --- The ZX-calculus is complete for stabilizer quantum mechanics.}
+        Primer resultado de completitud de ZX para el fragmento Clifford.
+        \textit{Por qué:} da el estándar que ALRCC debería aspirar a igualar
+        en su nicho.
+
+  \item \textbf{Kissinger \& van de Wetering (2019) --- PyZX: Large scale automated diagrammatic reasoning.}
+        Herramienta práctica que implementa reducción de T-count usando
+        ZX-calculus.
+        \textit{Por qué:} caso de uso concreto de optimización con un lenguaje
+        algebraico; muestra el \emph{gap} que ALRCC necesita cerrar.
+
+  \item \textbf{Hutsell \& Greenwood (2009) --- Efficient algebraic representation of quantum circuits.}
+        Ya está en la bibliografía~\cite{Hutsell}. Leer en profundidad como
+        antecedente directo de ALRCC.
+
+  \item[\checkmark] \textbf{Nielsen \& Chuang (2010), Capítulos 4--5.}
+        Revisar la notación estándar de circuitos, puertas universales y la
+        gate por la que ALRCC extiende el formalismo. Ya en la
+        bibliografía~\cite{NielsenChuang}.
+\end{enumerate}
+
+% ----- FASE 2 -------------------------------------------------------
+\subsection*{Fase 2 --- Fundamentos de cálculos de reescritura (2 semanas)}
+
+\textit{Objetivo: adquirir las herramientas formales para definir el cálculo de ALRCC.}
+
+\begin{enumerate}[resume]
+  \item \textbf{Baader \& Nipkow (1998) --- Term Rewriting Systems.}
+        Capítulos 1--3. Definición de sistemas de reescritura de términos (TRS),
+        terminación, confluencia, formas normales.
+        \textit{Por qué:} para formalizar las reglas de reescritura de ALRCC
+        y probar que el cálculo termina y es confluente.
+
+  \item \textbf{Abramsky \& Coecke (2004) --- A categorical semantics of quantum protocols.}
+        Introducción a la mecánica cuántica como categoría compacta.
+        \textit{Por qué:} ZX-calculus vive aquí; conocer el marco categórico
+        mínimo permite comparar ALRCC a ese nivel y decidir si vale la pena
+        una formulación categórica.
+
+  \item \textbf{Selinger (2004) --- Towards a quantum programming language.}
+        Primer diseño sistemático de un lenguaje de programación cuántico con
+        semántica denotacional.
+        \textit{Por qué:} modelo a seguir para dar semántica formal a ALRCC.
+\end{enumerate}
+
+% ----- FASE 3 -------------------------------------------------------
+\subsection*{Fase 3 --- Optimización y aplicaciones a circuitos reversibles (2--3 semanas)}
+
+\textit{Objetivo: identificar el resultado palanca (R4) e implementar el prototipo.}
+
+\begin{enumerate}[resume]
+  \item \textbf{Jeandel, Perdrix \& Vilmart (2018) --- A complete axiomatisation of the ZX-calculus for Clifford+T.}
+        Completitud de ZX para Clifford+T. Leer las reglas del sistema: son el
+        modelo a seguir para definir el sistema de reglas de ALRCC para
+        circuitos reversibles.
+
+  \item \textbf{Amy, Maslov, Mosca \& Roetteler (2013) --- A meet-in-the-middle algorithm for fast synthesis of depth-optimal quantum circuits.}
+        Algoritmo de síntesis y optimización de circuitos Clifford+T.
+        \textit{Por qué:} métrica concreta de optimización (profundidad,
+        conteo de T) que ALRCC podría mejorar para el fragmento Toffoli.
+
+  \item \textbf{Maslov (2016) --- Advantages of using relative-phase Toffoli gates with an application to multiple control Toffoli optimization.}
+        Resultado directo sobre optimización de puertas Toffoli multi-control.
+        \textit{Por qué:} ALRCC con $\stategate{X}{\Gamma}{\Lambda}$ debería
+        poder expresar y mejorar estos resultados algebraicamente.
+
+  \item \textbf{Cross et al. (2022) --- OpenQASM 3: A broader and deeper quantum assembly language.}
+        Especificación completa de OpenQASM 3.
+        \textit{Por qué:} para posicionar ALRCC frente a un lenguaje textual
+        ejecutable existente y detectar la diferenciación real.
+\end{enumerate}
+
+% ----- FASE 4 -------------------------------------------------------
+\subsection*{Fase 4 --- Entrelazamiento, mediciones y extensión del alcance (3--4 semanas)}
+
+\textit{Objetivo: resolver las lagunas de ámbito y publicar una versión ampliada.}
+
+\begin{enumerate}[resume]
+  \item \textbf{Selinger \& Valiron (2006) --- A lambda calculus for quantum computation with classical control.}
+        Lambda-cálculo cuántico tipado con semántica denotacional completa.
+        \textit{Por qué:} modelo para extender ALRCC a mediciones y control clásico.
+
+  \item \textbf{Bichsel et al. (2020) --- Silq: A high-level quantum language with safe uncomputation and its type system.}
+        Lenguaje cuántico con descomputación segura automática.
+        \textit{Por qué:} la descomputación es esencial en circuitos
+        reversibles con ancillas; ALRCC necesita modelarla.
+
+  \item \textbf{Perdrix \& Wang (2016) --- Supplementarity is necessary for quantum diagram reasoning.}
+        Demuestra que algunas propiedades de ZX son irreducibles.
+        \textit{Por qué:} indica qué resultados de completitud son
+        necesariamente difíciles y dónde ALRCC podría tener ventaja al
+        restringir el dominio.
+
+  \item \textbf{Green et al. (2013) --- Quipper: A scalable quantum programming language.}
+        Diseño de Quipper: generación paramétrica de circuitos cuánticos
+        a gran escala.
+        \textit{Por qué:} caso de estudio de lenguaje cuántico adoptado
+        en la práctica; modelo para el prototipo de ALRCC.
+\end{enumerate}
+
+% ----- RESUMEN -------------------------------------------------------
+\subsection*{Mapa de lectura resumido}
+
+\begin{center}
+  \begin{tabular}{clll}
+    \toprule
+    \textbf{Semana} & \textbf{Paper clave}  & \textbf{Objetivo}         & \textbf{Desbloquea}     \\
+    \midrule
+    1--2            & Coecke-Duncan 2008    & Conocer el competidor     & R2 (estado del arte)    \\
+    1--2            & Backens 2014          & Estándar de completitud   & R3 (formalizar cálculo) \\
+    2               & Kissinger-W. 2019     & Caso de uso concreto      & R4 (resultado palanca)  \\
+    2               & Hutsell 2009          & Antecedente directo       & R2                      \\
+    3               & Baader-Nipkow cap.1-3 & Herramientas TRS          & R3                      \\
+    3               & Selinger 2004         & Semántica formal          & R3                      \\
+    4--5            & Jeandel-P-V 2018      & Reglas Clifford+T         & R3, R4                  \\
+    5               & Maslov 2016           & Métrica Toffoli           & R4                      \\
+    5--6            & Amy et al. 2013       & Optimización de circuitos & R4                      \\
+    6               & OpenQASM 3 2022       & Diferenciación textual    & R1                      \\
+    7--8            & Selinger-Valiron 2006 & Mediciones tipadas        & R6                      \\
+    7--8            & Bichsel et al. 2020   & Descomputación            & R6                      \\
+    9               & Green et al. 2013     & Modelo prototipo          & R7                      \\
+    \bottomrule
+  \end{tabular}
+\end{center}
+
+% ====================================================================
+\section{Veredicto}
+% ====================================================================
+
+\begin{description}[leftmargin=2cm, style=nextline]
+  \item[Utilidad]
+        Real para circuitos clásico-reversibles parametrizados por conjuntos;
+        no demostrada fuera de ese nicho.
+
+  \item[Ámbito]
+        Sub-Clifford+T en la práctica; estados generales entrelazados y
+        mediciones quedan fuera del lenguaje en su estado actual.
+
+  \item[Alcance]
+        Notación con propiedades locales interesantes pero sin cálculo cerrado,
+        sin resultado palanca y sin herramienta que justifique la adopción
+        frente a ZX-calculus o OpenQASM.
+
+  \item[Necesidad]
+        \textbf{Condicionada.}
+        Si el posicionamiento es ``lenguaje algebraico textual para optimizar
+        circuitos reversibles en contexto criptográfico, complementario a
+        ZX-calculus'', la necesidad es \textbf{defendible} y el trabajo tiene
+        lugar en la literatura. Si la pretensión es competir con ZX como cálculo
+        general de circuitos cuánticos, la necesidad \textbf{no está demostrada}
+        y el camino exige completitud, mediciones y herramientas.
+\end{description}
+
+La recomendación más urgente es ejecutar R1 (acotar el nicho) y R2 (cubrir el
+estado del arte) antes de invertir en más demostraciones internas, porque sin
+esos dos movimientos el manuscrito corre el riesgo de ser rechazado sin
+revisión técnica.
+
+% ====================================================================
+\printbibliography[title={Referencias --- Estado del arte a incorporar}]
+% ====================================================================
+
+\end{document}

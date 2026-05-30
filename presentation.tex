@@ -1,0 +1,467 @@
+\documentclass[12pt, aspectratio=169]{beamer}
+
+\usetheme[progressbar=frametitle, block=fill]{metropolis}
+
+% --- Paquetes ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, shapes.geometric, backgrounds,
+                fit, calc, decorations.pathmorphing}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{array}
+\usepackage{xcolor}
+
+% --- Paleta de colores ---
+\definecolor{alrcc-blue}{RGB}{0, 82, 147}
+\definecolor{alrcc-teal}{RGB}{0, 150, 136}
+\definecolor{alrcc-orange}{RGB}{210, 90, 15}
+\definecolor{alrcc-green}{RGB}{46, 139, 87}
+\definecolor{alrcc-red}{RGB}{180, 35, 35}
+\definecolor{alrcc-lightblue}{RGB}{220, 235, 250}
+
+\setbeamercolor{palette primary}{bg=alrcc-blue}
+\setbeamercolor{progress bar}{fg=alrcc-teal, bg=alrcc-blue!40}
+\setbeamercolor{alerted text}{fg=alrcc-orange}
+\setbeamercolor{example text}{fg=alrcc-teal}
+\setbeamercolor{block title}{bg=alrcc-blue!20, fg=alrcc-blue!80!black}
+\setbeamercolor{block body}{bg=alrcc-blue!6}
+\setbeamercolor{block title alerted}{bg=alrcc-orange!25, fg=alrcc-orange!80!black}
+\setbeamercolor{block body alerted}{bg=alrcc-orange!7}
+\setbeamercolor{block title example}{bg=alrcc-green!20, fg=alrcc-green!70!black}
+\setbeamercolor{block body example}{bg=alrcc-green!6}
+
+% --- Comandos de la notación ALRCC ---
+\newcommand{\qg}[1]{\mathsf{#1}}
+\newcommand{\stateket}[3]{\left|#1\right\rangle^{\!#2}_{#3}}
+\newcommand{\stategate}[3]{\qg{#1}^{#2}_{#3}}
+\newcommand{\ket}[1]{\left|#1\right\rangle}
+\newcommand{\bra}[1]{\left\langle#1\right|}
+\newcommand{\braket}[2]{\left\langle#1\middle|#2\right\rangle}
+
+% Marcas de check y cruz simples
+\newcommand{\yes}{\textcolor{alrcc-green}{$\checkmark$}}
+\newcommand{\no}{\textcolor{alrcc-red}{$\times$}}
+\newcommand{\maybe}{\textcolor{alrcc-orange}{$\sim$}}
+
+% --- Metadatos ---
+\title{ALRCC: Lenguaje algebraico para la representación de circuitos cuánticos}
+\subtitle{Motivación \textbullet\ Objetivos \textbullet\ Línea de trabajo \textbullet\ Perspectivas}
+\author{Francisco Costa Cano}
+\institute{Universidad Internacional de La Rioja (UNIR)}
+\date{Mayo 2026}
+
+% ====================================================================
+\begin{document}
+% ====================================================================
+
+% --- Portada ---
+{
+\setbeamertemplate{footline}{}
+\begin{frame}[noframenumbering]
+  \titlepage
+\end{frame}
+}
+
+% --- Índice ---
+\begin{frame}{Agenda}
+  \setbeamertemplate{section in toc}[sections numbered]
+  \tableofcontents[hideallsubsections]
+\end{frame}
+
+% ====================================================================
+\section{Motivación}
+% ====================================================================
+
+\begin{frame}{El paradigma gráfico domina la computación cuántica}
+  \begin{columns}[T]
+    \column{0.50\textwidth}
+    \textbf{Circuito gráfico estándar}
+
+    \medskip
+    \begin{tikzpicture}[scale=0.85,
+        wire/.style={draw, thick},
+        gate1/.style={rectangle, draw=alrcc-blue, thick, fill=alrcc-lightblue,
+            minimum width=0.7cm, minimum height=0.55cm, font=\small},
+        ctrl/.style={circle, fill=alrcc-blue, inner sep=2pt},
+        tgt/.style={circle, draw=alrcc-blue, thick, inner sep=4pt}
+      ]
+      % Lineas
+      \draw[wire] (0,1.2) -- (5.5,1.2) node[right,font=\scriptsize]{};
+      \draw[wire] (0,0)   -- (5.5,0)   node[right,font=\scriptsize]{};
+      % Etiquetas
+      \node[left, font=\small] at (0,1.2) {$\ket{0}$};
+      \node[left, font=\small] at (0,0)   {$\ket{0}$};
+      % H sobre qubit 1
+      \node[gate1] at (1.0,1.2) {$H$};
+      % CNOT
+      \node[ctrl] at (2.5,1.2) {};
+      \node[tgt]  at (2.5,0)   {};
+      \draw[thick, alrcc-blue] (2.5,1.2) -- (2.5,0.18);
+      \draw[thick, alrcc-blue] (2.5,-0.18) -- (2.5,-0.4);
+      \node[font=\scriptsize, alrcc-blue] at (2.5,0) {$+$};
+      % Mediciones
+      \draw[thick] (4.2,1.2) -- (4.8,1.2);
+      \draw[thick] (4.2,0)   -- (4.8,0);
+      \node[rectangle, draw, thick, font=\footnotesize,
+        minimum width=0.6cm, minimum height=0.45cm] at (4.5,1.2) {M};
+      \node[rectangle, draw, thick, font=\footnotesize,
+        minimum width=0.6cm, minimum height=0.45cm] at (4.5,0) {M};
+    \end{tikzpicture}
+
+    \medskip
+    \begin{itemize}\small
+      \item[\yes] Intuitivo para circuitos pequeños
+      \item[\yes] Universal en la literatura
+      \item[\no] \alert{No escala} para $n > 20$ qubits
+      \item[\no] \alert{No se manipula algebraicamente}
+    \end{itemize}
+
+    \column{0.46\textwidth}
+    \begin{block}{Computación clásica}
+      \small
+      \textbf{Dos} representaciones equivalentes:
+      \begin{itemize}\small
+        \item Diagrama de circuito lógico
+        \item Expresión booleana permiten \textbf{simplificación algebraica}.
+      \end{itemize}
+    \end{block}
+
+    \medskip
+    \begin{alertblock}{La brecha cuántica}
+      \small
+      \textbf{¿Por qué no existe el equivalente algebraico para circuitos cuánticos?}
+    \end{alertblock}
+  \end{columns}
+\end{frame}
+
+% ---
+
+\begin{frame}{El problema escala exponencialmente}
+  \begin{columns}[T]
+    \column{0.48\textwidth}
+    \textbf{Crecimiento del número de puertas}
+
+    \medskip
+    \begin{tikzpicture}[scale=0.9]
+      \begin{axis}[
+          xlabel={Número de qubits},
+          ylabel={Puertas (escala log)},
+          ymode=log,
+          xmin=5, xmax=40,
+          grid=major,
+          legend pos=north west,
+          width=\textwidth, height=5.2cm,
+          tick label style={font=\tiny},
+          label style={font=\small},
+          legend style={font=\tiny},
+        ]
+        \addplot[alrcc-blue, very thick, domain=5:40, samples=40]
+        {2^(x/5)};
+        \addlegendentry{QFT}
+        \addplot[alrcc-orange, very thick, dashed, domain=5:40, samples=40]
+        {x^2};
+        \addlegendentry{Grover}
+        \addplot[alrcc-teal, very thick, dotted, domain=5:40, samples=40]
+        {x^3/5};
+        \addlegendentry{Shor (modular)}
+      \end{axis}
+    \end{tikzpicture}
+
+    \column{0.48\textwidth}
+    \begin{alertblock}{Problema para $n > 20$ qubits}
+      \small
+      \begin{itemize}
+        \item Gráfico no cabe en una página
+        \item La optimización se hace heurística o por fuerza bruta
+      \end{itemize}
+    \end{alertblock}
+
+    \medskip
+    \begin{exampleblock}{Lo que ALRCC proporciona}
+      \small
+      Una \textbf{expresión algebraica compacta}:
+      \[
+        C = \stategate{X}{\Gamma_1}{\Lambda_1}
+        \cdots
+        \stategate{X}{\Gamma_k}{\Lambda_k}
+      \]
+      manipulable simbólicamente,
+      \textbf{independiente de} $n$.
+    \end{exampleblock}
+  \end{columns}
+\end{frame}
+
+\section{Estado de la técnica}
+
+\begin{frame}{Panorama de alternativas existentes}
+  \centering
+  \small
+  \begin{tabular}{lccccc}
+    \toprule
+    \textbf{Formalismo}     & \textbf{Texto}  & \textbf{simbólico}
+                            & \textbf{Formal} & \textbf{Reversibles}                   \\
+    \midrule
+    Circuito gráfico        & \no             & \no                  & \yes   & \yes   \\
+    ZX-calculus             & \no             & \yes                 & \yes   & \yes   \\
+    OpenQASM~3              & \yes            & \no                  & \yes   & \yes   \\
+    Quipper                 & \no             & \maybe               & \yes   & \yes   \\
+    Lambda-cálculo cuántico & \no             & \yes                 & \yes   & \maybe \\
+    Hutsell--Greenwood      & \yes            & \maybe               & \no    & \yes   \\
+    \midrule
+    \textbf{ALRCC}          & \yes            & \yes                 & \maybe & \yes   \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+\section{La propuesta ALRCC}
+
+\begin{frame}{Las bases del lenguaje ALRCC}
+  \begin{columns}[T]
+    \column{0.33\textwidth}
+    \begin{block}{1. Estado indexado}
+      \centering
+      \[
+        \stateket{a}{k}{\gamma}
+      \]
+      \small
+      Ket $\ket{a}$ con el qubit $k$ fijado a $\gamma \in \{0,1\}$.
+
+      \smallskip
+      \textit{Ejemplo:}
+      \[
+        \stateket{a_1 a_2 a_3}{2}{0} = \ket{a_1\,0\,a_3}
+      \]
+    \end{block}
+
+    \column{0.33\textwidth}
+    \begin{block}{2. Puerta localizada}
+      \centering
+      \[
+        \qg{A}_k = I^{\otimes k-1} \otimes \qg{A} \otimes I^{\otimes n-k}
+      \]
+      \small
+      La puerta $\qg{A}$ sobre el qubit $k$ únicamente.
+
+      \smallskip
+      \textit{Equivalencia:}
+      \[
+        \qg{A}_k = \stateket{a}{k}{\qg{A}}
+      \]
+    \end{block}
+
+    \column{0.33\textwidth}
+    \begin{block}{3. Conjuntista}
+      \centering
+      \[
+        \qg{A}_\Gamma = \prod_{k \in \Gamma} \qg{A}_k
+      \]
+      \small
+      $\qg{A}$ aplicada a cada qubit del conjunto $\Gamma \subseteq \mathbb{N}_n$.
+
+      \smallskip
+      Bien definida porque puertas en qubits distintos conmutan.
+    \end{block}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Las bases del lenguaje ALRCC}
+  \begin{block}{Extensión: puerta controlada general $\stategate{A}{\Gamma}{\Lambda}$}
+    \small
+    Con controles $\Gamma$ y targets $\Lambda$, $\Gamma \cap \Lambda = \emptyset$:
+    \[
+      \stategate{A}{\Gamma}{\Lambda}\ket{a}
+      = \ket{a}
+      - \Bigl(\prod_{h \in \Gamma} a_{h1}\Bigr)\,\stateket{a}{\Gamma}{\mathbf{1}}
+      + \Bigl(\prod_{h \in \Gamma} a_{h1}\Bigr)\,\stateket{a}{\Gamma \cup \Lambda}{\mathbf{1}\,\qg{A}}
+      \quad\quad \stategate{A}{\emptyset}{\Lambda} = \qg{A}_\Lambda
+    \]
+  \end{block}
+\end{frame}
+
+% ---
+
+\begin{frame}{El resultado algebraico central}
+  \begin{columns}[T]
+    \column{0.52\textwidth}
+    \begin{block}{Proposición}
+      Sea $\qg{A}$ una puerta de 1~qubit y $\Gamma, \Lambda \subseteq \mathbb{N}_n$. Entonces:
+      \[
+        \boxed{\qg{A}_\Gamma\,\qg{A}_\Lambda
+          = \qg{A}_{\Gamma \cup \Lambda}\;\qg{A}_{\Gamma \cap \Lambda}}
+      \]
+    \end{block}
+
+    \medskip
+    \textbf{Corolario para puertas involutivas} ($\qg{A}^2 = \qg{I}$,
+    ej.\ $\qg{X}$, $\qg{H}$, $\qg{Z}$):
+    \[
+      \qg{A}_\Gamma\,\qg{A}_\Lambda = \qg{A}_{\Gamma \triangle \Lambda}
+    \]
+    donde $\triangle$ es la diferencia simétrica.
+
+    \medskip
+    \alert{Dos puertas sobre conjuntos solapados se reducen a una sola.}
+    Aplicable recursivamente en cadenas de puertas.
+
+    \column{0.44\textwidth}
+    \begin{exampleblock}{Ejemplo de simplificación}
+      \small
+      Circuito original:
+      \[
+        \qg{X}_{\{1,2,3\}} \cdot \qg{X}_{\{2,3,4\}}
+      \]
+      Aplicando resultado
+      \[
+        \qg{X}_{\{1,4\}}
+      \]
+    \end{exampleblock}
+
+    \begin{exampleblock}{}
+      \centering\small
+      \textbf{6 aplicaciones de puerta} $\rightarrow$ \textbf{2 aplicaciones}
+    \end{exampleblock}
+  \end{columns}
+\end{frame}
+
+% ---
+
+\begin{frame}{Demostración de potencia: sumador binario}
+  \begin{columns}[T]
+    \column{0.54\textwidth}
+    \textbf{Circuito que computa $2 + 3 = 5$}
+
+    \textbf{10 qubits}
+
+    \medskip
+    En notación ALRCC, el circuito completo en \textbf{una línea}:
+    \begin{align*}
+      C & = \stategate{X}{8}{10}\,\stategate{X}{4,7}{10}
+      \stategate{X}{7}{9}\,\stategate{X}{4}{9}
+      \stategate{X}{5,6}{8}\,\stategate{X}{1,2}{4}
+      \stategate{X}{6}{7}\,\stategate{X}{2}{3}
+      \stategate{X}{5}{7}\,\stategate{X}{1}{3}
+    \end{align*}
+
+    Se aplica sobre $\ket{0100110000}$ y la medición de los
+    qubits $\{3,9,10\}$ produce $101$.
+
+    \column{0.42\textwidth}
+    \textbf{Comparación de tamaño de descripción}
+
+    \begin{tikzpicture}[scale=0.88]
+      \begin{axis}[
+          xlabel={Bits sumados ($n$)},
+          ylabel={Líneas de descripción},
+          xmin=1, xmax=8,
+          ymin=0, ymax=500,
+          grid=major,
+          legend pos=north west,
+          width=\textwidth, height=5.5cm,
+          tick label style={font=\tiny},
+          label style={font=\small},
+          legend style={font=\tiny},
+        ]
+        \addplot[alrcc-blue, very thick, mark=*]
+        coordinates {(1,2)(2,4)(3,6)(4,8)(5,10)(6,12)(7,14)(8,16)};
+        \addlegendentry{ALRCC ($O(n)$)}
+        \addplot[alrcc-red, very thick, dashed, mark=square*]
+        coordinates {(1,4)(2,20)(3,55)(4,120)(5,220)(6,360)(7,450)(8,500)};
+        \addlegendentry{Circuito gráfico ($O(n^2)$)}
+      \end{axis}
+    \end{tikzpicture}
+  \end{columns}
+  \begin{alertblock}{Reto actual}
+    \small
+    La demostración general para $n$~bits requiere las
+    reglas de reescritura completas del cálculo.
+    Es uno de los objetivos centrales del trabajo.
+  \end{alertblock}
+\end{frame}
+
+% ====================================================================
+\section{Objetivos de investigación}
+% ====================================================================
+
+\begin{frame}{Objetivo principal y sub-objetivos}
+  \begin{block}{Objetivo principal}
+    \small
+    \textbf{Cálculo algebraico formal} para circuitos cuánticos
+    reversibles que permita expresar, comparar y \textbf{optimizar}
+    circuitos de $n$~qubits mediante reescritura simbólica.
+  \end{block}
+
+  \medskip
+  \begin{columns}[T]
+    \column{0.48\textwidth}
+    \textbf{Sub-objetivos técnicos}
+    \begin{enumerate}\small
+      \item[\textbf{O1}] Sintaxis formal (BNF).
+      \item[\textbf{O2}] Sistema de reglas de reescritura con terminación
+            y confluencia.
+      \item[\textbf{O3}] Demostración de \emph{soundness} respecto a la
+            semántica matricial.
+      \item[\textbf{O4}] Optimización para circuitos Toffoli.
+      \item[\textbf{O5}] Entrelazamiento y mediciones.
+    \end{enumerate}
+
+    \column{0.48\textwidth}
+    \textbf{Sub-objetivos aplicados}
+    \begin{enumerate}\small
+      \item[\textbf{O6}] Prototipado a Mathematica.
+      \item[\textbf{O7}] Aplicación a códigos de correción cuántica de errores.
+      \item[\textbf{O8}] Aplicación algoritmos criptográficos cuánticos.
+    \end{enumerate}
+  \end{columns}
+\end{frame}
+
+
+% ====================================================================
+\section{Conclusiones}
+% ====================================================================
+
+\begin{frame}{Resumen}
+  \begin{columns}[T]
+    \column{0.48\textwidth}
+    \textbf{Estado actual del trabajo}
+    \begin{itemize}\small
+      \item[\yes] Notación operativa y demostrada en casos concretos
+      \item[\yes] Identidad de conjuntos: herramienta de optimización real
+      \item[\yes] Sumador binario representado en una sola expresión
+      \item[\yes] Conmutación, involución y eigenvalores demostrados
+      \item[\yes] Análisis crítico de posicionamiento realizado
+    \end{itemize}
+
+    \column{0.48\textwidth}
+    \textbf{Próximos pasos}
+    \begin{itemize}\small
+      \item[\textbf{1.}] Formalizar BNF + semántica
+      \item[\textbf{2.}] Demostración general del sumador $n$-bits
+    \end{itemize}
+
+    \begin{block}{Mensaje central}
+      \small
+      ALRCC es una propuesta \textbf{original, necesaria y sólida}: lenguaje algebraico textual para circuitos cuánticos
+      clásico-reversibles, \textbf{complementario a ZX-calculus}.
+    \end{block}
+  \end{columns}
+\end{frame}
+
+{
+\setbeamertemplate{footline}{}
+\begin{frame}[noframenumbering]
+  \centering
+  \vspace{1.5cm}
+  {\Large \textbf{Gracias por su atención}}
+
+  \vspace{0.8cm}
+  {\large Francisco Costa Cano}\\[0.3cm]
+  {\normalsize francisco.costacano@unir.net}
+\end{frame}
+}
+
+\end{document}
