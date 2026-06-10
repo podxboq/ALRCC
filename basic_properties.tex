@@ -20,9 +20,9 @@
 		Analogously, to prove expression~(\ref{eq:cpuerta-involutiva}), according to~(\ref{eq:generic-controlled-gate}):
 		\begin{align*}
 			\ket{a}\stategate{A}{h}{k}\stategate{A}{h}{k}
-			&=\alpha_{h0}\stateket{a}{h}{0}\stategate{A}{h}{k}+\alpha_{h1}\stateket{a}{hk}{1A}\stategate{A}{h}{k}=\\
-			&=\alpha_{h0}\stateket{a}{h}{0}+\alpha_{h1}\stateket{a}{hk}{1AA}=\\
-			&=\alpha_{h0}\stateket{a}{h}{0}+\alpha_{h1}\stateket{a}{h}{1}=\ket{a}.
+			&=a_{h0}\stateket{a}{h}{0}\stategate{A}{h}{k}+a_{h1}\stateket{a}{hk}{1A}\stategate{A}{h}{k}=\\
+			&=a_{h0}\stateket{a}{h}{0}+a_{h1}\stateket{a}{hk}{1AA}=\\
+			&=a_{h0}\stateket{a}{h}{0}+a_{h1}\stateket{a}{h}{1}=\ket{a}.
 		\end{align*}
 	\end{proof}
 
@@ -59,7 +59,7 @@
 	\begin{proof}
 		From basic set theory, $\Gamma\cup\Lambda$ can be expressed as $(\Gamma-(\Gamma\cap\Lambda))\cup(\Lambda-(\Gamma\cap\Lambda))\cup(\Gamma\cap\Lambda)$. Then, the following is true
 		\begin{align*}
-			\gate{A}_{\Gamma}\gate{B}_{\Lambda}&=\prod_{h\in\Gamma}\gate{A}_{h}\prod_{k\in\Lambda}\gate{A}_{k}=\\
+			\gate{A}_{\Gamma}\gate{A}_{\Lambda}&=\prod_{h\in\Gamma}\gate{A}_{h}\prod_{k\in\Lambda}\gate{A}_{k}=\\
 			&=\prod_{h\in\Gamma-(\Gamma\cap\Lambda)}\gate{A}_{h}\prod_{h^\prime\in\Gamma\cap\Lambda}\gate{A}_{h^\prime}\prod_{k\in\Lambda-(\Gamma\cap\Lambda)}\gate{A}_{k}\prod_{k^\prime\in\Gamma\cap\Lambda}\gate{A}_{k^\prime}=\\
 			&=\prod_{h\in(\Gamma-(\Gamma\cap\Lambda))\cup(\Lambda-(\Gamma\cap\Lambda))\cup(\Gamma\cap\Lambda)}\gate{A}_{h}\prod_{k^\prime\in\Gamma\cap\Lambda}\gate{A}_{k^\prime}=\\
 			&=\prod_{h\in\Gamma\cup\Lambda}\gate{A}_{h}\prod_{k^\prime\in\Gamma\cap\Lambda}\gate{A}_{k^\prime}=\gate{A}_{\Gamma\cup\Lambda}\gate{A}_{\Gamma\cap\Lambda}

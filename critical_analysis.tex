@@ -35,7 +35,7 @@
   para Representación de Circuitos Cuánticos
 }
 \author{Análisis interno de investigación}
-\date{Mayo 2026}
+\date{Junio 2026 --- Revisión 2 (verificación matemática completa del manuscrito)}
 
 \begin{document}
 
@@ -68,6 +68,12 @@ Los elementos notacionales núcleo son:
 \end{itemize}
 
 Este documento recoge un análisis crítico del estado actual del trabajo.
+La presente revisión incorpora una verificación matemática proposición por
+proposición de todo el manuscrito (Sección~\ref{sec:verificacion}), que
+corrige dos valoraciones de la revisión anterior: el núcleo algebraico es
+más sólido de lo estimado (la limitación por entrelazamiento estaba
+sobredimensionada), mientras que los ejemplos y varias definiciones de base
+contienen errores matemáticos no detectados previamente.
 
 % ====================================================================
 \section{Utilidad}
@@ -139,35 +145,65 @@ Este documento recoge un análisis crítico del estado actual del trabajo.
   Conmutación en qubits disjuntos        & Hadamard, Pauli, $\gate{R}_X/\gate{R}_Y/\gate{R}_Z$ &
   Operadores no unitarios, canales, ruido                                                                                       \\
   \addlinespace
-  $\gate{A}_\Gamma$ con conjunto general & Ejemplos Deutsch y sumador                          & Estados
-  entrelazados generales                                                                                                        \\
+  $\gate{A}_\Gamma$ con conjunto general & Estados entrelazados (representables como sumas de
+  kets producto, sin forma normal)       & Forma normal y lemas de factorización                                                \\
   \addlinespace
-  Involución de puertas auto-inversas    & ---                                                 & Algoritmos con entrelazamiento
+  Involución de puertas auto-inversas    & Ejemplos Deutsch y sumador (rotos o excluidos)      & Algoritmos con entrelazamiento
   esencial (Grover, QFT, Shor)                                                                                                  \\
   \bottomrule
 \end{longtable}
 
-\subsection{El problema del entrelazamiento}
+\subsection{Separabilidad, extensión lineal y entrelazamiento}
+\label{sec:entrelazamiento}
 
-Éste es el punto de ámbito más serio.
-La descomposición
-\[
-  \ket{a} = a_{k0}\, \stateket{a}{k}{0} + a_{k1}\, \stateket{a}{k}{1}
-\]
-y la notación $a_{k\gamma} = \braket{a_k}{\gamma}$ como amplitud del $k$-ésimo
-qubit están \textbf{bien definidas únicamente en estados producto}
-$\ket{a} = \ket{a_1} \otimes \cdots \otimes \ket{a_n}$.
+\textbf{Corrección respecto a la revisión anterior.}
+La revisión previa calificaba la restricción a estados separables como una
+limitación semántica casi fatal (``los estados entrelazados no pueden
+tratarse''). Una verificación más cuidadosa muestra que la situación es
+mejor, aunque requiere un arreglo formal explícito:
 
-Un estado de Bell $\frac{1}{\sqrt{2}}(\ket{00}+\ket{11})$ no admite esas
-amplitudes monoqubit sin ambigüedad: $a_{1,0}$ no está definido independientemente.
-Mientras esto no se trate de forma explícita, la semántica del lenguaje es
-válida para estados separables más superposiciones controladas, pero
-\textbf{no para estados cuánticos generales}.
+\begin{enumerate}
+  \item \textbf{Las identidades de puertas son válidas en general.}
+        Todas las proposiciones del manuscrito demuestran identidades de
+        \emph{operadores} ($\gate{A}_k\gate{A}_h = \gate{A}_h\gate{A}_k$,
+        $\gate{A}_\Gamma \gate{A}_\Lambda = \gate{A}_{\Gamma\cup\Lambda}
+          \gate{A}_{\Gamma\cap\Lambda}$, las identidades CNOT/SWAP/Toffoli)
+        verificándolas sobre kets producto. Como los estados producto generan
+        linealmente todo $\mathcal{H}^{\otimes n}$ y los operadores son
+        lineales, \textbf{dos operadores que coinciden sobre todos los
+          estados producto coinciden en todo el espacio, incluidos los estados
+          entrelazados}. Las identidades demostradas son, por tanto, correctas
+        sin restricción de dominio.
 
-Para extender el lenguaje al caso general se necesitaría reemplazar
-$a_{k\gamma}$ por el proyector parcial
-$(\bra{\gamma}_k \otimes I_{\text{resto}})\ket{a}$, con la semántica
-correspondiente.
+  \item \textbf{Lo que falta es el lema de extensión lineal, no una nueva
+          semántica.} El manuscrito nunca enuncia este argumento. Basta un lema
+        explícito (``los kets producto generan $\mathcal{H}^{\otimes n}$;
+        toda identidad verificada sobre ellos vale en general'') al comienzo
+        de la sección de propiedades para que todo el aparato de pruebas
+        quede formalmente justificado. Es un arreglo barato y de alto valor.
+
+  \item \textbf{El lenguaje sí representa estados entrelazados}, como
+        combinaciones lineales de kets producto indexados: la propia
+        definición de puerta controlada produce
+        $a_{h0}\,\stateket{a}{h}{0} + a_{h1}\,\stateket{a}{hk}{1\gate{A}}$,
+        que en general es un estado entrelazado. El problema real no es de
+        expresividad sino de \emph{coste}: la representación como suma de
+        términos producto no tiene forma normal y su número de términos puede
+        crecer exponencialmente. \texttt{sum\_generic.tex} (344 líneas) es
+        exactamente ese fenómeno.
+
+  \item \textbf{La restricción genuina} queda en las \emph{amplitudes}: la
+        notación $a_{k\gamma}$ solo tiene sentido término a término (sobre
+        cada ket producto de la suma), no sobre el estado global. Esto debe
+        declararse en la definición.
+\end{enumerate}
+
+\textbf{Consecuencia para la línea de trabajo:} la prioridad ya no es
+``extender la semántica con proyectores parciales'' (caro y probablemente
+innecesario), sino (a) enunciar y demostrar el lema de extensión lineal, y
+(b) atacar el problema de la explosión de términos mediante lemas de
+factorización y una forma normal --- que es además la carencia que la
+Sección~\ref{sec:verificacion} identifica como bloqueo del ejemplo de Deutsch.
 
 % ====================================================================
 \section{Alcance}
@@ -284,8 +320,137 @@ Tres hipótesis de posicionamiento, ordenadas por defensibilidad:
 \end{description}
 
 % ====================================================================
-\section{Problemas técnicos concretos}
+\section{Verificación matemática del manuscrito}
+\label{sec:verificacion}
 % ====================================================================
+
+Se ha verificado de forma independiente, cálculo por cálculo, cada
+proposición y cada ejemplo del manuscrito. Resultado global: \textbf{el
+  núcleo algebraico es correcto; las definiciones de base y los dos ejemplos
+  insignia contienen errores matemáticos}.
+
+\subsection{Resultados verificados como correctos}
+
+\begin{itemize}
+  \item Conmutación $\gate{A}_k\gate{B}_h = \gate{B}_h\gate{A}_k$ para
+        $h \neq k$ (\texttt{gate.tex}, \texttt{moregate.tex}).
+  \item Involución $\gate{A}_k\gate{A}_k=\gate{I}$ y
+        $\stategate{A}{h}{k}\stategate{A}{h}{k}=\gate{I}$ para $\gate{A}$
+        auto-inversa (\texttt{basic\_properties.tex}).
+  \item La identidad central
+        $\gate{A}_\Gamma\gate{A}_\Lambda =
+          \gate{A}_{\Gamma\cup\Lambda}\gate{A}_{\Gamma\cap\Lambda}$
+        (\texttt{basic\_properties.tex}); la prueba es válida, con una errata
+        ($\gate{B}_\Lambda$ por $\gate{A}_\Lambda$ en el desarrollo).
+  \item Las cuatro proposiciones de \texttt{1-qubit-properties.tex},
+        verificadas por cálculo directo:
+        $\stategate{X}{h}{k}\gate{Z}_k\stategate{X}{h}{k}=\gate{Z}_{h,k}$;
+        la descomposición de SWAP en tres CNOT; la conjugación
+        $\gate{H}_{hk}\stategate{X}{k}{h}\gate{H}_{hk}=\stategate{X}{h}{k}$;
+        y la reducción de controles
+        $\stategate{X}{jhk}{l}\gate{X}_h\stategate{X}{jhk}{l}
+          =\stategate{X}{jk}{l}\gate{X}_h$ (eq.~mainresult). Esta última es el
+        mejor candidato actual a ``resultado palanca'' embrionario: es
+        genuina, útil para optimización de Toffoli multi-control y su prueba
+        en el lenguaje es mecánica.
+\end{itemize}
+
+\subsection{Errores matemáticos detectados}
+
+\begin{enumerate}
+  \item \textbf{Error de conjugación en la definición base
+          (\texttt{notation.tex}).} Se define $a_0=\braket{a}{0}$ y
+        $a_1=\braket{a}{1}$ y a continuación se escribe
+        $\ket{a}=a_0\ket{0}+a_1\ket{1}$. Pero
+        $\braket{a}{0}=\overline{\braket{0}{a}}$: con amplitudes complejas la
+        expansión exige $a_0=\braket{0}{a}$. Tal como está, \emph{todas} las
+        definiciones posteriores (puerta controlada, Hadamard, rotaciones)
+        solo son correctas para amplitudes reales. La corrección es trivial
+        (invertir el orden del braket) pero imprescindible.
+
+  \item \textbf{La ecuación de Hadamard (eq.~hadamard,
+          \texttt{hadamard.tex}) es falsa tal como está escrita: sus tres
+          líneas se reducen a la identidad.} La primera línea
+        $\alpha_{k+}\stateket{a}{k}{+}+\alpha_{k-}\stateket{a}{k}{-}$ es la
+        expansión de $\ket{a}$ en la base $\pm$, y la segunda
+        $\alpha_{k0}\stateket{a}{k}{0}+\alpha_{k1}\stateket{a}{k}{1}$ es la
+        expansión de $\ket{a}$ en la base computacional; la ecuación afirma
+        entonces $\gate{H}_k=\gate{I}$. La versión correcta es
+        $\ket{a}\gate{H}_k
+          = a_{k0}\stateket{a}{k}{+} + a_{k1}\stateket{a}{k}{-}
+          = \tfrac{a_{k0}+a_{k1}}{\sqrt 2}\stateket{a}{k}{0}
+          + \tfrac{a_{k0}-a_{k1}}{\sqrt 2}\stateket{a}{k}{1}$.
+
+  \item \textbf{Casos intercambiados en el algoritmo de Deutsch
+          (\texttt{deutsch.tex}).} En el análisis por casos de
+        $\ket{+-}\gate{U}$, el caso balanceado $f(0)=0,f(1)=1$ produce
+        $\ket{--}$ (no $\ket{+-}$ como está escrito) y el caso constante
+        $f(0)=f(1)=0$ produce $\ket{+-}$ (no $\ket{--}$): las dos primeras
+        líneas del desarrollo están intercambiadas, aunque la conclusión
+        final es la estándar. Además la derivación posterior contiene abusos
+        de tipo sin sentido formal: $f(\ket{0}-\ket{1})$ (la función actúa
+        sobre bits, no sobre kets), $\ket{-+}\oplus\ket{-f(-)}$ (suma módulo
+        2 entre kets) y un factor $1/\sqrt{2}$ espurio al aplicar
+        $\gate{H}_{1,2}$ a $\ket{10}$. La derivación se abandona a mitad de
+        frase. \textbf{Diagnóstico relevante:} el punto exacto de fallo es el
+        seguimiento del \emph{phase kickback} a través de un control en
+        superposición --- el lenguaje carece hoy de un lema para ello, y esa
+        carencia, no el descuido, es la causa de que el ejemplo esté roto.
+
+  \item \textbf{Errata de coeficiente en \texttt{ket.tex}}: en la expansión
+        de $\ket{ab}$ el coeficiente de $\ket{10}$ aparece como $a_1 b_1$;
+        debe ser $a_1 b_0$.
+
+  \item \textbf{Erratas en \texttt{pauli.tex}}: la tercera rotación está
+        rotulada $\gate{RX}(\theta)$ cuando debe ser $\gate{RZ}(\theta)$; y
+        la fórmula de $\gate{RY}(\theta)$ tiene los signos de
+        $\sin(\theta/2)$ intercambiados (tal como está escrita corresponde a
+        $\gate{RY}(-\theta)$, inconsistente con la propia definición de
+        $\gate{Y}$ del manuscrito, que sí es la estándar).
+
+  \item \textbf{Normalización de $\ket{\pm}$ (\texttt{notation.tex},
+          \texttt{qubit.tex})}: se escribe
+        $\ket{+}=\frac{\ket{0}+\ket{1}}{2}$; falta $\sqrt{2}$
+        (\texttt{hadamard.tex} sí la escribe bien).
+
+  \item \textbf{Convención de aplicación inconsistente.} Casi todo el
+        manuscrito aplica las puertas en notación postfija
+        ($\ket{a}\gate{A}_k$, orden de lectura igual al orden del circuito),
+        pero \texttt{sum.tex} las aplica en notación prefija
+        ($\stategate{X}{h}{k}\ket{a}$) y escribe el producto del circuito en
+        orden inverso. Un lenguaje formal no puede dejar ambiguo el orden de
+        composición; la convención postfija es defendible (y agradable: se
+        lee como el circuito) pero debe declararse y usarse uniformemente.
+
+  \item \textbf{Inconsistencia $a$ vs.\ $\alpha$}: las definiciones usan
+        $a_{h0}$ y las pruebas cambian sin aviso a $\alpha_{h0}$
+        (\texttt{cgate.tex}, \texttt{basic\_properties.tex},
+        \texttt{1-qubit-properties.tex}).
+
+  \item \textbf{Tercer argumento $\pm$ sin definición}: la notación
+        $\stateket{a}{k}{\gamma}$ se define para $\gamma\in\Theta=\{0,1\}$,
+        pero \texttt{hadamard.tex} y \texttt{1-qubit-properties.tex} usan
+        $\stateket{a}{k}{+}$ y $\stateket{a}{k}{-}$. La definición debe
+        generalizarse a estados arbitrarios de 1 qubit (la generalización es
+        inmediata, pero hay que escribirla).
+
+  \item \textbf{Hipótesis de distinción ausentes}: por ejemplo, la
+        proposición de reducción de controles (eq.~mainresult) dice ``cuatro
+        índices'' pero la prueba exige que sean \emph{distintos}; varias
+        proposiciones omiten esta hipótesis en el enunciado.
+
+  \item \textbf{Estado de \texttt{main.tex}}: actualmente compila sin
+        abstract ni introducción (ambos comentados) y sin los ejemplos del
+        sumador (\texttt{sum.tex}, \texttt{sum\_generic.tex} no se incluyen),
+        de modo que el PDF resultante carece de motivación y de aplicación.
+\end{enumerate}
+
+% ====================================================================
+\section{Problemas estructurales del lenguaje}
+% ====================================================================
+
+Además de los errores puntuales de la Sección~\ref{sec:verificacion},
+persisten estos problemas de diseño:
 
 \begin{enumerate}
   \item \textbf{Polisemia del tercer argumento de $\stateket{a}{k}{\cdot}$.}
@@ -293,11 +458,6 @@ Tres hipótesis de posicionamiento, ordenadas por defensibilidad:
         ($\gate{A}$) o una mezcla ($1\gate{A}$ en puertas controladas). Esta
         ambigüedad viola la condición básica de que un lenguaje formal tenga
         tipos sintácticos distinguibles.
-
-  \item \textbf{Errata en la base ortonormal.}
-        En \texttt{notation.tex} y \texttt{qubit.tex} se escribe
-        $\ket{+} = \frac{\ket{0}+\ket{1}}{2}$.
-        La normalización correcta es $\ket{+} = \frac{\ket{0}+\ket{1}}{\sqrt{2}}$.
 
   \item \textbf{Medición sin definición.}
         El operador $_{{\Gamma}}\rfloor\ket{\cdot}$ aparece en \texttt{sum.tex}
@@ -307,10 +467,10 @@ Tres hipótesis de posicionamiento, ordenadas por defensibilidad:
 
   \item \textbf{Secciones incompletas.}
         \texttt{universal\_gates.tex} está prácticamente vacío y
-        \texttt{deutsch.tex} trunca el cálculo en el momento crítico
-        (ecuación~(2) inacabada). Si el lenguaje no puede completar el
-        algoritmo de Deutsch-Jozsa, el ejemplo paradigmático del paper está
-        roto.
+        \texttt{deutsch.tex} trunca el cálculo en el momento crítico (véase
+        el diagnóstico del \emph{phase kickback} en la
+        Sección~\ref{sec:verificacion}). Si el lenguaje no puede completar el
+        algoritmo de Deutsch, el ejemplo paradigmático del paper está roto.
 
   \item \textbf{La expansión de \texttt{sum\_generic.tex} contradice el objetivo.}
         El fichero de 344 líneas muestra una expansión exhaustiva que no aplica
@@ -341,7 +501,20 @@ Tres hipótesis de posicionamiento, ordenadas por defensibilidad:
 
 Las recomendaciones se ordenan por impacto en la publicabilidad del trabajo.
 
-\begin{enumerate}[label=\textbf{R\arabic*.}]
+\begin{enumerate}[label=\textbf{R\arabic*.}, start=0]
+
+  \item \textbf{Corregir los errores matemáticos de base antes de
+          cualquier otra cosa.}
+        En este orden: (a) conjugación $a_\gamma=\braket{\gamma}{a}$ en
+        \texttt{notation.tex}; (b) reescritura completa de eq.~hadamard;
+        (c) intercambio de casos en \texttt{deutsch.tex} y eliminación de los
+        abusos de tipo ($f$ sobre kets, $\oplus$ entre kets); (d) erratas de
+        \texttt{ket.tex} ($a_1b_0$), \texttt{pauli.tex} ($\gate{RZ}$ y signos
+        de $\gate{RY}$) y normalización de $\ket{\pm}$; (e) unificación de la convención
+        postfija y de la notación $a$/$\alpha$; (f) generalización de
+        $\stateket{a}{k}{\gamma}$ a $\gamma$ estado arbitrario de 1 qubit.
+        Coste estimado: días, no semanas. Nada de lo demás es publicable
+        encima de definiciones incorrectas.
 
   \item \textbf{Declarar el nicho de forma honesta y citarlo desde el
           inicio.}
@@ -368,10 +541,26 @@ Las recomendaciones se ordenan por impacto en la publicabilidad del trabajo.
         conteo de CNOTs, simplificación de carry-lookahead) que el lenguaje
         demuestre en $k$ pasos frente a $k'$ pasos en la notación estándar,
         con $k \ll k'$. Ese es el argumento central del paper.
+        \textbf{Punto de partida concreto:} generalizar la reducción de
+        controles eq.~mainresult (verificada correcta en la
+        Sección~\ref{sec:verificacion}) de un control conjugado a un conjunto
+        arbitrario $\Delta \subseteq \Gamma$ de controles conjugados por
+        $\gate{X}_\Delta$, y derivar de ahí reglas de cancelación para
+        cascadas de Toffoli multi-control como las del sumador.
 
-  \item \textbf{Extender la semántica al entrelazamiento.}
-        Redefinir $a_{k\gamma}$ como proyector parcial para estados generales,
-        o delimitar explícitamente el dominio a estados separables.
+  \item \textbf{Fundamentar la semántica mediante el lema de extensión
+          lineal (reformulada).}
+        \emph{Sustituye a la antigua recomendación de proyectores parciales.}
+        (a) Enunciar y demostrar el lema: los kets producto generan
+        $\mathcal{H}^{\otimes n}$, luego toda identidad de operadores
+        verificada sobre ellos vale en general --- esto legitima de golpe
+        todas las pruebas del manuscrito.
+        (b) Declarar que $a_{k\gamma}$ es una noción término a término.
+        (c) Desarrollar lemas de factorización (y, a medio plazo, una forma
+        normal) que controlen la explosión del número de términos producto;
+        incluir un lema específico de \emph{phase kickback}
+        ($\stateket{a}{k}{-}\stategate{X}{k'}{k} = $ fase por estado), que es
+        exactamente lo que falta para completar \texttt{deutsch.tex}.
 
   \item \textbf{Añadir definición y propiedades de la medición.}
         Formalizar $_{{\Gamma}}\rfloor\ket{\cdot}$, su semántica probabilística
@@ -382,16 +571,19 @@ Las recomendaciones se ordenan por impacto en la publicabilidad del trabajo.
         reescrituras del lenguaje y exporte a Qiskit. Es lo que hace adoptable
         una propuesta de notación.
 
-  \item \textbf{Correcciones de manuscrito.}
+  \item \textbf{Correcciones editoriales de manuscrito.}
+        (Las correcciones matemáticas están en R0.)
         \begin{itemize}
-          \item Corregir la normalización de $\ket{+}$ (factor $1/\sqrt{2}$).
           \item Traducir todos los párrafos en español.
           \item Completar o eliminar \texttt{universal\_gates.tex} y
-                \texttt{deutsch.tex}.
+                \texttt{deutsch.tex}; reincorporar abstract, introducción y
+                el ejemplo del sumador a \texttt{main.tex} (hoy excluidos).
           \item Eliminar la duplicación entre \texttt{qubit.tex} y
                 \texttt{notation.tex}.
           \item Resolver la polisemia del tercer argumento de
                 $\stateket{a}{k}{\cdot}$ mediante una gramática formal.
+          \item Añadir las hipótesis de distinción de índices que faltan en
+                varios enunciados.
         \end{itemize}
 \end{enumerate}
 
@@ -545,18 +737,35 @@ los argumentos que la siguiente requiere.
 % ====================================================================
 
 \begin{description}[leftmargin=2cm, style=nextline]
+  \item[Validez]
+        \textbf{El núcleo algebraico es matemáticamente válido}: las
+        identidades de conmutación, involución, la identidad de conjuntos
+        $\gate{A}_\Gamma\gate{A}_\Lambda=\gate{A}_{\Gamma\cup\Lambda}
+          \gate{A}_{\Gamma\cap\Lambda}$ y las cuatro proposiciones
+        CNOT/SWAP/Toffoli han sido verificadas de forma independiente y son
+        correctas; además valen para estados arbitrarios (incluidos
+        entrelazados) vía extensión lineal, aunque el manuscrito no lo
+        enuncie. En cambio, \textbf{las definiciones de base y los ejemplos
+          insignia contienen errores} (conjugación de amplitudes, ecuación de
+        Hadamard que se reduce a la identidad, casos de Deutsch
+        intercambiados) que deben corregirse antes que nada (R0).
+
   \item[Utilidad]
         Real para circuitos clásico-reversibles parametrizados por conjuntos;
-        no demostrada fuera de ese nicho.
+        no demostrada fuera de ese nicho. La reducción de controles
+        (eq.~mainresult) es el embrión de resultado palanca más prometedor.
 
   \item[Ámbito]
-        Sub-Clifford+T en la práctica; estados generales entrelazados y
-        mediciones quedan fuera del lenguaje en su estado actual.
+        Mayor de lo estimado en la revisión anterior: las identidades de
+        puertas valen sin restricción de dominio. La limitación operativa es
+        la explosión exponencial de términos producto al representar estados
+        entrelazados, junto con la ausencia de mediciones en el lenguaje.
 
   \item[Alcance]
-        Notación con propiedades locales interesantes pero sin cálculo cerrado,
-        sin resultado palanca y sin herramienta que justifique la adopción
-        frente a ZX-calculus o OpenQASM.
+        Notación con propiedades locales correctas pero sin cálculo cerrado,
+        sin lema de extensión lineal explícito, sin resultado palanca
+        consolidado y sin herramienta que justifique la adopción frente a
+        ZX-calculus o OpenQASM.
 
   \item[Necesidad]
         \textbf{Condicionada.}
@@ -568,10 +777,15 @@ los argumentos que la siguiente requiere.
         y el camino exige completitud, mediciones y herramientas.
 \end{description}
 
-La recomendación más urgente es ejecutar R1 (acotar el nicho) y R2 (cubrir el
-estado del arte) antes de invertir en más demostraciones internas, porque sin
-esos dos movimientos el manuscrito corre el riesgo de ser rechazado sin
-revisión técnica.
+Orden de ejecución recomendado: \textbf{R0} (corrección de errores
+matemáticos, días de trabajo) en paralelo con \textbf{R1} (acotar el nicho)
+y \textbf{R2} (cubrir el estado del arte); después R5a (lema de extensión
+lineal, que legitima formalmente todo el aparato de pruebas) y R4 (resultado
+palanca a partir de eq.~mainresult). Sin R0--R2 el manuscrito corre el
+riesgo de ser rechazado sin revisión técnica; con ellos, la probabilidad de
+éxito estimada en la revisión anterior (70--75\% en 18 meses) se mantiene e
+incluso mejora ligeramente, porque la verificación confirma que el núcleo
+matemático no necesita reconstrucción.
 
 % ====================================================================
 \printbibliography[title={Referencias --- Estado del arte a incorporar}]

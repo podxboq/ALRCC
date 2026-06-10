@@ -15,6 +15,16 @@ It can also be applied over the last of both qubits and then the result is $\ket
 	\]
 	where $h\in\N_n$.
 \end{notation}
+
+\begin{remark}
+	Throughout this work, gates are written in \emph{postfix} form: the
+	expression $\ket{a}\gate{A}_h$ denotes the application of the operator
+	$\gate{A}_h$ to the state $\ket{a}$. Consequently, in a product of gates
+	the leftmost factor is applied first, so expressions are read from left
+	to right in the same order as the corresponding circuit. This convention
+	is purely notational: $\ket{a}\gate{A}_h\gate{B}_l$ stands for
+	$\gate{B}_l(\gate{A}_h\ket{a})$ in the standard operator notation.
+\end{remark}
 For example, if $\ket{a}=\ket{a_1 a_2}$ then
 \[
 	\gate{A}\ket{a_1}\otimes \ket{a_2} =

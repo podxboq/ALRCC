@@ -11,7 +11,7 @@ For example, for two qubits $\ket{a}$ and $\ket{b}$, the following can be writte
 	\ket{ab}&=a_0\ket{0b}+a_1\ket{1b}\\
 	&=b_0\ket{a0}+b_1\ket{a1}\\
 	\label{eq:2qubit-coordenadas}
-	&=a_0 b_0\ket{00}+a_0 b_1\ket{01}+a_1 b_1\ket{10}+a_1 b_1\ket{11}
+	&=a_0 b_0\ket{00}+a_0 b_1\ket{01}+a_1 b_0\ket{10}+a_1 b_1\ket{11}
 \end{align}
 
 \begin{notation}
@@ -22,6 +22,15 @@ For example, for two qubits $\ket{a}$ and $\ket{b}$, the following can be writte
 	\end{equation}
 	where $k \in \mathbb{N}_n$ and $\gamma\in\B$.
 \end{notation}
+
+\begin{remark}
+	The same notation is used, more generally, when $\gamma$ is an arbitrary
+	single-qubit state: for any $\ket{\gamma}\in\Q$, the ket
+	$\stateket{a}{k}{\gamma}$ denotes the state obtained from $\ket{a}$ by
+	replacing its $k$-th qubit with $\ket{\gamma}$. For instance,
+	$\stateket{a}{k}{+}$ and $\stateket{a}{k}{-}$ denote the substitution of
+	the $k$-th qubit by $\ket{+}$ and $\ket{-}$, respectively.
+\end{remark}
 
 Consequently, the expression~(\ref{eq:nqubit-coordenadas}) can be written as follows:
 \begin{equation}
