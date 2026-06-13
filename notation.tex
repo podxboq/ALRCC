@@ -27,25 +27,3 @@ Por ejemplo, para $n=8$, si $\Gamma = \set{1, 3, 7}$ y $\Delta = \set{2, 4}$, da
 Observemos que para todo elemento $\gamma\in\mathbb{Z}^l$ se cumple que $\con{\ext{\gamma}{\Gamma}}{\Gamma}=\gamma$ mientras que en general si $\gamma\in\mathbb{Z}^n$ entonces $\ext{\con{\gamma}{\Gamma}}{\Gamma}\neq\gamma$.
 
 También vamos a considerar que los elementos $(0,\dots,0)\in\B^n$ y $(1,\dots,1)\in\B^n$ lo denotaremos simplemente por $0$ y $1$.
-
-\subsection{Qubits}
-Como se introduce en~\cite{diracBraket}, los qubits se escriben normalmente en la llamada notación bra-ket.
-Cada qubit se representa como un ket, de la forma $\ket{a}$, que denota un vector en $\Q$.
-
-Por ejemplo, los estados de la base computacional se escriben como $\ket{0}$ y $\ket{1}$, llamados ket 0 y ket 1, respectivamente (véase~\cite{NielsenChuang}).
-Así, cualquier qubit puede describirse como una combinación lineal de estos dos estados de la base: $\ket{a} =\alpha_0\ket{0} +\alpha_1 \ket{1}$, donde $\alpha_0,  \alpha_1 \in \mathbb{C}$ con $ |\alpha_0|^{2}+|\alpha_1|^{2}=1$.
-
-\begin{notation}
-  Para cualquier qubit $\ket{a}$, se usa la siguiente notación:
-  \[a_{0}=\braket{0}{a}\text{ y }a_{1}=\braket{1}{a},\]
-\end{notation}
-por lo que el qubit $\ket{a}$ puede escribirse como:
-\begin{equation}
-  \label{eq:qubit-coordenadas}
-  \ket{a}=a_0\ket{0}+a_1\ket{1}
-\end{equation}
-
-Para otras bases, como por ejemplo $\set{\ket{+}, \ket{-}}$, donde $\ket{+}=\frac{\ket{0}+\ket{1}}{\sqrt{2}}$ y $\ket{-}=\frac{\ket{0}-\ket{1}}{\sqrt{2}}$, un qubit $\ket{a}$ puede describirse como:
-\begin{equation*}
-  \ket{a}=a_+\ket{+}+a_-\ket{-}
-\end{equation*}
