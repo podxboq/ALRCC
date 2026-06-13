@@ -1,9 +1,9 @@
-\subsection{Quantum Gates}
-A single-qubit gate $\gate{A}$ can be applied over the first qubit of a ket $\ket{a_1 a_2} $ and the result is $\gate{A}\ket{a_1}\otimes \ket{a_2}$.
-It can also be applied over the last of both qubits and then the result is $\ket{a_1}\otimes \gate{A}\ket{a_2}$.
+\subsection{Puertas cuánticas}
+Una puerta de un qubit $\gate{A}$ puede aplicarse sobre el primer qubit de un ket $\ket{a_1 a_2}$ y el resultado es $\gate{A}\ket{a_1}\otimes \ket{a_2}$.
+También puede aplicarse sobre el último de los dos qubits y entonces el resultado es $\ket{a_1}\otimes \gate{A}\ket{a_2}$.
 
 \begin{notation}
-	Let $\gate{A}$ be a single-qubit gate and $\ket{a}=\ket{a_1\cdots a_n}$ is a ket with $n$ qubits, the following equivalent notation is used:
+	Sea $\gate{A}$ una puerta de un qubit y $\ket{a}=\ket{a_1\cdots a_n}$ un ket con $n$ qubits; se usa la siguiente notación equivalente:
 	\[
 		\bigotimes_{k=1}^n\gate{A}^{\delta_{hk}}\ket{a_k}=
 		\begin{cases}
@@ -13,19 +13,19 @@ It can also be applied over the last of both qubits and then the result is $\ket
 		\end{cases}
 		,
 	\]
-	where $h\in\N_n$.
+	donde $h\in\N_n$.
 \end{notation}
 
 \begin{remark}
-	Throughout this work, gates are written in \emph{postfix} form: the
-	expression $\ket{a}\gate{A}_h$ denotes the application of the operator
-	$\gate{A}_h$ to the state $\ket{a}$. Consequently, in a product of gates
-	the leftmost factor is applied first, so expressions are read from left
-	to right in the same order as the corresponding circuit. This convention
-	is purely notational: $\ket{a}\gate{A}_h\gate{B}_l$ stands for
-	$\gate{B}_l(\gate{A}_h\ket{a})$ in the standard operator notation.
+	A lo largo de este trabajo, las puertas se escriben en forma \emph{postfija}: la
+	expresión $\ket{a}\gate{A}_h$ denota la aplicación del operador
+	$\gate{A}_h$ al estado $\ket{a}$. En consecuencia, en un producto de puertas
+	el factor más a la izquierda se aplica primero, por lo que las expresiones se leen de izquierda
+	a derecha en el mismo orden que el circuito correspondiente. Esta convención
+	es puramente notacional: $\ket{a}\gate{A}_h\gate{B}_l$ representa
+	$\gate{B}_l(\gate{A}_h\ket{a})$ en la notación estándar de operadores.
 \end{remark}
-For example, if $\ket{a}=\ket{a_1 a_2}$ then
+Por ejemplo, si $\ket{a}=\ket{a_1 a_2}$ entonces
 \[
 	\gate{A}\ket{a_1}\otimes \ket{a_2} =
 	\begin{cases}
@@ -36,8 +36,8 @@ For example, if $\ket{a}=\ket{a_1 a_2}$ then
 \]
 
 \begin{proposition}
-	Let $\gate{A}$ be one single-qubit gate.
-	Then, for any  two  distinct indexes $h,k \in \mathbb{N}_n$
+	Sea $\gate{A}$ una puerta de un qubit.
+	Entonces, para cualesquiera dos índices distintos $h,k \in \mathbb{N}_n$,
 	\begin{equation}
 		\label{eq:conmutacion-gates}
 		\gate{A}_k\gate{A}_{h} = \gate{A}_{h}\gate{A}_k.
@@ -45,26 +45,26 @@ For example, if $\ket{a}=\ket{a_1 a_2}$ then
 
 \end{proposition}
 \begin{proof}
-	Let $\ket{a}$ be a ket.
-	For any two distinct indexes $h,k \in \mathbb{N}_n$
+	Sea $\ket{a}$ un ket.
+	Para cualesquiera dos índices distintos $h,k \in \mathbb{N}_n$:
 	\begin{align*}
 		\ket{a}\gate{A}_k\gate{A}_{h}
 		&=\stateket{a}{k}{\gate{A}}\gate{A}_{h}=\stateket{a}{kh}{\gate{AA}}=\stateket{a}{h}{\gate{A}}\gate{A}_{k}=\ket{a}\gate{A}_{h}\gate{A}_k.
 	\end{align*}
 \end{proof}
 
-By the equality~(\ref{eq:conmutacion-gates}) the following notation is well defined.
+Por la igualdad~(\ref{eq:conmutacion-gates}), la siguiente notación está bien definida.
 \begin{notation}
-	Let $\Gamma=\set{k_1,\dots,k_l}\subseteq\mathbb{N}_n$ be a set.
-	Let $\gate{A}$ be a single-qubit gate, the following notation is used:
+	Sea $\Gamma=\set{k_1,\dots,k_l}\subseteq\mathbb{N}_n$ un conjunto.
+	Sea $\gate{A}$ una puerta de un qubit; se usa la siguiente notación:
 	\begin{align}
 		\gate{A}_{\Gamma} &= \gate{A}_{k_1,\dots,k_l}=\prod_{k\in\Gamma}\gate{A}_k
 	\end{align}
 \end{notation}
 
-Note that, according to the previous notation, for the specific case of the empty set $\Gamma=\emptyset$, the resulting quantum gate is the identity gate $\gate{A}_\emptyset=\gate{I}$.
+Nótese que, de acuerdo con la notación anterior, para el caso particular del conjunto vacío $\Gamma=\emptyset$, la puerta cuántica resultante es la puerta identidad $\gate{A}_\emptyset=\gate{I}$.
 
-For example, if $\ket{a}=\ket{a_1 a_2}$ and $\Gamma = \set{1,2}$, then
+Por ejemplo, si $\ket{a}=\ket{a_1 a_2}$ y $\Gamma = \set{1,2}$, entonces
 \[
 	\gate{A}\ket{a_1}\otimes \gate{A}\ket{a_2} =
 	\begin{cases}

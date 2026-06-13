@@ -1,6 +1,6 @@
-\section{Basic notation}
-\subsection{Sets}
-Let $\Gamma=\set{k_1,\dots,k_l}\subseteq\N_n$ be a set with cardinality $|\Gamma|=l$ and $\gamma=(\gamma_{k})_{k=1}^n\in\B^n$, let $\ext{\gamma}{\Gamma}=(\ext{\gamma}{\Gamma}_k)_{k=1}^n$ denote the element $\mathbb{Z}_2^n$ defined by:
+\section{Notación básica}
+\subsection{Conjuntos}
+Sea $\Gamma=\set{k_1,\dots,k_l}\subseteq\N_n$ un conjunto con cardinalidad $|\Gamma|=l$ y $\gamma=(\gamma_{k})_{k=1}^n\in\B^n$; denotamos por $\ext{\gamma}{\Gamma}=(\ext{\gamma}{\Gamma}_k)_{k=1}^n$ el elemento de $\mathbb{Z}_2^n$ definido por:
 \begin{equation*}
   \ext{\gamma}{\Gamma}_k=
   \begin{cases}
@@ -16,23 +16,23 @@ Observemos que para todo elemento $\gamma\in\mathbb{Z}^l$ se cumple que $\con{\e
 También vamos a considerar que los elementos $(0,\dots,0)\in\B^l$ y $(1,\dots,1)\in\B^l$ lo denotaremos simplemente por $0$ y $1$.
 
 \subsection{Qubits}
-As introduced in~\cite{diracBraket}, qubits are normally written in the so-called bra–ket notation.
-Each qubit is represented as a ket, of the form $\ket{a}$, which denotes a vector in $\Q$.
+Como se introduce en~\cite{diracBraket}, los qubits se escriben normalmente en la llamada notación bra-ket.
+Cada qubit se representa como un ket, de la forma $\ket{a}$, que denota un vector en $\Q$.
 
-For instance, the computational basis states are written  as $\ket{0}$ and $\ket{1}$, and called ket 0 and ket 1, respectively (see~\cite{NielsenChuang}).
-Thus, any qubit can be described by a linear combination of these two basis states as $\ket{a} =\alpha_0\ket{0} +\alpha_1 \ket{1}$, where $\alpha_0,  \alpha_1 \in \mathbb{C}$ such that $ |\alpha_0|^{2}+|\alpha_1|^{2}=1$.
+Por ejemplo, los estados de la base computacional se escriben como $\ket{0}$ y $\ket{1}$, llamados ket 0 y ket 1, respectivamente (véase~\cite{NielsenChuang}).
+Así, cualquier qubit puede describirse como una combinación lineal de estos dos estados de la base: $\ket{a} =\alpha_0\ket{0} +\alpha_1 \ket{1}$, donde $\alpha_0,  \alpha_1 \in \mathbb{C}$ con $ |\alpha_0|^{2}+|\alpha_1|^{2}=1$.
 
 \begin{notation}
-  For any qubit $\ket{a}$, the following notation is used:
-  \[a_{0}=\braket{0}{a}\text{ and }a_{1}=\braket{1}{a},\]
+  Para cualquier qubit $\ket{a}$, se usa la siguiente notación:
+  \[a_{0}=\braket{0}{a}\text{ y }a_{1}=\braket{1}{a},\]
 \end{notation}
-so the qubit $\ket{a}$ can be write by:
+por lo que el qubit $\ket{a}$ puede escribirse como:
 \begin{equation}
   \label{eq:qubit-coordenadas}
   \ket{a}=a_0\ket{0}+a_1\ket{1}
 \end{equation}
 
-For other basis, like for example $\set{\ket{+}, \ket{-}}$, where $\ket{+}=\frac{\ket{0}+\ket{1}}{\sqrt{2}}$ and $\ket{-}=\frac{\ket{0}-\ket{1}}{\sqrt{2}}$, then a qubit $\ket{a}$ can be described like:
+Para otras bases, como por ejemplo $\set{\ket{+}, \ket{-}}$, donde $\ket{+}=\frac{\ket{0}+\ket{1}}{\sqrt{2}}$ y $\ket{-}=\frac{\ket{0}-\ket{1}}{\sqrt{2}}$, un qubit $\ket{a}$ puede describirse como:
 \begin{equation*}
   \ket{a}=a_+\ket{+}+a_-\ket{-}
 \end{equation*}

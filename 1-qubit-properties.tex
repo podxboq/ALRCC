@@ -1,15 +1,15 @@
-\section{Specific Properties of the Controlled Pauli-\gate{X} Gate}
-In this section, some specific properties involving  the controlled Pauli-\gate{X} gate are demonstrated.
+\section{Propiedades específicas de la puerta de Pauli-\gate{X} controlada}
+En esta sección se demuestran algunas propiedades específicas que involucran a la puerta de Pauli-\gate{X} controlada.
 
 \begin{proposition}
-  Let $h,k \in \mathbb{N}_n$ be two indexes.
-  Then
+  Sean $h,k \in \mathbb{N}_n$ dos índices.
+  Entonces
   \begin{equation}
     \stategate{X}{h}{k}\stategate{Z}{}{k}\stategate{X}{h}{k} = \stategate{Z}{}{h,k}
   \end{equation}
 \end{proposition}
 \begin{proof}
-  If $\ket{a}$ is a ket and $h\neq k\in \mathbb{N}_n$ are two indexes, then
+  Si $\ket{a}$ es un ket y $h\neq k\in \mathbb{N}_n$ son dos índices, entonces
   \begin{align*}
     \ket{a}\stategate{X}{h}{k}\stategate{Z}{}{k}\stategate{X}{h}{k}
      & =a_{h0}\stateket{a}{h}{0}\stategate{Z}{}{k}\stategate{X}{h}{k}+
@@ -23,7 +23,7 @@ In this section, some specific properties involving  the controlled Pauli-\gate{
   \end{align*}
 \end{proof}
 
-For the following result it is necessary to introduce the SWAP gate, which acts over two qubits, exchanging the state of both positions:
+Para el siguiente resultado es necesario introducir la puerta SWAP, que actúa sobre dos qubits intercambiando el estado de ambas posiciones:
 \begin{align}
   \label{eq:swap}
   \begin{split}
@@ -32,14 +32,14 @@ For the following result it is necessary to introduce the SWAP gate, which acts 
   \end{split}
 \end{align}
 \begin{proposition}
-  Let $h,k \in \mathbb{N}_n$ be two indexes.
-  Then
+  Sean $h,k \in \mathbb{N}_n$ dos índices.
+  Entonces
   \begin{equation}
     \stategate{X}{h}{k}\stategate{X}{k}{h}\stategate{X}{h}{k} = \stategate{(SWAP)}{}{h,k}
   \end{equation}
 \end{proposition}
 \begin{proof}
-  If $\ket{a}$ is a ket and $h\neq k \in \mathbb{N}_n$ are two indexes, then
+  Si $\ket{a}$ es un ket y $h\neq k \in \mathbb{N}_n$ son dos índices, entonces
   \begin{align*}
     \ket{a}\stategate{X}{h}{k}\stategate{X}{k}{h}\stategate{X}{h}{k}
      & =a_{h0}\stateket{a}{h}{0}\stategate{X}{h}{k}\stategate{X}{k}{h}+
@@ -59,14 +59,14 @@ For the following result it is necessary to introduce the SWAP gate, which acts 
 \end{proof}
 
 \begin{proposition}
-  Let $h,k \in \mathbb{N}_n$ be two indexes.
-  Then
+  Sean $h,k \in \mathbb{N}_n$ dos índices.
+  Entonces
   \begin{equation}
     \gate{H}_{hk}\stategate{X}{k}{h}\gate{H}_{hk} = \stategate{X}{h}{k}
   \end{equation}
 \end{proposition}
 \begin{proof}
-  If $\ket{a}$ is a ket and $h\neq k \in \mathbb{N}_n$ are two indexes, then
+  Si $\ket{a}$ es un ket y $h\neq k \in \mathbb{N}_n$ son dos índices, entonces
   \begin{align*}
     \ket{a}\gate{H}_{kh}\stategate{X}{k}{h}\gate{H}_{kh}
      & =a_{h0}\stateket{a}{h}{+}\gate{H}_k\stategate{X}{k}{h}\gate{H}_{kh} + a_{h1}\stateket{a}{h}{-}\gate{H}_k\stategate{X}{k}{h}\gate{H}_{kh}=       \\
@@ -83,18 +83,18 @@ For the following result it is necessary to introduce the SWAP gate, which acts 
 \end{proof}
 
 \begin{proposition}
-  Let $j,h,k,l \in \mathbb{N}_n$ be four indexes.
-  Then
+  Sean $j,h,k,l \in \mathbb{N}_n$ cuatro índices.
+  Entonces
   \begin{equation}
     \label{eq:mainresult}
     \stategate{X}{jhk}{l}\gate{X}_h\stategate{X}{jhk}{l} = \stategate{X}{jk}{l}\gate{X}_h
   \end{equation}
 \end{proposition}
 \begin{proof}
-  If $\ket{a}$ is a ket and $j,h,k,l \in \mathbb{N}_n$ are four distinct indexes, then
-  the ket
+  Si $\ket{a}$ es un ket y $j,h,k,l \in \mathbb{N}_n$ son cuatro índices distintos, entonces
+  el ket
   $\ket{b}=\ket{a}\stategate{X}{jhk}{l}\gate{X}_h\stategate{X}{jhk}{l}$
-  is for construction, as shown below
+  es, por construcción, como se muestra a continuación
   \begin{align*}
     \ket{b}
      & =a_{j0}a_{h0}a_{k0}\stateket{a}{jhk}{000}\gate{X}_h\stategate{X}{jhk}{l} +

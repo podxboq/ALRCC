@@ -1,8 +1,8 @@
-\subsection{More Quantum Gates}
-Two single-qubit gates $\gate{A}$ and $\gate{B}$ can be applied over the first and second qubit respectivement of a ket $\ket{a_1 a_2} $ and the result is $\gate{A}\ket{a_1}\otimes \gate{B}\ket{a_2}$.
+\subsection{Más puertas cuánticas}
+Dos puertas de un qubit $\gate{A}$ y $\gate{B}$ pueden aplicarse sobre el primer y el segundo qubit respectivamente de un ket $\ket{a_1 a_2}$ y el resultado es $\gate{A}\ket{a_1}\otimes \gate{B}\ket{a_2}$.
 
 \begin{notation}
-	Let $\gate{A}$ be a single-qubit gate and $\ket{a}=\ket{a_1\cdots a_n}$ is a ket with $n$ qubits, the following equivalent notation is used:
+	Sea $\gate{A}$ una puerta de un qubit y $\ket{a}=\ket{a_1\cdots a_n}$ un ket con $n$ qubits; se usa la siguiente notación equivalente:
 	\[
 		\bigotimes_{k=1}^n\gate{A}^{\delta_{hk}}\gate{B}^{\delta_{lk}}\ket{a_k}=
 		\begin{cases}
@@ -12,9 +12,9 @@ Two single-qubit gates $\gate{A}$ and $\gate{B}$ can be applied over the first a
 		\end{cases}
 		,
 	\]
-	where $h,l\in\N_n$.
+	donde $h,l\in\N_n$.
 \end{notation}
-For example, if $\ket{a}=\ket{a_1 a_2}$ then
+Por ejemplo, si $\ket{a}=\ket{a_1 a_2}$ entonces
 \[
 	\gate{A}\ket{a_1}\otimes \gate{B}\ket{a_2} =
 	\begin{cases}
@@ -25,8 +25,8 @@ For example, if $\ket{a}=\ket{a_1 a_2}$ then
 \]
 
 \begin{proposition}
-	Let $\gate{A}$ and $\gate{B}$ be two single-qubit gates.
-	Then, for any  two  distinct indexes $h,k \in \mathbb{N}_n$
+	Sean $\gate{A}$ y $\gate{B}$ dos puertas de un qubit.
+	Entonces, para cualesquiera dos índices distintos $h,k \in \mathbb{N}_n$,
 	\begin{equation}
 		\label{eq:conmutacion-two-gates}
 		\gate{A}_k\gate{B}_{h} = \gate{B}_{h}\gate{A}_k.
@@ -34,8 +34,8 @@ For example, if $\ket{a}=\ket{a_1 a_2}$ then
 
 \end{proposition}
 \begin{proof}
-	Let $\ket{a}$ be a ket.
-	For any two distinct indexes $h,k \in \mathbb{N}_n$
+	Sea $\ket{a}$ un ket.
+	Para cualesquiera dos índices distintos $h,k \in \mathbb{N}_n$:
 	\begin{align*}
 		\ket{a}\gate{A}_k\gate{B}_{h}
 		&=\stateket{a}{k}{\gate{A}}\gate{B}_{h}=\stateket{a}{kh}{\gate{AB}}=\stateket{a}{h}{\gate{B}}\gate{A}_{k}=\ket{a}\gate{B}_{h}\gate{A}_k.

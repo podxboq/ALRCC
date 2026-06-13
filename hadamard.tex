@@ -1,7 +1,7 @@
-\subsection{Hadamard Gate}
-The Hadamard gate is a well-known single-qubit gate that maps the basis states $\ket{0}$ and $\ket{1}$  to $\ket{+}=\frac{\ket{0}+\ket{1}}{\sqrt{2}}$ and $\ket{-}=\frac{\ket{0}-\ket{1}}{\sqrt{2}}$, respectively.
+\subsection{Puerta de Hadamard}
+La puerta de Hadamard es una conocida puerta de un qubit que transforma los estados de la base $\ket{0}$ y $\ket{1}$ en $\ket{+}=\frac{\ket{0}+\ket{1}}{\sqrt{2}}$ y $\ket{-}=\frac{\ket{0}-\ket{1}}{\sqrt{2}}$, respectivamente.
 
-Thus, the Hadamard gate can be expressed using the introduced notation as follows:
+Así, la puerta de Hadamard puede expresarse usando la notación introducida como sigue:
 \begin{equation}
     \label{eq:hadamard}
     \begin{split}
@@ -9,14 +9,14 @@ Thus, the Hadamard gate can be expressed using the introduced notation as follow
         &=\frac{a_{k0}+a_{k1}}{\sqrt{2}}\ket{a}^{k}_{0}+\frac{a_{k0}-a_{k1}}{\sqrt{2}}\ket{a}^{k}_{1}
     \end{split}
 \end{equation}
-Equivalently, since $a_{k+}=\braket{+}{a_k}=\frac{a_{k0}+a_{k1}}{\sqrt{2}}$
-and $a_{k-}=\braket{-}{a_k}=\frac{a_{k0}-a_{k1}}{\sqrt{2}}$, the action of
-the Hadamard gate exchanges both bases:
+De manera equivalente, como $a_{k+}=\braket{+}{a_k}=\frac{a_{k0}+a_{k1}}{\sqrt{2}}$
+y $a_{k-}=\braket{-}{a_k}=\frac{a_{k0}-a_{k1}}{\sqrt{2}}$, la acción de
+la puerta de Hadamard intercambia ambas bases:
 \begin{equation*}
     \ket{a}\gate{H}_k=a_{k+}\ket{a}^{k}_{0}+a_{k-}\ket{a}^{k}_{1}
 \end{equation*}
 
-A Hadamard similarity transform interchanges X and Z gates,
+Una transformada de semejanza de Hadamard intercambia las puertas $X$ y $Z$:
 \begin{align}
     \gate{H}_k\gate{X}_k\gate{H}_k &= \gate{Z}_k & \gate{H}_k\gate{Y}_k\gate{H}_k &= \gate{-Y}_k & \gate{H}_k\gate{Z}_k\gate{H}_k &= X_k
 \end{align}

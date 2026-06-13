@@ -1,46 +1,46 @@
-\section{Deutsch Algorithm}\label{sec:deutsch-algorithm}
-The Deutsch Algorithm is one of the first quantum algorithms which showed more efficient than their classical counterpart.
+\section{Algoritmo de Deutsch}\label{sec:deutsch-algorithm}
+El algoritmo de Deutsch es uno de los primeros algoritmos cuánticos que resultó más eficiente que su contraparte clásica.
 
-Let $f:\B\longrightarrow\B$ be a function.
-There are only four distinct functions, the constant functions $0$ and $1$, and the balanced functions identity and the opposite or flip function.
-If we need to know if $f$ is constant or balanced, we need to evaluate $f$ twice, but with a quantum algorithm we only need evaluate once, as was shown by Deutsch~\cite{Deutsch1985}.
+Sea $f:\B\longrightarrow\B$ una función.
+Solo existen cuatro funciones distintas: las funciones constantes $0$ y $1$, y las funciones equilibradas identidad y la función opuesta o de inversión.
+Si necesitamos saber si $f$ es constante o equilibrada, debemos evaluar $f$ dos veces, pero con un algoritmo cuántico basta con evaluarla una sola vez, como demostró Deutsch~\cite{Deutsch1985}.
 
-The key observation is that $f$ is constant if and only if $f(0)\oplus f(1)=0$.
-The quantum algorithm extracts exactly this single bit of information with one evaluation of $f$, by querying the oracle on a superposition of both inputs.
+La observación clave es que $f$ es constante si y solo si $f(0)\oplus f(1)=0$.
+El algoritmo cuántico extrae exactamente este único bit de información con una sola evaluación de $f$, consultando el oráculo sobre una superposición de ambas entradas.
 
-Let $\gate{U}$ be the unitary operator defined on the computational basis by
+Sea $\gate{U}$ el operador unitario definido sobre la base computacional por
 \[
 	\ket{xy}\gate{U}=\ket{x(y\oplus f(x))},
 \]
-where $\oplus$ is the addition mod 2.
-If we apply the operator $\gate{U}$ over the $\ket{+-}$ state we have:
+donde $\oplus$ es la suma módulo 2.
+Si aplicamos el operador $\gate{U}$ sobre el estado $\ket{+-}$ obtenemos:
 \[
 	\begin{split}
 	\ket{+-}\gate{U} &= \frac{1}{\sqrt{2}}(\ket{+0}-\ket{+1})\gate{U}=\frac{1}{2}(\ket{00}+\ket{10}-\ket{01}-\ket{11})\gate{U}=\\
 	&= \frac{1}{2}(\ket{0(0\oplus f(0))}+\ket{1(0\oplus f(1))}-\ket{0(1\oplus f(0))}-\ket{1(1\oplus f(1))})=\\
 		&=\begin{cases}
-				\frac{1}{2}(\ket{00}+\ket{10}-\ket{01}-\ket{11})=\ket{+-}\text{ if $f(0)=0$ and $f(1) = 0$}\\
-				\frac{1}{2}(\ket{00}+\ket{11}-\ket{01}-\ket{10})=\ket{--}\text{ if $f(0)=0$ and $f(1) = 1$}\\
-				\frac{1}{2}(\ket{01}+\ket{10}-\ket{00}-\ket{11})=-\ket{--}\text{ if $f(0)=1$ and $f(1) = 0$}\\
-				\frac{1}{2}(\ket{01}+\ket{11}-\ket{00}-\ket{10})=-\ket{+-}\text{ if $f(0)=1$ and $f(1) = 1$}
+				\frac{1}{2}(\ket{00}+\ket{10}-\ket{01}-\ket{11})=\ket{+-}\text{ si $f(0)=0$ y $f(1) = 0$}\\
+				\frac{1}{2}(\ket{00}+\ket{11}-\ket{01}-\ket{10})=\ket{--}\text{ si $f(0)=0$ y $f(1) = 1$}\\
+				\frac{1}{2}(\ket{01}+\ket{10}-\ket{00}-\ket{11})=-\ket{--}\text{ si $f(0)=1$ y $f(1) = 0$}\\
+				\frac{1}{2}(\ket{01}+\ket{11}-\ket{00}-\ket{10})=-\ket{+-}\text{ si $f(0)=1$ y $f(1) = 1$}
 	\end{cases}
 	\end{split}
 \]
-so, the resulting state is, up to a global phase:
+por lo que el estado resultante es, salvo fase global:
 \[
 	\ket{+-}\gate{U}=(-1)^{f(0)}\begin{cases}
-		            \ket{+-} & \text{ if $f$ is constant} \\
-		            \ket{--} & \text{ if $f$ is balanced}
+		            \ket{+-} & \text{ si $f$ es constante} \\
+		            \ket{--} & \text{ si $f$ es equilibrada}
 	\end{cases}.
 \]
 
-Let us consider a quantum circuit which implements the Deutsch algorithm.
-According to the postfix convention, the circuit is read from left to right:
+Consideremos un circuito cuántico que implementa el algoritmo de Deutsch.
+De acuerdo con la convención postfija, el circuito se lee de izquierda a derecha:
 \[
 	\gate{D}=\gate{X}_2\gate{H}_{1,2}\gate{U}\gate{H}_1
 \]
 
-Applying the circuit to the initial state $\ket{00}$ and using the computation above:
+Aplicando el circuito al estado inicial $\ket{00}$ y usando el cálculo anterior:
 \begin{equation}
 	\label{eq:deutchs-circuit}
 	\begin{split}
@@ -52,10 +52,10 @@ Applying the circuit to the initial state $\ket{00}$ and using the computation a
 		\end{cases}
 		=(-1)^{f(0)}
 		\begin{cases}
-			\ket{0-} & \text{ if $f$ is constant}\\
-			\ket{1-} & \text{ if $f$ is balanced}
+			\ket{0-} & \text{ si $f$ es constante}\\
+			\ket{1-} & \text{ si $f$ es equilibrada}
 		\end{cases}
 	\end{split}
 \end{equation}
 
-Therefore, measuring the first qubit in the computational basis yields $0$ if $f$ is constant and $1$ if $f$ is balanced, with a single evaluation of $\gate{U}$.
+Por tanto, medir el primer qubit en la base computacional da $0$ si $f$ es constante y $1$ si $f$ es equilibrada, con una única evaluación de $\gate{U}$.
