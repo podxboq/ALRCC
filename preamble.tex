@@ -39,15 +39,15 @@
 \setlength{\parskip}{0.8em}
 \setlength{\parindent}{0em}
 \newenvironment{changemargin}[2]{%
-\begin{list}{}{%
-\setlength{\topsep}{0pt}%
-\setlength{\leftmargin}{#1}%
-\setlength{\rightmargin}{#2}%
-\setlength{\listparindent}{\parindent}%
-\setlength{\itemindent}{\parindent}%
-\setlength{\parsep}{\parskip}%
-}%
-\item[]}{\end{list}}
+  \begin{list}{}{%
+      \setlength{\topsep}{0pt}%
+      \setlength{\leftmargin}{#1}%
+      \setlength{\rightmargin}{#2}%
+      \setlength{\listparindent}{\parindent}%
+      \setlength{\itemindent}{\parindent}%
+      \setlength{\parsep}{\parskip}%
+    }%
+    \item[]}{\end{list}}
 
 \renewcommand{\qedsymbol}{$\blacksquare$}
 
@@ -58,12 +58,11 @@
 \newcommand\eg{e.g.\@\xspace}
 \makeatother
 
-\newcommand{\intf}[1]{\left\llbracket #1 \right\rrbracket} % interpretation functor
-
 \usepackage{bm}
 
 \renewcommand{\abs}[1]{\ensuremath{|#1|}}
-\newcommand{\B}{\Theta}
+\newcommand{\B}{\mathbb{Z}_2}
+\newcommand{\Z}{\mathbb{Z}}
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
@@ -81,4 +80,4 @@
 \newcommand{\define}[1]{\textbf{#1}}
 
 \renewcommand{\boxed}[2]{\textcolor{#1}{%
-	\tikz[baseline={([yshift=-1ex]current bounding box.center)}] \node [rectangle, minimum width=1ex,rounded corners,draw] {\normalcolor$\displaystyle#2$};}}
+    \tikz[baseline={([yshift=-1ex]current bounding box.center)}] \node [rectangle, minimum width=1ex,rounded corners,draw] {\normalcolor$\displaystyle#2$};}}
