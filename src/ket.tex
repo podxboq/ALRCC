@@ -1,35 +1,35 @@
-\subsection{Qubits}
-Como se introduce en~\cite{diracBraket}, los qubits se escriben normalmente en la llamada notación de Dirac o notación bra-ket.
-Cada qubit se representa como un ket, de la forma $\ket{a}$, que denota un vector en $\Q$.
+\subsection{Cúbits}
+Como se introduce en~\cite{diracBraket}, los cúbits se escriben normalmente en la llamada notación de Dirac o notación bra-ket.
+Cada cúbit se representa como un ket, de la forma $\ket{a}$, que denota un vector en $\Q$.
 
-Por ejemplo, los estados de la base computacional se escriben como $\ket{0}$ y $\ket{1}$, llamados ket 0 y ket 1, respectivamente (véase~\cite{NielsenChuang}).
-Así, cualquier qubit puede describirse como una combinación lineal de estos dos estados de la base: $\ket{a} =\alpha_0\ket{0} +\alpha_1 \ket{1}$, donde $\alpha_0,  \alpha_1 \in \mathbb{C}$ con $ |\alpha_0|^{2}+|\alpha_1|^{2}=1$.
+Por ejemplo, los estados de la base canónica se escriben como $\ket{0}$ y $\ket{1}$, llamados ket 0 y ket 1, respectivamente (véase~\cite{NielsenChuang}).
+Así, cualquier cúbit puede describirse como una combinación lineal de estos dos estados de la base: $\ket{a} =\alpha_0\ket{0} +\alpha_1 \ket{1}$, donde $\alpha_0,  \alpha_1 \in \mathbb{C}$ con $ |\alpha_0|^{2}+|\alpha_1|^{2}=1$.
 
 \begin{notation}
-  Para cualquier qubit $\ket{a}$, se usa la siguiente notación:
+  Para cualquier cúbit $\ket{a}$, se usa la siguiente notación:
   \[a_{0}=\braket{0}{a}\text{ y }a_{1}=\braket{1}{a},\]
 \end{notation}
-por lo que el qubit $\ket{a}$ puede escribirse como:
+por lo que el cúbit $\ket{a}$ puede escribirse como:
 \begin{equation}
-  \label{eq:qubit-coordenadas}
-  \ket{a}=a_0\ket{0}+a_1\ket{1}
+  \label{eq:cúbit-coordenadas}
+  \ket{a}=a_0\ket{0}+a_1\ket{1}\,.
 \end{equation}
 
-Para otras bases, como por ejemplo $\set{\ket{+}, \ket{-}}$, donde $\ket{+}=\frac{\ket{0}+\ket{1}}{\sqrt{2}}$ y $\ket{-}=\frac{\ket{0}-\ket{1}}{\sqrt{2}}$, un qubit $\ket{a}$ puede describirse como:
+Para otras bases, como por ejemplo $\set{\ket{+}, \ket{-}}$, donde $\ket{+}=\frac{\ket{0}+\ket{1}}{\sqrt{2}}$ y $\ket{-}=\frac{\ket{0}-\ket{1}}{\sqrt{2}}$, un cúbit $\ket{a}$ puede describirse como:
 \begin{equation}
-  \label{eq:qubit-coordenadas-h}
-  \ket{a}=a_+\ket{+}+a_-\ket{-}
+  \label{eq:cúbit-coordenadas-h}
+  \ket{a}=a_+\ket{+}+a_-\ket{-}\,.
 \end{equation}
 
 \subsection{Kets}
 
-En general, para $n$ qubits $\ket{a_1}\dots\ket{a_n}$, el ket compuesto $\ket{a}=\ket{a_1\cdots a_n}\in\Q_n$ puede escribirse como se muestra a continuación:
+En general, para $n$ cúbits $\ket{a_1},\dots,\ket{a_n}$, el ket compuesto $\ket{a}=\ket{a_1\cdots a_n}\in\Q_n$ puede escribirse como se muestra a continuación:
 \begin{equation}
-  \label{eq:nqubit-coordenadas}
+  \label{eq:ncubit-coordenadas}
   \ket{a}=a_{k0}\ket{a_1\cdots a_{k-1}0a_{k+1}\cdots a_n}+a_{k1}\ket{a_1\cdots a_{k-1}1a_{k+1}\cdots a_n}.
 \end{equation}
 
-Por ejemplo, para dos qubits $\ket{a}$ y $\ket{b}$, puede escribirse de las siguientes 3 maneras:
+Por ejemplo, para dos cúbits $\ket{a}$ y $\ket{b}$, las siguientes expresiones son iguales:
 \begin{align*}
   \ket{ab} & =a_0\ket{0b}+a_1\ket{1b}                                            \\
            & =b_0\ket{a0}+b_1\ket{a1}                                            \\
@@ -37,26 +37,25 @@ Por ejemplo, para dos qubits $\ket{a}$ y $\ket{b}$, puede escribirse de las sigu
 \end{align*}
 
 \begin{notation}
-  Para cualquier ket $\ket{a}=\ket{a_1\dots a_n}$ de $n$ qubits, dado un qubit $\ket{b}$, se usa la siguiente notación:
+  Para cualquier ket $\ket{a}=\ket{a_1\dots a_n}$ de $n$ cúbits, dado un cúbit $\ket{b}$, se usa la siguiente notación:
   \begin{equation}
-    \label{eq:nqubit-only-one-state}
+    \label{eq:ncubit-only-one-state}
     \stateket{a}{k}{b} = \ket{a_1\cdots a_{k-1}b a_{k+1}\cdots a_n},
   \end{equation}
   donde $k \in \mathbb{N}_n$.
 \end{notation}
 
-En consecuencia, la expresión~(\ref{eq:nqubit-coordenadas}) puede escribirse como sigue:
+En consecuencia, la expresión~(\ref{eq:ncubit-coordenadas}) puede escribirse como sigue:
 \begin{equation}
   \label{eq:canonical-state}
   \ket{a}= a_{k0}\stateket{a}{k}{0}+a_{k1}\stateket{a}{k}{1}.
 \end{equation}
 
-Por ejemplo, si $\ket{a_1},\ket{a_2}$ y $\ket{a_3}$ son tres qubits, entonces:
+Por ejemplo, si $\ket{a_1},\ket{a_2}$ y $\ket{a_3}$ son tres cúbits, y $\ket{a} = \ket{a_1 a_2 a_3}$, entonces:
 \begin{itemize}
   \item $\stateket{a_1}{1}{0}=\ket{0}$ y $\stateket{a_1}{1}{1}=\ket{1}$.
   \item $\stateket{a_1 a_2}{2}{0}=\ket{a_1 0}$.
-  \item $\ket{a_1 a_2 a_3}=a_{20}\ket{a_1 0 a_3}+a_{21}\ket{a_1 1 a_3}=a_{20}\stateket{a}{2}{0}+a
-          _{21}\stateket{a}{2}{1}$.
+  \item $\ket{a}=a_{20}\ket{a_1 0 a_3}+a_{21}\ket{a_1 1 a_3}=a_{20}\stateket{a}{2}{0}+a_{21}\stateket{a}{2}{1}$.
   \item $\stateket{00a_3}{3}{1}=\ket{001}$.
 \end{itemize}
 

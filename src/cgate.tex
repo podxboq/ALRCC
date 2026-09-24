@@ -1,0 +1,71 @@
+\subsection{Puertas cuánticas controladas}
+Las puertas cuánticas controladas se aplican sobre kets formados por múltiples cúbits de modo que uno o más cúbits actúan como controladores de la operación sobre uno o más cúbits del ket.
+
+La puerta controlada más simple $\gate{A}$ sobre un ket $\ket{a}=\ket{a_1\dots a_n}$ tiene un único cúbit de control $\ket{a_h}$ y un único cúbit objetivo $\ket{a_k}$.
+
+\begin{notation}
+  Sea $\ket{a}=\ket{a_1\cdots a_n}$ un ket.
+  Sea $\gate{A}$ una puerta cuántica de un cúbit.
+  La puerta cuántica controlada con cúbit de control $\ket{a_h}$ y cúbit objetivo $\ket{a_k}$ se denota por $\stategate{A}{h}{k}$:
+  \begin{equation}
+    \label{eq:generic-controlled-gate}
+    \ket{a}\stategate{A}{h}{k} = a_{h0}\stateket{a}{h}{0}+a_{h1} \stateket{a}{h}{1}\stategate{A}{}{k}\,.
+  \end{equation}
+\end{notation}
+
+Podemos expresar también la puerta cuántica controlada $\stategate{A}{h}{k}$ como
+\begin{align*}
+  \ket{a}\stategate{A}{h}{k} & =a_{h0}\stateket{a}{h}{0}+a_{h1} \stateket{a}{h}{1}\gate{A}_k                                                    \\
+                             & =a_{h0}\stateket{a}{h}{0}+a_{h1} \stateket{a}{h}{1}\gate{A}_k+a_{h1}\stateket{a}{h}{1}-a_{h1} \stateket{a}{h}{1} \\
+                             & =\ket{a}-a_{h1} \stateket{a}{h}{1}+a_{h1} \stateket{a}{h}{1}\gate{A}_k\,.
+\end{align*}
+
+\begin{proposition}
+  Sean $\gate{A}$ y $\gate{B}$ dos puertas de un cúbit.
+  Entonces, para cualesquiera tres índices distintos $h,k,k^\prime \in \mathbb{N}$,
+  \begin{align}
+    \label{eq:conmutacion-cgates}
+    \stategate{A}{h}{k}\stategate{B}{h}{k^\prime} & = \stategate{B}{h}{k^\prime}\stategate{A}{h}{k}
+  \end{align}
+\end{proposition}
+
+\begin{proof}
+  Sea $n\in\N$ un número natural tal que $n\geq\max\set{h,k,k^\prime}$.
+  Sea $\ket{a}\in\Q^n$ un ket. Por definición
+  \begin{equation*}
+    \begin{split}
+      \ket{a}\stategate{A}{h}{k}\stategate{B}{h}{k^\prime}
+       & = \left(a_{h0}\stateket{a}{h}{0}+a_{h1}\stateket{a}{h}{1}\gate{A}_k\right)\stategate{B}{h}{k^\prime}=   \\
+       & =a_{h0}\stateket{a}{h}{0}+a_{h1}\stateket{a}{h}{1}\gate{A}_k\gate{B}_{k^\prime}\,,                      \\
+      \ket{a}\stategate{B}{h}{k^\prime}\stategate{A}{h}{k}
+       & = \left(a_{h0}\stateket{a}{h}{0}+a_{h1}\stateket{a}{h}{1}\gate{B}_{k^\prime}\right)\stategate{A}{h}{k}= \\
+       & =a_{h0}\stateket{a}{h}{0}+a_{h1}\stateket{a}{h}{1}\gate{B}_{k^\prime}\gate{A}_k                         \\
+    \end{split}
+  \end{equation*}
+  Y como $k\neq k^\prime$ por \eqref{eq:conmutacion-gates} ambas expresiones son iguales.
+\end{proof}
+
+La igualdad (\ref{eq:conmutacion-cgates}) nos permite afirmar que la siguiente notación está bien definida.
+\begin{notation}
+  Sea $\ket{a}=\ket{a_1\cdots a_n}$ un ket.
+  Sea $\gate{A}$ una puerta cuántica de un cúbit.
+  La puerta cuántica controlada con un cúbit de control $h\in\N_n$ y varios cúbits objetivo $\Lambda=\set{k_1,\dots,k_m}\subset\N_n$ con $h\not\in\Lambda$ se denota por:
+  \begin{equation}
+    \label{eq:ccontrol-1-n}
+    \gate{A}^{h}_{\Lambda} =\prod_{j\in\Lambda}\stategate{A}{h}{j}.
+  \end{equation}
+\end{notation}
+
+Para ampliar las puertas multicontroladas con varios cúbits de control,
+\begin{notation}
+  Sea $\ket{a}=\ket{a_1\cdots a_n}$ un ket.
+  Sea $\gate{A}$ una puerta cuántica de un cúbit.
+  La puerta cuántica controlada con varios cúbits de control $\Gamma=\set{h_1,\dots,h_l}\subset\mathbb{N}_n$ y varios cúbits objetivo $\Lambda=\set{k_1,\dots,k_m}\subset\mathbb{N}_n$ con $\Gamma\cap\Lambda=\emptyset$ se denota por:
+  \begin{align*}
+    \ket{a}\gate{A}^{\Gamma}_{\Lambda} & =\ket{a}\stategate{A}{h_1,\dots,h_l}{k_1,\dots, k_m}=a_{h_{1}0}\stateket{a}{h_1}{0}+a_{h_{1}1}a_{h_{2}0}\stateket{a}{h_{1}h_{2}}{10}+\dots+         \\
+                                       & +a_{h_{1}1}a_{h_{2}1}\cdots a_{h_{l}0}\stateket{a}{h_{1}h_{2}\dots h_{l-1}h_{l}}{11\dots 10}+
+    a_{h_{1}1}a_{h_{2}1}\cdots a_{h_{l}1}\stateket{a}{h_{1}h_{2}\dots h_{l}}{11\dots 1} \gate{A}_\Lambda=                                                                                    \\
+                                       & =\ket{a}-a_{h_{1}1}a_{h_{2}1}\cdots a_{h_{l}1}\stateket{a}{\Gamma}{1}+a_{h_{1}1}a_{h_{2}1}\cdots a_{h_{l}1}\stateket{a}{\Gamma}{1}\gate{A}_\Lambda.
+  \end{align*}
+\end{notation}
+Nótese que, de acuerdo con la notación anterior, para el caso particular del conjunto vacío $\Gamma=\emptyset$, la puerta cuántica resultante es $\stategate{A}{\Gamma}{\Lambda}=\gate{A}_{\Lambda}$ y para el conjunto vacío $\Lambda = \emptyset$ es $\stategate{A}{\Gamma}{\Lambda}=\gate{I}$.

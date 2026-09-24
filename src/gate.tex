@@ -1,0 +1,60 @@
+\subsection{Puertas cuánticas}
+Una puerta de un cúbit $\gate{A}$ actuando sobre un ket $\ket{a_1 a_2}$, puede referirse a la actuación sobre el primer cúbit y el resultado es $\gate{A}\ket{a_1}\otimes \ket{a_2}$, o sobre el segundo cúbit, entonces el resultado es $\ket{a_1}\otimes \gate{A}\ket{a_2}$. Para diferenciar estas operaciones, suele usare la notación tensorial $A\tensor I$ y $I\tensor A$ respectivamente, pero no resulta cómoda cuando el número de cúbits crece y la puerta actúa sobre varios cúbits y en posiciones no consecutivas.
+
+\begin{notation}
+  Sea $\gate{A}$ una puerta de un cúbit y $\ket{a}=\ket{a_1\cdots a_n}$ un ket con $n$ cúbits. Dado $\Gamma=\set{k_1,\dots,k_l}\in\N^l$, se usa la siguiente notación
+  \[
+    \ket{a_k}\gate{A}_{\Gamma}=
+    \gate{A}^{\delta_{1\Gamma}}\ket{a_1}\tensor\cdots\tensor\gate{A}^{\delta_{n\Gamma}}\ket{a_n}
+    \,.
+  \]
+\end{notation}
+
+\begin{remark}
+  A lo largo de este trabajo, las puertas se escriben en forma \emph{postfija}: la expresión $\ket{a}\gate{A}$ denota la aplicación del operador $\gate{A}$ al estado $\ket{a}$. En consecuencia, en un producto de puertas el factor más a la izquierda se aplica primero, por lo que las expresiones se leen de izquierda a derecha en el mismo orden que el circuito correspondiente. Esta convención es puramente notacional: $\ket{a}\gate{A}\gate{B}$ representa $\gate{B}(\gate{A}\ket{a})$ en la notación estándar de operadores.
+\end{remark}
+
+De esta manera, la situación comentada al inicio de esta sección se diferencia por $\ket{a_1 a_2}\gate{A}_1$ y $\ket{a_1 a_2}\gate{A}_2$ respectivamente.
+
+\begin{proposition}
+  Sean $\gate{A}, \gate{B}$ dos puerta de un cúbit.
+  Entonces, para cualesquiera dos índices distintos $h,k \in \N$,
+  \begin{equation}
+    \label{eq:conmutacion-gates}
+    \gate{A}_k\gate{B}_{h} = \gate{B}_h\gate{A}_{k}.
+  \end{equation}
+\end{proposition}
+\begin{proof}
+  Sea $n\in\N$ tal que $n\geq\max\set{k, h}$ y $\ket{a}=\ket{a_1\cdots a_n}\in\Q^n$ un ket.
+  Por definición
+  \begin{align*}
+    \ket{a}\gate{A}_k\gate{B}_{h}
+     & =  \gate{B}_{h}\left(\gate{A}^{\delta_{1k}}\ket{a_1}\tensor\cdots\tensor\gate{A}^{\delta_{nk}}\ket{a_n}\right)                       \\
+     & =  \gate{B}^{\delta_{1h}}\gate{A}^{\delta_{1k}}\ket{a_1}\tensor\cdots\tensor\gate{B}^{\delta_{nh}}\gate{A}^{\delta_{nk}}\ket{a_n}\,.
+  \end{align*}
+  Ahora bien, como $h\neq k$, el producto $\gate{B}^{\delta_{jh}}\gate{A}^{\delta_{jk}}$ para $j=1,\dots,n$, solo puede tomar 3 valores:
+  \[
+    \gate{B}^{\delta_{jh}}\gate{A}^{\delta_{jk}} = \begin{cases}
+      \gate{A} & \text{ si } j = k    \\
+      \gate{B} & \text{ si } j = h    \\
+      \gate{I} & \text{ en otro caso}
+    \end{cases}\,.
+  \]
+  En todos los casos el producto no depende del orden del producto y por tanto conmuta, $\gate{B}^{\delta_{jh}}\gate{A}^{\delta_{jk}}$ = $\gate{A}^{\delta_{jk}}\gate{B}^{\delta_{jh}}$ y llegamos a la igualdad buscada.
+\end{proof}
+
+Por la igualdad~(\ref{eq:conmutacion-gates}), la siguiente notación está bien definida.
+\begin{notation}
+  Sea $\Gamma=\set{k_1,\dots,k_l}\subseteq\mathbb{N}_n$ un conjunto.
+  Sea $\gate{A}$ una puerta de un cúbit. Se usa la siguiente notación:
+  \begin{align}
+    \gate{A}_{\Gamma} & = \gate{A}_{k_1,\dots,k_l}=\prod_{k\in\Gamma}\gate{A}_k\,.
+  \end{align}
+\end{notation}
+
+Nótese que, de acuerdo con la notación anterior, para el caso particular del conjunto vacío $\Gamma=\emptyset$, la puerta cuántica resultante es la puerta identidad $\gate{A}_\emptyset=\gate{I}$.
+
+Por ejemplo, si $\ket{a}=\ket{a_1 a_2}$ y $\Gamma = \set{1,2}$, entonces
+\[
+  \gate{A}\ket{a_1}\otimes \gate{A}\ket{a_2} = \ket{a}\gate{A}_{1,2}=\ket{a}\gate{A}_{\Gamma}\,.
+\]

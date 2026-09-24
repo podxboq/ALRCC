@@ -57,11 +57,11 @@ Los elementos notacionales núcleo son:
 
 \begin{itemize}
   \item \textbf{Estado indexado:} $\stateket{a}{k}{\gamma}$ denota el ket
-        $\ket{a}$ con el qubit $k$ reemplazado por el valor $\gamma$.
+        $\ket{a}$ con el cúbit $k$ reemplazado por el valor $\gamma$.
   \item \textbf{Puerta localizada:} $\gate{A}_k$ aplica la puerta $\gate{A}$
-        exclusivamente al qubit $k$.
+        exclusivamente al cúbit $k$.
   \item \textbf{Puerta sobre conjunto:} $\gate{A}_\Gamma$ aplica $\gate{A}$
-        a cada qubit del conjunto $\Gamma \subseteq \mathbb{N}_n$.
+        a cada cúbit del conjunto $\Gamma \subseteq \mathbb{N}_n$.
   \item \textbf{Puerta controlada general:} $\stategate{A}{\Gamma}{\Lambda}$
         con conjunto de controles $\Gamma$ y conjunto de targets $\Lambda$,
         $\Gamma \cap \Lambda = \emptyset$.
@@ -84,9 +84,9 @@ contienen errores matemáticos no detectados previamente.
 \begin{enumerate}
   \item \textbf{Compacidad paramétrica.}
         La escritura $\gate{X}_\Gamma$ para aplicar una puerta a un conjunto
-        arbitrario de qubits es genuinamente legible y escala con $n$ sin
+        arbitrario de cúbits es genuinamente legible y escala con $n$ sin
         aumentar la longitud de la expresión. Esto es ventajoso en algoritmos
-        donde el número de qubits es un parámetro (QFT, sumadores, redes de
+        donde el número de cúbits es un parámetro (QFT, sumadores, redes de
         acarreo, fan-out de control).
 
   \item \textbf{Identidad algebraica de conjuntos.}
@@ -139,10 +139,10 @@ contienen errores matemáticos no detectados previamente.
   \toprule
   \textbf{Cubierto}                      & \textbf{Parcialmente}                               & \textbf{Ausente}               \\
   \midrule
-  Puertas 1-qubit con índice             & Controles y targets múltiples                       & Mediciones
+  Puertas 1-cúbit con índice             & Controles y targets múltiples                       & Mediciones
   (aparece $_{{\Gamma}}\rfloor$ en \texttt{sum.tex} sin definición)                                                             \\
   \addlinespace
-  Conmutación en qubits disjuntos        & Hadamard, Pauli, $\gate{R}_X/\gate{R}_Y/\gate{R}_Z$ &
+  Conmutación en cúbits disjuntos        & Hadamard, Pauli, $\gate{R}_X/\gate{R}_Y/\gate{R}_Z$ &
   Operadores no unitarios, canales, ruido                                                                                       \\
   \addlinespace
   $\gate{A}_\Gamma$ con conjunto general & Estados entrelazados (representables como sumas de
@@ -167,7 +167,7 @@ mejor, aunque requiere un arreglo formal explícito:
         Todas las proposiciones del manuscrito demuestran identidades de
         \emph{operadores} ($\gate{A}_k\gate{A}_h = \gate{A}_h\gate{A}_k$,
         $\gate{A}_\Gamma \gate{A}_\Lambda = \gate{A}_{\Gamma\cup\Lambda}
-          \gate{A}_{\Gamma\cap\Lambda}$, las identidades CNOT/SWAP/Toffoli)
+        \gate{A}_{\Gamma\cap\Lambda}$, las identidades CNOT/SWAP/Toffoli)
         verificándolas sobre kets producto. Como los estados producto generan
         linealmente todo $\mathcal{H}^{\otimes n}$ y los operadores son
         lineales, \textbf{dos operadores que coinciden sobre todos los
@@ -221,7 +221,7 @@ de los coeficientes $a_{k\gamma}$.
 Las proposiciones demostradas hasta ahora son, en su mayoría:
 \begin{itemize}
   \item \con{Triviales por estructura tensorial:} conmutación de puertas en
-        qubits distintos (inmediata porque $\gate{A} \otimes I$ e $I \otimes \gate{B}$
+        cúbits distintos (inmediata porque $\gate{A} \otimes I$ e $I \otimes \gate{B}$
         siempre conmutan).
   \item \con{Elementales:} involución ($\gate{A}^2 = \gate{I}$ si $\gate{A}$
         es auto-inversa), propiedad de eigenvalores $-1$.
@@ -342,7 +342,7 @@ proposición y cada ejemplo del manuscrito. Resultado global: \textbf{el
           \gate{A}_{\Gamma\cup\Lambda}\gate{A}_{\Gamma\cap\Lambda}$
         (\texttt{basic\_properties.tex}); la prueba es válida, con una errata
         ($\gate{B}_\Lambda$ por $\gate{A}_\Lambda$ en el desarrollo).
-  \item Las cuatro proposiciones de \texttt{1-qubit-properties.tex},
+  \item Las cuatro proposiciones de \texttt{1-cúbit-properties.tex},
         verificadas por cálculo directo:
         $\stategate{X}{h}{k}\gate{Z}_k\stategate{X}{h}{k}=\gate{Z}_{h,k}$;
         la descomposición de SWAP en tres CNOT; la conjugación
@@ -409,7 +409,7 @@ proposición y cada ejemplo del manuscrito. Resultado global: \textbf{el
         $\gate{Y}$ del manuscrito, que sí es la estándar).
 
   \item \textbf{Normalización de $\ket{\pm}$ (\texttt{notation.tex},
-          \texttt{qubit.tex})}: se escribe
+          \texttt{cúbit.tex})}: se escribe
         $\ket{+}=\frac{\ket{0}+\ket{1}}{2}$; falta $\sqrt{2}$
         (\texttt{hadamard.tex} sí la escribe bien).
 
@@ -425,13 +425,13 @@ proposición y cada ejemplo del manuscrito. Resultado global: \textbf{el
   \item \textbf{Inconsistencia $a$ vs.\ $\alpha$}: las definiciones usan
         $a_{h0}$ y las pruebas cambian sin aviso a $\alpha_{h0}$
         (\texttt{cgate.tex}, \texttt{basic\_properties.tex},
-        \texttt{1-qubit-properties.tex}).
+        \texttt{1-cúbit-properties.tex}).
 
   \item \textbf{Tercer argumento $\pm$ sin definición}: la notación
         $\stateket{a}{k}{\gamma}$ se define para $\gamma\in\Theta=\{0,1\}$,
-        pero \texttt{hadamard.tex} y \texttt{1-qubit-properties.tex} usan
+        pero \texttt{hadamard.tex} y \texttt{1-cúbit-properties.tex} usan
         $\stateket{a}{k}{+}$ y $\stateket{a}{k}{-}$. La definición debe
-        generalizarse a estados arbitrarios de 1 qubit (la generalización es
+        generalizarse a estados arbitrarios de 1 cúbit (la generalización es
         inmediata, pero hay que escribirla).
 
   \item \textbf{Hipótesis de distinción ausentes}: por ejemplo, la
@@ -479,7 +479,7 @@ persisten estos problemas de diseño:
         sumador debería ser corta; no larga.
 
   \item \textbf{Proposiciones triviales elevadas a resultados.}
-        La conmutación de puertas en qubits distintos ($\gate{A}_k \gate{A}_h
+        La conmutación de puertas en cúbits distintos ($\gate{A}_k \gate{A}_h
           = \gate{A}_h \gate{A}_k$ para $k \neq h$) es consecuencia inmediata
         de la factorización tensorial, no un resultado del lenguaje.
         Presentarla como proposición con prueba sugiere escasez de resultados
@@ -491,7 +491,7 @@ persisten estos problemas de diseño:
         lo que impide su envío a cualquier revista o conferencia internacional.
 
   \item \textbf{Contenido duplicado.}
-        \texttt{qubit.tex} y \texttt{notation.tex} contienen el mismo bloque
+        \texttt{cúbit.tex} y \texttt{notation.tex} contienen el mismo bloque
         sobre la notación bra-ket.
 \end{enumerate}
 
@@ -512,7 +512,7 @@ Las recomendaciones se ordenan por impacto en la publicabilidad del trabajo.
         \texttt{ket.tex} ($a_1b_0$), \texttt{pauli.tex} ($\gate{RZ}$ y signos
         de $\gate{RY}$) y normalización de $\ket{\pm}$; (e) unificación de la convención
         postfija y de la notación $a$/$\alpha$; (f) generalización de
-        $\stateket{a}{k}{\gamma}$ a $\gamma$ estado arbitrario de 1 qubit.
+        $\stateket{a}{k}{\gamma}$ a $\gamma$ estado arbitrario de 1 cúbit.
         Coste estimado: días, no semanas. Nada de lo demás es publicable
         encima de definiciones incorrectas.
 
@@ -578,7 +578,7 @@ Las recomendaciones se ordenan por impacto en la publicabilidad del trabajo.
           \item Completar o eliminar \texttt{universal\_gates.tex} y
                 \texttt{deutsch.tex}; reincorporar abstract, introducción y
                 el ejemplo del sumador a \texttt{main.tex} (hoy excluidos).
-          \item Eliminar la duplicación entre \texttt{qubit.tex} y
+          \item Eliminar la duplicación entre \texttt{cúbit.tex} y
                 \texttt{notation.tex}.
           \item Resolver la polisemia del tercer argumento de
                 $\stateket{a}{k}{\cdot}$ mediante una gramática formal.

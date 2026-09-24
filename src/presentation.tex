@@ -96,7 +96,7 @@
       % Etiquetas
       \node[left, font=\small] at (0,1.2) {$\ket{0}$};
       \node[left, font=\small] at (0,0)   {$\ket{0}$};
-      % H sobre qubit 1
+      % H sobre cúbit 1
       \node[gate1] at (1.0,1.2) {$H$};
       % CNOT
       \node[ctrl] at (2.5,1.2) {};
@@ -117,7 +117,7 @@
     \begin{itemize}\small
       \item[\yes] Intuitivo para circuitos pequeños
       \item[\yes] Universal en la literatura
-      \item[\no] \alert{No escala} para $n > 20$ qubits
+      \item[\no] \alert{No escala} para $n > 20$ cúbits
       \item[\no] \alert{No se manipula algebraicamente}
     \end{itemize}
 
@@ -149,7 +149,7 @@
     \medskip
     \begin{tikzpicture}[scale=0.9]
       \begin{axis}[
-          xlabel={Número de qubits},
+          xlabel={Número de cúbits},
           ylabel={Puertas (escala log)},
           ymode=log,
           xmin=5, xmax=40,
@@ -173,7 +173,7 @@
     \end{tikzpicture}
 
     \column{0.48\textwidth}
-    \begin{alertblock}{Problema para $n > 20$ qubits}
+    \begin{alertblock}{Problema para $n > 20$ cúbits}
       \small
       \begin{itemize}
         \item Gráfico no cabe en una página
@@ -229,7 +229,7 @@
         \stateket{a}{k}{\gamma}
       \]
       \small
-      Ket $\ket{a}$ con el qubit $k$ fijado a $\gamma \in \{0,1\}$.
+      Ket $\ket{a}$ con el cúbit $k$ fijado a $\gamma \in \{0,1\}$.
 
       \smallskip
       \textit{Ejemplo:}
@@ -245,7 +245,7 @@
         \qg{A}_k = I^{\otimes k-1} \otimes \qg{A} \otimes I^{\otimes n-k}
       \]
       \small
-      La puerta $\qg{A}$ sobre el qubit $k$ únicamente.
+      La puerta $\qg{A}$ sobre el cúbit $k$ únicamente.
 
       \smallskip
       \textit{Equivalencia:}
@@ -261,10 +261,10 @@
         \qg{A}_\Gamma = \prod_{k \in \Gamma} \qg{A}_k
       \]
       \small
-      $\qg{A}$ aplicada a cada qubit del conjunto $\Gamma \subseteq \mathbb{N}_n$.
+      $\qg{A}$ aplicada a cada cúbit del conjunto $\Gamma \subseteq \mathbb{N}_n$.
 
       \smallskip
-      Bien definida porque puertas en qubits distintos conmutan.
+      Bien definida porque puertas en cúbits distintos conmutan.
     \end{block}
   \end{columns}
 \end{frame}
@@ -289,7 +289,7 @@
   \begin{columns}[T]
     \column{0.52\textwidth}
     \begin{block}{Proposición}
-      Sea $\qg{A}$ una puerta de 1~qubit y $\Gamma, \Lambda \subseteq \mathbb{N}_n$. Entonces:
+      Sea $\qg{A}$ una puerta de 1~cúbit y $\Gamma, \Lambda \subseteq \mathbb{N}_n$. Entonces:
       \[
         \boxed{\qg{A}_\Gamma\,\qg{A}_\Lambda
           = \qg{A}_{\Gamma \cup \Lambda}\;\qg{A}_{\Gamma \cap \Lambda}}
@@ -335,7 +335,7 @@
     \column{0.54\textwidth}
     \textbf{Circuito que computa $2 + 3 = 5$}
 
-    \textbf{10 qubits}
+    \textbf{10 cúbits}
 
     \medskip
     En notación ALRCC, el circuito completo en \textbf{una línea}:
@@ -348,7 +348,7 @@
     \end{align*}
 
     Se aplica sobre $\ket{0100110000}$ y la medición de los
-    qubits $\{3,9,10\}$ produce $101$.
+    cúbits $\{3,9,10\}$ produce $101$.
 
     \column{0.42\textwidth}
     \textbf{Comparación de tamaño de descripción}
@@ -392,7 +392,7 @@
     \small
     \textbf{Cálculo algebraico formal} para circuitos cuánticos
     reversibles que permita expresar, comparar y \textbf{optimizar}
-    circuitos de $n$~qubits mediante reescritura simbólica.
+    circuitos de $n$~cúbits mediante reescritura simbólica.
   \end{block}
 
   \medskip

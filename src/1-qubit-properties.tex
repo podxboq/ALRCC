@@ -13,9 +13,9 @@ En esta sección se demuestran algunas propiedades específicas que involucran a
   \begin{align*}
     \ket{a}\stategate{X}{h}{k}\stategate{Z}{}{k}\stategate{X}{h}{k}
      & =a_{h0}\stateket{a}{h}{0}\stategate{Z}{}{k}\stategate{X}{h}{k}+
-    a_{h1}\stateket{a}{hk}{1X}\stategate{Z}{}{k}\stategate{X}{h}{k}=                \\
+    a_{h1}\stateket{a}{hk}{1X}\stategate{Z}{}{k}\stategate{X}{h}{k}=           \\
      & =a_{h0}\stateket{a}{hk}{0Z}\stategate{X}{h}{k}+
-    a_{h1}\stateket{a}{hk}{1ZX}\stategate{X}{h}{k}=                                 \\
+    a_{h1}\stateket{a}{hk}{1ZX}\stategate{X}{h}{k}=                            \\
      & =a_{h0}\stateket{a}{hk}{0Z}+a_{h1}\stateket{a}{hk}{1XZX}=               \\
      & =a_{h0}\stateket{a}{hk}{0Z}-a_{h1}\stateket{a}{hk}{1Z}=                 \\
      & =a_{h0}\stateket{a}{h}{0}\gate{Z}_k-a_{h1}\stateket{a}{h}{1}\gate{Z}_k= \\
@@ -23,7 +23,7 @@ En esta sección se demuestran algunas propiedades específicas que involucran a
   \end{align*}
 \end{proof}
 
-Para el siguiente resultado es necesario introducir la puerta SWAP, que actúa sobre dos qubits intercambiando el estado de ambas posiciones:
+Para el siguiente resultado es necesario introducir la puerta SWAP, que actúa sobre dos cúbits intercambiando el estado de ambas posiciones:
 \begin{align}
   \label{eq:swap}
   \begin{split}
@@ -43,17 +43,17 @@ Para el siguiente resultado es necesario introducir la puerta SWAP, que actúa s
   \begin{align*}
     \ket{a}\stategate{X}{h}{k}\stategate{X}{k}{h}\stategate{X}{h}{k}
      & =a_{h0}\stateket{a}{h}{0}\stategate{X}{h}{k}\stategate{X}{k}{h}+
-    a_{h1}\stateket{a}{hk}{1X}\stategate{X}{h}{k}\stategate{X}{k}{h}=                   \\
+    a_{h1}\stateket{a}{hk}{1X}\stategate{X}{h}{k}\stategate{X}{k}{h}=          \\
      & =a_{h0}\stateket{a}{h}{0}\stategate{X}{k}{h}\stategate{X}{h}{k}+
-    a_{h1}a_{k0}\stateket{a}{hk}{11}\stategate{X}{k}{h}\stategate{X}{h}{k}+        \\
+    a_{h1}a_{k0}\stateket{a}{hk}{11}\stategate{X}{k}{h}\stategate{X}{h}{k}+    \\
      & +a_{h1}a_{k1}\stateket{a}{hk}{10}\stategate{X}{k}{h}\stategate{X}{h}{k}
-    =a_{h0}a_{k0}\stateket{a}{hk}{00}\stategate{X}{h}{k}+                          \\
+    =a_{h0}a_{k0}\stateket{a}{hk}{00}\stategate{X}{h}{k}+                      \\
      & +a_{h0}a_{k1}\stateket{a}{hk}{11}\stategate{X}{h}{k}
-    +a_{h1}a_{k0}\stateket{a}{hk}{01}\stategate{X}{h}{k}+                          \\
+    +a_{h1}a_{k0}\stateket{a}{hk}{01}\stategate{X}{h}{k}+                      \\
      & +a_{h1}a_{k1}\stateket{a}{hk}{10}\stategate{X}{h}{k}
-    =a_{h0}a_{k0}\stateket{a}{hk}{00}+                                             \\
+    =a_{h0}a_{k0}\stateket{a}{hk}{00}+                                         \\
      & +a_{h0}a_{k1}\stateket{a}{hk}{10}
-    +a_{h1}a_{k0}\stateket{a}{hk}{01}+ a_{h1}a_{k1}\stateket{a}{hk}{11}= \\
+    +a_{h1}a_{k0}\stateket{a}{hk}{01}+ a_{h1}a_{k1}\stateket{a}{hk}{11}=       \\
      & =\stategate{(SWAP)}{}{h,k}
   \end{align*}
 \end{proof}
@@ -69,15 +69,15 @@ Para el siguiente resultado es necesario introducir la puerta SWAP, que actúa s
   Si $\ket{a}$ es un ket y $h\neq k \in \mathbb{N}_n$ son dos índices, entonces
   \begin{align*}
     \ket{a}\gate{H}_{kh}\stategate{X}{k}{h}\gate{H}_{kh}
-     & =a_{h0}\stateket{a}{h}{+}\gate{H}_k\stategate{X}{k}{h}\gate{H}_{kh} + a_{h1}\stateket{a}{h}{-}\gate{H}_k\stategate{X}{k}{h}\gate{H}_{kh}=       \\
-     & =a_{h0}a_{k0}\stateket{a}{hk}{++}\stategate{X}{k}{h}\gate{H}_{kh} + a_{h0}a_{k1}\stateket{a}{hk}{+-}\stategate{X}{k}{h}\gate{H}_{kh}+ \\
-     & +a_{h1}a_{k0}\stateket{a}{hk}{-+}\stategate{X}{k}{h}\gate{H}_{kh} + a_{h1}a_{k1}\stateket{a}{hk}{--}\stategate{X}{k}{h}\gate{H}_{kh}= \\
-     & =a_{h0}a_{k0}\stateket{a}{hk}{++}\gate{H}_{hk} + a_{h0}a_{k1}\stateket{a}{hk}{+-}\gate{H}_{hk}+                                       \\
-     & +a_{h1}a_{k0}\stateket{a}{hk}{--}\gate{H}_{hk} + a_{h1}a_{k1}\stateket{a}{hk}{-+}\gate{H}_{hk}=                                       \\
-     & =a_{h0}a_{k0}\stateket{a}{hk}{+0}\gate{H}_h + a_{h0}a_{k1}\stateket{a}{hk}{+1}\gate{H}_h+                                             \\
-     & +a_{h1}a_{k0}\stateket{a}{hk}{-1}\gate{H}_h + a_{h1}a_{k1}\stateket{a}{hk}{-0}\gate{H}_h=                                             \\
-     & =a_{h0}\stateket{a}{h}{+}\gate{H}_h+a_{h1}\stateket{a}{h}{-}\gate{H}_h\gate{X}_k=                                                               \\
-     & =a_{h0}\stateket{a}{h}{0}+a_{h1}\stateket{a}{h}{1}\stategate{X}{}{k}=                                                                           \\
+     & =a_{h0}\stateket{a}{h}{+}\gate{H}_k\stategate{X}{k}{h}\gate{H}_{kh} + a_{h1}\stateket{a}{h}{-}\gate{H}_k\stategate{X}{k}{h}\gate{H}_{kh}= \\
+     & =a_{h0}a_{k0}\stateket{a}{hk}{++}\stategate{X}{k}{h}\gate{H}_{kh} + a_{h0}a_{k1}\stateket{a}{hk}{+-}\stategate{X}{k}{h}\gate{H}_{kh}+     \\
+     & +a_{h1}a_{k0}\stateket{a}{hk}{-+}\stategate{X}{k}{h}\gate{H}_{kh} + a_{h1}a_{k1}\stateket{a}{hk}{--}\stategate{X}{k}{h}\gate{H}_{kh}=     \\
+     & =a_{h0}a_{k0}\stateket{a}{hk}{++}\gate{H}_{hk} + a_{h0}a_{k1}\stateket{a}{hk}{+-}\gate{H}_{hk}+                                           \\
+     & +a_{h1}a_{k0}\stateket{a}{hk}{--}\gate{H}_{hk} + a_{h1}a_{k1}\stateket{a}{hk}{-+}\gate{H}_{hk}=                                           \\
+     & =a_{h0}a_{k0}\stateket{a}{hk}{+0}\gate{H}_h + a_{h0}a_{k1}\stateket{a}{hk}{+1}\gate{H}_h+                                                 \\
+     & +a_{h1}a_{k0}\stateket{a}{hk}{-1}\gate{H}_h + a_{h1}a_{k1}\stateket{a}{hk}{-0}\gate{H}_h=                                                 \\
+     & =a_{h0}\stateket{a}{h}{+}\gate{H}_h+a_{h1}\stateket{a}{h}{-}\gate{H}_h\gate{X}_k=                                                         \\
+     & =a_{h0}\stateket{a}{h}{0}+a_{h1}\stateket{a}{h}{1}\stategate{X}{}{k}=                                                                     \\
      & =\ket{a}\stategate{X}{h}{k}
   \end{align*}
 \end{proof}
@@ -130,9 +130,9 @@ Para el siguiente resultado es necesario introducir la puerta SWAP, que actúa s
      & + a_{j1}a_{h1}a_{k0}\stateket{a}{jhk}{110}\gate{X}_h +
     a_{j1}a_{h1}a_{k1}\stateket{a}{jhkl}{111\gate{X}}\gate{X}_h =                     \\
      & =a_{j0}a_{k0}\stateket{a}{jk}{00}\gate{X}_h+
-    a_{j0}a_{k1}\stateket{a}{jk}{01}\gate{X}_h+                                            \\
+    a_{j0}a_{k1}\stateket{a}{jk}{01}\gate{X}_h+                                       \\
      & +a_{j1}a_{k0}\stateket{a}{jk}{10}\gate{X}_h+
-    a_{j1}a_{k1}\stateket{a}{jkl}{11\gate{X}}\gate{X}_h=                                   \\
+    a_{j1}a_{k1}\stateket{a}{jkl}{11\gate{X}}\gate{X}_h=                              \\
      & =\ket{a}\stategate{X}{jk}{l}\gate{X}_h
   \end{align*}
 \end{proof}
