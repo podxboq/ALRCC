@@ -2,7 +2,7 @@
 
 *Algebraic Language for Representation of Quantum Circuits.* Punto de entrada único: aquí se recoge qué es el proyecto, dónde está cada cosa, el camino a seguir y los «inicios» recuperados de intentos anteriores.
 
-Última actualización: 2026-09-24.
+Última actualización: 2026-10-03.
 
 ---
 
@@ -83,10 +83,33 @@ Estado: ✅ leído · 📄 PDF en `referencias/` · ⬜ falta conseguir el PDF.
 | | 7–8 | Bichsel et al. 2020, *Silq* | R6 | ⬜ |
 | | — | Perdrix & Wang 2016, *Supplementarity* | — | ⬜ |
 | | 9 | Green et al. 2013, *Quipper* | R7 | ⬜ |
+| **Añadidos** (vigilancia) | 2 | Cockett & Comfort 2018, *The category TOF* — competencia directa de H1 | R1, R2, R4 | ⬜ |
+| | 3 | Clément, Heurtel, Mansfield, Perdrix & Valiron 2023, *A complete equational theory for quantum circuits* | R2, R3 | ⬜ |
+| | 3 | Clément, Delorme & Perdrix 2023, *Minimal equational theories for quantum circuits* | R3 | ⬜ |
 
 ---
 
-## 5. Inicios recuperados
+## 5. Vigilancia bibliográfica
+
+Resúmenes semanales automáticos de arXiv en `notas/arxiv-semanal/` (rutina en la nube «ALRCC — resumen semanal de arXiv», sábados 08:00 UTC, push a master; gestionar en https://claude.ai/code/routines/trig_01NUAUyKrysKZsjKxrAE511f).
+
+**arXiv.** `quant-ph` (filtrada con [SciRate](https://scirate.com) o por palabras clave), `cs.LO`, `cs.PL`, `cs.ET`; `cs.CR` filtrada por «quantum»; `math.CT` ocasional.
+Palabras clave: `Toffoli`, `reversible circuit`, `circuit rewriting`, `equational theory`, `ZX-calculus`, `phase polynomial`, `T-count`, `multi-controlled`, `relative-phase`.
+
+**Revistas.** Principales: *Quantum*, *ACM Trans. Quantum Computing*, *Logical Methods in CS*, *Math. Structures in CS*, *IEEE TCAD*. Secundarias: *PRX Quantum*, *npj QI*, *Quantum Sci. Technol.*, *Quantum Inf. Process.*, *IEEE TQE*.
+
+**Congresos.** QPL (EPTCS) y Reversible Computation (LNCS) como clave; LICS, FSCD, POPL/PLDI; TQC, IEEE QCE, DAC/DATE/ICCAD; PQCrypto y Eurocrypt/Asiacrypt para O8.
+
+**Autores y grupos.** ZX: Kissinger, van de Wetering, Backens, Perdrix, Vilmart, Jeandel, Carette. Teorías ecuacionales: Clément, Heurtel, Mansfield, Valiron. Toffoli/CNOT categórico: Cockett, Comfort. Optimización: Amy, Maslov, Mosca, Selinger, Ross, Wille, Burgholzer (MQT). Reversible: Heunen, Kaarsgaard. Criptografía: Jaques, Naehrig, Roetteler, Grassl, Langenberg.
+
+**Alertas (configurar a mano).**
+- [ ] Google Scholar: citas a Escánez-Expósito et al. 2025, Backens 2014 y Cockett & Comfort 2018.
+- [ ] RSS de *Quantum* y de las categorías cs.LO y cs.ET de arXiv.
+- [ ] Lista de publicaciones de [zxcalculus.com](https://zxcalculus.com).
+
+---
+
+## 6. Inicios recuperados
 
 Cada vez que aparezca un intento anterior se añade una entrada aquí y se guarda en la carpeta que corresponda.
 
@@ -102,7 +125,7 @@ Cada vez que aparezca un intento anterior se añade una entrada aquí y se guard
 
 ---
 
-## 6. Por localizar
+## 7. Por localizar
 
 - [ ] Librería Mathematica `QuantumAlgebra/` (`Core.wl`, `Gates.wl`, `Controlled.wl`, `Simplify.wl`, `Tests.wl`). No está en este equipo. → guardar en `mathematica/`.
 - [ ] Otros chats o resúmenes de intentos anteriores. → guardar en `notas/`.
@@ -112,8 +135,8 @@ Cada vez que aparezca un intento anterior se añade una entrada aquí y se guard
 
 ---
 
-## 7. Próximo paso
+## 8. Próximo paso
 
 1. Revisar qué apartados de R0 quedan pendientes tras los commits de junio y cerrarlos.
 2. Leer Backens 2014 (PDF ya disponible) para seguir con la Fase 1.
-3. Seguir localizando inicios y apuntarlos en la sección 5.
+3. Seguir localizando inicios y apuntarlos en la sección 6.
