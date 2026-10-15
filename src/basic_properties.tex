@@ -1,35 +1,34 @@
 \section{Propiedades básicas generales}
 A continuación se demuestran algunas propiedades genéricas de las puertas en un circuito cuántico.
 \begin{proposition}
-  Sea $\gate{A}$ una puerta de un cúbit tal que $\gate{A}\gate{A}=\gate{I}$. Entonces $\forall h,k \in \mathbb{N}_n$,
+  Sea $\gate{A}$ una puerta de un cúbit tal que $\gate{A}\gate{A}=\gate{I}$. Entonces, para cualesquiera $h,k \in \mathbb{N}_n$ con $h\neq k$,
   \begin{align}
     \label{eq:puerta-involutiva}
     \gate{A}_k\gate{A}_k                   & = \gate{I} \\
     \label{eq:cpuerta-involutiva}
     \stategate{A}{h}{k}\stategate{A}{h}{k} & = \gate{I}
   \end{align}
-  .
 \end{proposition}
 \begin{proof}
-  Sea $n\geq k$ y $\ket{a}\in\Q^n$ un ket.
-  Para demostrar la expresión~(\ref{eq:puerta-involutiva}):
+  Sea $n\geq\max\set{h,k}$ y $\ket{a}\in\Q_n$ un ket.
+  Para demostrar la expresión~\eqref{eq:puerta-involutiva}:
   \begin{align*}
-    \ket{a}\gate{A}_k\gate{A}_k
+    \gate{A}_k\gate{A}_k\ket{a}
      & = \gate{A}^{\delta_{1k}}\gate{A}^{\delta_{1k}}\ket{a_1}\tensor\cdots\tensor\gate{A}^{\delta_{nk}}\gate{A}^{\delta_{nk}}\ket{a_n} \\
      & = \ket{a_1}\tensor\cdots\tensor\ket{a_n}                                                                                        \\
      & = \ket{a}.
   \end{align*}
-  Análogamente, para demostrar la expresión~(\ref{eq:cpuerta-involutiva}), de acuerdo con~(\ref{eq:generic-controlled-gate}):
+  Análogamente, para demostrar la expresión~\eqref{eq:cpuerta-involutiva}, de acuerdo con~\eqref{eq:generic-controlled-gate}, y como $\gate{A}_k$ no actúa sobre el cúbit $h$:
   \begin{align*}
-    \ket{a}\stategate{A}{h}{k}\stategate{A}{h}{k}
-     & =a_{h0}\stateket{a}{h}{0}\stategate{A}{h}{k}+a_{h1}\stateket{a}{hk}{1A}\stategate{A}{h}{k}= \\
-     & =a_{h0}\stateket{a}{h}{0}+a_{h1}\stateket{a}{hk}{1AA}=                                      \\
+    \stategate{A}{h}{k}\stategate{A}{h}{k}\ket{a}
+     & =\stategate{A}{h}{k}\left(a_{h0}\stateket{a}{h}{0}+a_{h1}\,\gate{A}_k\stateket{a}{h}{1}\right)= \\
+     & =a_{h0}\stateket{a}{h}{0}+a_{h1}\,\gate{A}_k\gate{A}_k\stateket{a}{h}{1}=                      \\
      & =a_{h0}\stateket{a}{h}{0}+a_{h1}\stateket{a}{h}{1}=\ket{a}.
   \end{align*}
 \end{proof}
 
 \begin{proposition}
-  Sean $\gate{A}$ y $\gate{B}$ dos puertas de un cúbit, y $\Gamma, \Lambda \subset \mathbb{N}_n$ dos conjuntos tales que $\Gamma\cap\Lambda=\emptyset$.
+  Sean $\gate{A}$ y $\gate{B}$ dos puertas de un cúbit, y $\Gamma, \Lambda \subseteq \mathbb{N}_n$ dos conjuntos tales que $\Gamma\cap\Lambda=\emptyset$.
   Entonces
   \begin{equation}
     \label{eq:conmutacion-sets}
@@ -41,7 +40,7 @@ A continuación se demuestran algunas propiedades genéricas de las puertas en u
   \begin{align*}
     \gate{A}_{\Gamma}\gate{B}_{\Lambda}=\gate{A}_{\Gamma}\gate{B}_{k_1}\cdots\gate{B}_{k_m}=\gate{A}_{h_1}\cdots\gate{A}_{h_l}\gate{B}_{k_1}\cdots\gate{B}_{k_m}.
   \end{align*}
-  Como $\Gamma\cap\Lambda=\emptyset$, entonces $h_l\neq k_1$. Así, de acuerdo con la expresión~(\ref{eq:conmutacion-cgates}), se tiene $\gate{A}_{h_l}\gate{B}_{k_1}=\gate{B}_{k_1}\gate{A}_{h_l}$.
+  Como $\Gamma\cap\Lambda=\emptyset$, entonces $h_l\neq k_1$. Así, de acuerdo con la expresión~\eqref{eq:conmutacion-gates}, se tiene $\gate{A}_{h_l}\gate{B}_{k_1}=\gate{B}_{k_1}\gate{A}_{h_l}$.
   El mismo razonamiento es válido para todos los índices de $\Gamma$, por lo que $\gate{A}_{\Gamma}\gate{B}_{k_1}=\gate{B}_{k_1}\gate{A}_{\Gamma}$. En consecuencia,
   \begin{align*}
     \gate{A}_{\Gamma}\gate{B}_{\Lambda} & =\gate{A}_{\Gamma}\gate{B}_{k_1}\cdots\gate{B}_{k_m}=\gate{B}_{k_1}\gate{A}_{\Gamma}\gate{B}_{k_2}\cdots\gate{B}_{k_m}= \\
@@ -51,7 +50,7 @@ A continuación se demuestran algunas propiedades genéricas de las puertas en u
 
 \begin{proposition}
   Sea $\gate{A}$ una puerta de un cúbit.
-  Entonces, para cualesquiera dos conjuntos $\Gamma, \Lambda \subset \mathbb{N}_n$,
+  Entonces, para cualesquiera dos conjuntos $\Gamma, \Lambda \subseteq \mathbb{N}_n$,
   \begin{equation}
     \label{eq:junta-puertas}
     \gate{A}_\Gamma\gate{A}_{\Lambda} = \gate{A}_{\Gamma\cup\Lambda}\gate{A}_{\Gamma\cap\Lambda}
@@ -68,23 +67,23 @@ A continuación se demuestran algunas propiedades genéricas de las puertas en u
   \end{align*}
 \end{proof}
 
-A continuación se muestra un resultado teórico que establece que si una puerta de un cúbit se aplica sobre un subconjunto de cúbits que son estados propios de la puerta con valor propio $-1$, entonces el resultado coincide con el resultado sobre otro subconjunto de la misma paridad de cardinalidad (véase~\cite{NielsenChuang}). Por otro lado, si este último subconjunto tiene distinta paridad de cardinalidad, entonces el resultado coincide con el producto del primer resultado por el valor propio.
+A continuación se muestra un resultado que establece que si una puerta de un cúbit se aplica sobre un subconjunto de cúbits que son estados propios de la puerta con valor propio $-1$, entonces el resultado coincide con el que se obtiene sobre otro subconjunto con la misma paridad de cardinal (véase~\cite{NielsenChuang}). Si los dos subconjuntos tienen cardinales de distinta paridad, los resultados difieren en un factor $-1$.
 \begin{proposition}
-  Sea $\gate{A}$ una puerta de un cúbit. Sea $\ket{a}$ un ket y $\Gamma, \Lambda \subseteq \mathbb{N}_n$ tales que $\forall k \in \Gamma \cup \Lambda, \ket{a} \gate{A}_{k} = -\ket{a}$. Entonces
+  Sea $\gate{A}$ una puerta de un cúbit. Sea $\ket{a}$ un ket y $\Gamma, \Lambda \subseteq \mathbb{N}_n$ tales que $\gate{A}_{k}\ket{a} = -\ket{a}$ para todo $k \in \Gamma \cup \Lambda$. Entonces
   \begin{equation}
-    \ket{a} \stategate{A}{}{\Gamma} = (-1)^{|\Lambda|-|\Gamma|}\ket{a} \stategate{A}{}{\Lambda}.
+    \stategate{A}{}{\Gamma}\ket{a} = (-1)^{|\Gamma|-|\Lambda|}\stategate{A}{}{\Lambda}\ket{a}.
   \end{equation}
 \end{proposition}
 \begin{proof}
   Si $\Gamma=\set{k_1,\dots,k_l}$ donde $l=|\Gamma|$, entonces
   \begin{align*}
-    \ket{a} \stategate{A}{}{\Gamma} & = \ket{a} \prod_{k \in \Gamma} \gate{A}_k = \ket{a}\gate{A}_{k_1} \stategate{A}{}{k_2}\dots\stategate{A}{}{k_l} = \\
-                                    & = (-1)\ket{a}\gate{A}_{k_2}\dots\stategate{A}{}{k_l} =\dots = (-1)^{|\Gamma|} \ket{a}.
+    \stategate{A}{}{\Gamma}\ket{a} & = \prod_{k \in \Gamma} \gate{A}_k\ket{a} = \gate{A}_{k_1}\cdots\gate{A}_{k_{l-1}}\gate{A}_{k_l}\ket{a} = \\
+                                   & = (-1)\,\gate{A}_{k_1}\cdots\gate{A}_{k_{l-1}}\ket{a} =\dots = (-1)^{|\Gamma|} \ket{a}.
   \end{align*}
-  Análogamente, $\ket{a} \stategate{A}{}{\Lambda} = (-1)^{|\Lambda|} \ket{a}$.
+  Análogamente, $\stategate{A}{}{\Lambda}\ket{a} = (-1)^{|\Lambda|} \ket{a}$.
   Entonces
   \begin{align*}
-    \ket{a} \stategate{A}{}{\Gamma} & = (-1)^{|\Gamma|} \ket{a} = (-1)^{|\Gamma|-|\Lambda|}(-1)^{|\Lambda|} \ket{a}= \\
-                                    & =(-1)^{|\Gamma|-|\Lambda|}\ket{a} \stategate{A}{}{\Lambda}.
+    \stategate{A}{}{\Gamma}\ket{a} & = (-1)^{|\Gamma|} \ket{a} = (-1)^{|\Gamma|-|\Lambda|}(-1)^{|\Lambda|} \ket{a}= \\
+                                   & =(-1)^{|\Gamma|-|\Lambda|}\stategate{A}{}{\Lambda}\ket{a}.
   \end{align*}
 \end{proof}

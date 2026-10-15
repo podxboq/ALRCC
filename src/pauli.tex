@@ -1,24 +1,27 @@
 \subsection{Puertas de Pauli}
 	Las conocidas puertas de Pauli $\gate{I}, \gate{X}, \gate{Y}, \gate{Z}$ pueden expresarse de acuerdo con la notación introducida anteriormente como sigue:
 	\begin{align}
-		\ket{a}\gate{I}_k &= a_{k0}\stateket{a}{k}{0}+a_{k1}\stateket{a}{k}{1} \\
-		\ket{a}\gate{X}_k &= a_{k0}\stateket{a}{k}{1}+a_{k1}\stateket{a}{k}{0}\\
-		\ket{a}\gate{Y}_k &= ia_{k0}\stateket{a}{k}{1}-i a_{k1}\stateket{a}{k}{0}\\
-		\ket{a}\gate{Z}_k &= a_{k0}\stateket{a}{k}{0}-a_{k1}\stateket{a}{k}{1}
+		\gate{I}_k\ket{a} &= a_{k0}\stateket{a}{k}{0}+a_{k1}\stateket{a}{k}{1} \\
+		\gate{X}_k\ket{a} &= a_{k0}\stateket{a}{k}{1}+a_{k1}\stateket{a}{k}{0}\\
+		\gate{Y}_k\ket{a} &= ia_{k0}\stateket{a}{k}{1}-i a_{k1}\stateket{a}{k}{0}\\
+		\gate{Z}_k\ket{a} &= a_{k0}\stateket{a}{k}{0}-a_{k1}\stateket{a}{k}{1}
 	\end{align}
 
 \subsection{Puertas de rotación de Pauli}
 Las tres puertas de rotación de Pauli $\gate{RX}, \gate{RY}$ y $\gate{RZ}$ se definen tomando exponenciales de la puerta de Pauli correspondiente.
 
-Para un valor $\theta\in[0, 2\pi)$:
+Para un valor $\theta\in\R$:
 \begin{align}
-    \ket{a}\gate{RX}(\theta)_k &= \left(a_{k0}\cos(\frac{\theta}{2})-a_{k1}\sin(\frac{\theta}{2})i\right)\stateket{a}{k}{0}+\left(a_{k1}\cos(\frac{\theta}{2})-a_{k0}\sin(\frac{\theta}{2})i\right)\stateket{a}{k}{1}\\
-    \ket{a}\gate{RY}(\theta)_k &= \left(a_{k0}\cos(\frac{\theta}{2})-a_{k1}\sin(\frac{\theta}{2})\right)\stateket{a}{k}{0}+\left(a_{k1}\cos(\frac{\theta}{2})+a_{k0}\sin(\frac{\theta}{2})\right)\stateket{a}{k}{1}\\
-    \ket{a}\gate{RZ}(\theta)_k &= a_{k0}\left(\cos(\frac{\theta}{2})-\sin(\frac{\theta}{2})i\right)\stateket{a}{k}{0}+a_{k1}\left(\cos(\frac{\theta}{2})+\sin(\frac{\theta}{2})i\right)\stateket{a}{k}{1}
+    \gate{RX}(\theta)_k\ket{a} &= \left(a_{k0}\cos(\frac{\theta}{2})-a_{k1}\sin(\frac{\theta}{2})i\right)\stateket{a}{k}{0}\nonumber\\
+    &\quad+\left(a_{k1}\cos(\frac{\theta}{2})-a_{k0}\sin(\frac{\theta}{2})i\right)\stateket{a}{k}{1}\\
+    \gate{RY}(\theta)_k\ket{a} &= \left(a_{k0}\cos(\frac{\theta}{2})-a_{k1}\sin(\frac{\theta}{2})\right)\stateket{a}{k}{0}\nonumber\\
+    &\quad+\left(a_{k1}\cos(\frac{\theta}{2})+a_{k0}\sin(\frac{\theta}{2})\right)\stateket{a}{k}{1}\\
+    \gate{RZ}(\theta)_k\ket{a} &= a_{k0}\left(\cos(\frac{\theta}{2})-\sin(\frac{\theta}{2})i\right)\stateket{a}{k}{0}\nonumber\\
+    &\quad+a_{k1}\left(\cos(\frac{\theta}{2})+\sin(\frac{\theta}{2})i\right)\stateket{a}{k}{1}
 \end{align}
 
 \begin{proposition}
-	Sea $A$ una de las tres matrices de Pauli $X$, $Y$ o $Z$. Sea $k\in\N_n$ y $\theta, \varphi\in[0, 2\pi)$.
+	Sea $A$ una de las tres matrices de Pauli $X$, $Y$ o $Z$. Sea $k\in\N_n$ y $\theta, \varphi\in\R$.
 	\begin{equation}
 		\gate{RA}(\theta)_k\gate{RA}(\varphi)_k=\gate{RA}(\theta+\varphi)_k
 	\end{equation}

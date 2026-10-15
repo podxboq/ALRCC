@@ -1,9 +1,9 @@
 \subsection{Cúbits}
-Como se introduce en~\cite{diracBraket}, los cúbits se escriben normalmente en la llamada notación de Dirac o notación bra-ket.
+Como introduce \textcite{diracBraket}, los cúbits se escriben normalmente en la llamada notación de Dirac o notación bra-ket.
 Cada cúbit se representa como un ket, de la forma $\ket{a}$, que denota un vector en $\Q$.
 
 Por ejemplo, los estados de la base canónica se escriben como $\ket{0}$ y $\ket{1}$, llamados ket 0 y ket 1, respectivamente (véase~\cite{NielsenChuang}).
-Así, cualquier cúbit puede describirse como una combinación lineal de estos dos estados de la base: $\ket{a} =\alpha_0\ket{0} +\alpha_1 \ket{1}$, donde $\alpha_0,  \alpha_1 \in \mathbb{C}$ con $ |\alpha_0|^{2}+|\alpha_1|^{2}=1$.
+Así, cualquier cúbit puede describirse como una combinación lineal de estos dos estados de la base: $\ket{a} =a_0\ket{0} +a_1 \ket{1}$, donde $a_0, a_1 \in \mathbb{C}$ con $|a_0|^{2}+|a_1|^{2}=1$.
 
 \begin{notation}
   Para cualquier cúbit $\ket{a}$, se usa la siguiente notación:
@@ -78,7 +78,23 @@ Veamos exactamente que valor toma $(1-\delta_{k\Gamma})\ket{a_k}+\delta_{k\Gamma
         \end{equation*}
 \end{itemize}
 
-Por ejemplo, si $\Gamma=\set{1,3,7}\subset \N^8$, $\gamma=(1,0,1)\in\B^3$ y $\ket{a}=\ket{0}\in\Q^8$ entonces
+Por ejemplo, si $\Gamma=\set{1,3,7}\subseteq \N_8$, $\gamma=(1,0,1)\in\B^3$ y $\ket{a}=\ket{0}\in\Q_8$ entonces
 \[
   \ket{a}^{\Gamma}_{\gamma}=\ket{10000010}.
 \]
+
+La notación anterior sustituye los cúbits de las posiciones de $\Gamma$ por estados de la base computacional. Del mismo modo se pueden sustituir por estados arbitrarios de un cúbit, como $\ket{+}$ o $\ket{-}$.
+
+\begin{notation}
+  \label{not:ket-estados}
+  Sean $k_1,\dots,k_l\in\N_n$ índices distintos y $\ket{b_1},\dots,\ket{b_l}\in\Q$ cúbits. Se denota por $\stateket{a}{k_1\cdots k_l}{b_1\cdots b_l}$ el ket que resulta de sustituir en $\ket{a}=\ket{a_1\cdots a_n}$ el cúbit $\ket{a_{k_m}}$ por $\ket{b_m}$, para $m=1,\dots,l$, y dejar los demás igual. Si $\Gamma=\set{k_1,\dots,k_l}$ con $k_1<\dots<k_l$, también se escribe $\stateket{a}{\Gamma}{b_1\cdots b_l}$.
+\end{notation}
+
+Cuando $\ket{b_m}=\ket{\gamma_m}$ con $\gamma\in\B^l$ se recupera la notación anterior, y cuando $\Gamma=\set{k}$ se recupera~\eqref{eq:ncubit-only-one-state}. Por ejemplo, si $\ket{a}=\ket{a_1a_2a_3}$, entonces $\stateket{a}{13}{+-}=\ket{+\,a_2\,-}$ y $\stateket{a}{31}{+-}=\ket{-\,a_2\,+}$.
+
+Aplicando~\eqref{eq:canonical-state} a cada índice, un ket producto se descompone según los valores de los cúbits $k_1,\dots,k_l$:
+\begin{equation}
+  \label{eq:descomposicion-indices}
+  \ket{a}=\sum_{\gamma\in\B^l} a_{k_1\gamma_1}\cdots a_{k_l\gamma_l}\,\stateket{a}{k_1\cdots k_l}{\gamma_1\cdots\gamma_l}.
+\end{equation}
+

@@ -1,89 +1,92 @@
 \section{Propiedades específicas de la puerta de Pauli-\gate{X} controlada}
-En esta sección se demuestran algunas propiedades específicas que involucran a la puerta de Pauli-\gate{X} controlada.
+En esta sección se demuestran algunas propiedades específicas que involucran a la puerta de Pauli-\gate{X} controlada. En todas las demostraciones $\ket{a}$ es un ket producto, que se descompone según los valores de los cúbits que intervienen mediante~\eqref{eq:descomposicion-indices}; como las puertas son lineales, basta calcular su acción sobre cada componente.
+
+Para $x,y\in\B$, la definición~\eqref{eq:generic-controlled-gate} da directamente
+\begin{equation}
+  \label{eq:cnot-base}
+  \stategate{X}{h}{k}\stateket{a}{hk}{xy}=\stateket{a}{hk}{x\,(x\oplus y)},
+\end{equation}
+es decir, la puerta $\stategate{X}{h}{k}$ suma al cúbit $k$ el valor del cúbit $h$.
 
 \begin{proposition}
-  Sean $h,k \in \mathbb{N}_n$ dos índices.
+  Sean $h,k \in \mathbb{N}_n$ dos índices distintos.
   Entonces
   \begin{equation}
     \stategate{X}{h}{k}\stategate{Z}{}{k}\stategate{X}{h}{k} = \stategate{Z}{}{h,k}
   \end{equation}
 \end{proposition}
 \begin{proof}
-  Si $\ket{a}$ es un ket y $h\neq k\in \mathbb{N}_n$ son dos índices, entonces
+  Sea $\ket{a}=a_{h0}\stateket{a}{h}{0}+a_{h1}\stateket{a}{h}{1}$. Sobre la componente $\stateket{a}{h}{0}$ las dos puertas controladas actúan como la identidad. Sobre $\stateket{a}{h}{1}$ actúan como $\gate{X}_k$, porque $\gate{Z}_k$ no modifica el cúbit $h$, y $\gate{X}\gate{Z}\gate{X}=-\gate{Z}$. Por tanto
   \begin{align*}
-    \ket{a}\stategate{X}{h}{k}\stategate{Z}{}{k}\stategate{X}{h}{k}
-     & =a_{h0}\stateket{a}{h}{0}\stategate{Z}{}{k}\stategate{X}{h}{k}+
-    a_{h1}\stateket{a}{hk}{1X}\stategate{Z}{}{k}\stategate{X}{h}{k}=           \\
-     & =a_{h0}\stateket{a}{hk}{0Z}\stategate{X}{h}{k}+
-    a_{h1}\stateket{a}{hk}{1ZX}\stategate{X}{h}{k}=                            \\
-     & =a_{h0}\stateket{a}{hk}{0Z}+a_{h1}\stateket{a}{hk}{1XZX}=               \\
-     & =a_{h0}\stateket{a}{hk}{0Z}-a_{h1}\stateket{a}{hk}{1Z}=                 \\
-     & =a_{h0}\stateket{a}{h}{0}\gate{Z}_k-a_{h1}\stateket{a}{h}{1}\gate{Z}_k= \\
-     & =\ket{a}\stategate{Z}{}{h,k}
+    \stategate{X}{h}{k}\stategate{Z}{}{k}\stategate{X}{h}{k}\ket{a}
+     & =a_{h0}\,\gate{Z}_k\stateket{a}{h}{0}+a_{h1}\,\gate{X}_k\gate{Z}_k\gate{X}_k\stateket{a}{h}{1}=   \\
+     & =a_{h0}\,\gate{Z}_k\stateket{a}{h}{0}-a_{h1}\,\gate{Z}_k\stateket{a}{h}{1}=                      \\
+     & =\gate{Z}_k\left(a_{h0}\stateket{a}{h}{0}-a_{h1}\stateket{a}{h}{1}\right)=\gate{Z}_k\gate{Z}_h\ket{a}
+    =\stategate{Z}{}{h,k}\ket{a},
   \end{align*}
+  donde en el penúltimo paso se ha usado la expresión de $\gate{Z}_h$ de la sección de puertas de Pauli.
 \end{proof}
 
 Para el siguiente resultado es necesario introducir la puerta SWAP, que actúa sobre dos cúbits intercambiando el estado de ambas posiciones:
 \begin{align}
   \label{eq:swap}
   \begin{split}
-    \ket{a}(SWAP)_{h,k} & =a_{h0}a_{k0}\stateket{a}{hk}{00}+a_{h0}a_{k1}\stateket{a}{hk}{10}+ \\
-                        & +a_{h1}a_{k0}\stateket{a}{hk}{01}+a_{h1}a_{k1}\stateket{a}{hk}{11}
+    (\gate{SWAP})_{h,k}\ket{a} & =a_{h0}a_{k0}\stateket{a}{hk}{00}+a_{h0}a_{k1}\stateket{a}{hk}{10}+ \\
+                               & +a_{h1}a_{k0}\stateket{a}{hk}{01}+a_{h1}a_{k1}\stateket{a}{hk}{11}
   \end{split}
 \end{align}
 \begin{proposition}
-  Sean $h,k \in \mathbb{N}_n$ dos índices.
+  Sean $h,k \in \mathbb{N}_n$ dos índices distintos.
   Entonces
   \begin{equation}
-    \stategate{X}{h}{k}\stategate{X}{k}{h}\stategate{X}{h}{k} = \stategate{(SWAP)}{}{h,k}
+    \stategate{X}{h}{k}\stategate{X}{k}{h}\stategate{X}{h}{k} = (\gate{SWAP})_{h,k}
   \end{equation}
 \end{proposition}
 \begin{proof}
-  Si $\ket{a}$ es un ket y $h\neq k \in \mathbb{N}_n$ son dos índices, entonces
-  \begin{align*}
-    \ket{a}\stategate{X}{h}{k}\stategate{X}{k}{h}\stategate{X}{h}{k}
-     & =a_{h0}\stateket{a}{h}{0}\stategate{X}{h}{k}\stategate{X}{k}{h}+
-    a_{h1}\stateket{a}{hk}{1X}\stategate{X}{h}{k}\stategate{X}{k}{h}=          \\
-     & =a_{h0}\stateket{a}{h}{0}\stategate{X}{k}{h}\stategate{X}{h}{k}+
-    a_{h1}a_{k0}\stateket{a}{hk}{11}\stategate{X}{k}{h}\stategate{X}{h}{k}+    \\
-     & +a_{h1}a_{k1}\stateket{a}{hk}{10}\stategate{X}{k}{h}\stategate{X}{h}{k}
-    =a_{h0}a_{k0}\stateket{a}{hk}{00}\stategate{X}{h}{k}+                      \\
-     & +a_{h0}a_{k1}\stateket{a}{hk}{11}\stategate{X}{h}{k}
-    +a_{h1}a_{k0}\stateket{a}{hk}{01}\stategate{X}{h}{k}+                      \\
-     & +a_{h1}a_{k1}\stateket{a}{hk}{10}\stategate{X}{h}{k}
-    =a_{h0}a_{k0}\stateket{a}{hk}{00}+                                         \\
-     & +a_{h0}a_{k1}\stateket{a}{hk}{10}
-    +a_{h1}a_{k0}\stateket{a}{hk}{01}+ a_{h1}a_{k1}\stateket{a}{hk}{11}=       \\
-     & =\stategate{(SWAP)}{}{h,k}
-  \end{align*}
+  Sean $x,y\in\B$. Aplicando~\eqref{eq:cnot-base} tres veces (y su versión con los papeles de $h$ y $k$ intercambiados),
+  \[
+    \stategate{X}{h}{k}\stategate{X}{k}{h}\stategate{X}{h}{k}\stateket{a}{hk}{xy}
+    =\stategate{X}{h}{k}\stategate{X}{k}{h}\stateket{a}{hk}{x\,(x\oplus y)}
+    =\stategate{X}{h}{k}\stateket{a}{hk}{y\,(x\oplus y)}
+    =\stateket{a}{hk}{yx}.
+  \]
+  Por~\eqref{eq:descomposicion-indices} y la linealidad,
+  \[
+    \stategate{X}{h}{k}\stategate{X}{k}{h}\stategate{X}{h}{k}\ket{a}
+    =\sum_{x,y\in\B}a_{hx}a_{ky}\stateket{a}{hk}{yx},
+  \]
+  que es exactamente~\eqref{eq:swap}.
 \end{proof}
 
 \begin{proposition}
-  Sean $h,k \in \mathbb{N}_n$ dos índices.
+  Sean $h,k \in \mathbb{N}_n$ dos índices distintos.
   Entonces
   \begin{equation}
-    \gate{H}_{hk}\stategate{X}{k}{h}\gate{H}_{hk} = \stategate{X}{h}{k}
+    \gate{H}_{h,k}\stategate{X}{k}{h}\gate{H}_{h,k} = \stategate{X}{h}{k}
   \end{equation}
 \end{proposition}
 \begin{proof}
-  Si $\ket{a}$ es un ket y $h\neq k \in \mathbb{N}_n$ son dos índices, entonces
+  Para $x\in\B$ sea $s(x)$ el signo $+$ si $x=0$ y $-$ si $x=1$, de modo que $\gate{H}\ket{x}=\ket{s(x)}=\frac{1}{\sqrt2}\left(\ket{0}+(-1)^x\ket{1}\right)$ y, como $\gate{H}\gate{H}=\gate{I}$, también $\gate{H}\ket{s(x)}=\ket{x}$. Además $\gate{X}\ket{s(x)}=(-1)^x\ket{s(x)}$.
+
+  Sean $x,y\in\B$. En primer lugar,
   \begin{align*}
-    \ket{a}\gate{H}_{kh}\stategate{X}{k}{h}\gate{H}_{kh}
-     & =a_{h0}\stateket{a}{h}{+}\gate{H}_k\stategate{X}{k}{h}\gate{H}_{kh} + a_{h1}\stateket{a}{h}{-}\gate{H}_k\stategate{X}{k}{h}\gate{H}_{kh}= \\
-     & =a_{h0}a_{k0}\stateket{a}{hk}{++}\stategate{X}{k}{h}\gate{H}_{kh} + a_{h0}a_{k1}\stateket{a}{hk}{+-}\stategate{X}{k}{h}\gate{H}_{kh}+     \\
-     & +a_{h1}a_{k0}\stateket{a}{hk}{-+}\stategate{X}{k}{h}\gate{H}_{kh} + a_{h1}a_{k1}\stateket{a}{hk}{--}\stategate{X}{k}{h}\gate{H}_{kh}=     \\
-     & =a_{h0}a_{k0}\stateket{a}{hk}{++}\gate{H}_{hk} + a_{h0}a_{k1}\stateket{a}{hk}{+-}\gate{H}_{hk}+                                           \\
-     & +a_{h1}a_{k0}\stateket{a}{hk}{--}\gate{H}_{hk} + a_{h1}a_{k1}\stateket{a}{hk}{-+}\gate{H}_{hk}=                                           \\
-     & =a_{h0}a_{k0}\stateket{a}{hk}{+0}\gate{H}_h + a_{h0}a_{k1}\stateket{a}{hk}{+1}\gate{H}_h+                                                 \\
-     & +a_{h1}a_{k0}\stateket{a}{hk}{-1}\gate{H}_h + a_{h1}a_{k1}\stateket{a}{hk}{-0}\gate{H}_h=                                                 \\
-     & =a_{h0}\stateket{a}{h}{+}\gate{H}_h+a_{h1}\stateket{a}{h}{-}\gate{H}_h\gate{X}_k=                                                         \\
-     & =a_{h0}\stateket{a}{h}{0}+a_{h1}\stateket{a}{h}{1}\stategate{X}{}{k}=                                                                     \\
-     & =\ket{a}\stategate{X}{h}{k}
+    \stategate{X}{k}{h}\stateket{a}{hk}{s(x)\,s(y)}
+     & =\tfrac{1}{\sqrt2}\left(\stategate{X}{k}{h}\stateket{a}{hk}{s(x)\,0}+(-1)^y\stategate{X}{k}{h}\stateket{a}{hk}{s(x)\,1}\right)= \\
+     & =\tfrac{1}{\sqrt2}\left(\stateket{a}{hk}{s(x)\,0}+(-1)^{y}(-1)^{x}\stateket{a}{hk}{s(x)\,1}\right)
+    =\stateket{a}{hk}{s(x)\,s(x\oplus y)},
   \end{align*}
+  porque sobre la componente en la que el cúbit $k$ vale $1$ se aplica $\gate{X}_h$ a $\ket{s(x)}$. Por tanto
+  \[
+    \gate{H}_{h,k}\stategate{X}{k}{h}\gate{H}_{h,k}\stateket{a}{hk}{xy}
+    =\gate{H}_{h,k}\stategate{X}{k}{h}\stateket{a}{hk}{s(x)\,s(y)}
+    =\gate{H}_{h,k}\stateket{a}{hk}{s(x)\,s(x\oplus y)}
+    =\stateket{a}{hk}{x\,(x\oplus y)},
+  \]
+  que por~\eqref{eq:cnot-base} es $\stategate{X}{h}{k}\stateket{a}{hk}{xy}$. Por~\eqref{eq:descomposicion-indices} y la linealidad se obtiene la igualdad sobre $\ket{a}$.
 \end{proof}
 
 \begin{proposition}
-  Sean $j,h,k,l \in \mathbb{N}_n$ cuatro índices.
+  Sean $j,h,k,l \in \mathbb{N}_n$ cuatro índices distintos.
   Entonces
   \begin{equation}
     \label{eq:mainresult}
@@ -91,48 +94,19 @@ Para el siguiente resultado es necesario introducir la puerta SWAP, que actúa s
   \end{equation}
 \end{proposition}
 \begin{proof}
-  Si $\ket{a}$ es un ket y $j,h,k,l \in \mathbb{N}_n$ son cuatro índices distintos, entonces
-  el ket
-  $\ket{b}=\ket{a}\stategate{X}{jhk}{l}\gate{X}_h\stategate{X}{jhk}{l}$
-  es, por construcción, como se muestra a continuación
-  \begin{align*}
-    \ket{b}
-     & =a_{j0}a_{h0}a_{k0}\stateket{a}{jhk}{000}\gate{X}_h\stategate{X}{jhk}{l} +
-    a_{j0}a_{h0}a_{k1}\stateket{a}{jhk}{001}\gate{X}_h\stategate{X}{jhk}{l}+          \\
-     & +a_{j0}a_{h1}a_{k0}\stateket{a}{jhk}{010}\gate{X}_h\stategate{X}{jhk}{l} +
-    a_{j0}a_{h1}a_{k1}\stateket{a}{jhk}{011}\gate{X}_h\stategate{X}{jhk}{l}+          \\
-     & +a_{j1}a_{h0}a_{k0}\stateket{a}{jhk}{100}\gate{X}_h\stategate{X}{jhk}{l} +
-    a_{j1}a_{h0}a_{k1}\stateket{a}{jhk}{101}\gate{X}_h\stategate{X}{jhk}{l}+          \\
-     & +a_{j1}a_{h1}a_{k0}\stateket{a}{jhk}{110}\gate{X}_h\stategate{X}{jhk}{l} +
-    a_{j1}a_{h1}a_{k1}\stateket{a}{jhkl}{111\gate{X}}\gate{X}_h\stategate{X}{jhk}{l}= \\
-     & =a_{j0}a_{h0}a_{k0}\stateket{a}{jhk}{010}\stategate{X}{jhk}{l} +
-    a_{j0}a_{h0}a_{k1}\stateket{a}{jhk}{011}\stategate{X}{jhk}{l}+                    \\
-     & +a_{j0}a_{h1}a_{k0}\stateket{a}{jhk}{000}\stategate{X}{jhk}{l} +
-    a_{j0}a_{h1}a_{k1}\stateket{a}{jhk}{001}\stategate{X}{jhk}{l}+                    \\
-     & +a_{j1}a_{h0}a_{k0}\stateket{a}{jhk}{110}\stategate{X}{jhk}{l} +
-    a_{j1}a_{h0}a_{k1}\stateket{a}{jhk}{111}\stategate{X}{jhk}{l}+                    \\
-     & +a_{j1}a_{h1}a_{k0}\stateket{a}{jhk}{100}\stategate{X}{jhk}{l} +
-    a_{j1}a_{h1}a_{k1}\stateket{a}{jhkl}{101\gate{X}}\stategate{X}{jhk}{l}=           \\
-     & =a_{j0}a_{h0}a_{k0}\stateket{a}{jhk}{010} +
-    a_{j0}a_{h0}a_{k1}\stateket{a}{jhk}{011}+                                         \\
-     & +a_{j0}a_{h1}a_{k0}\stateket{a}{jhk}{000} +
-    a_{j0}a_{h1}a_{k1}\stateket{a}{jhk}{001}+                                         \\
-     & +a_{j1}a_{h0}a_{k0}\stateket{a}{jhk}{110} +
-    a_{j1}a_{h0}a_{k1}\stateket{a}{jhkl}{111\gate{X}}+                                \\
-     & +a_{j1}a_{h1}a_{k0}\stateket{a}{jhk}{100} +
-    a_{j1}a_{h1}a_{k1}\stateket{a}{jhkl}{101\gate{X}}=                                \\
-     & =a_{j0}a_{h0}a_{k0}\stateket{a}{jhk}{000}\gate{X}_h +
-    a_{j0}a_{h0}a_{k1}\stateket{a}{jhk}{001}\gate{X}_h +                              \\
-     & +a_{j0}a_{h1}a_{k0}\stateket{a}{jhk}{010}\gate{X}_h +
-    a_{j0}a_{h1}a_{k1}\stateket{a}{jhk}{011}\gate{X}_h +                              \\
-     & +a_{j1}a_{h0}a_{k0}\stateket{a}{jhk}{100}\gate{X}_h +
-    a_{j1}a_{h0}a_{k1}\stateket{a}{jhkl}{101\gate{X}}\gate{X}_h +                     \\
-     & + a_{j1}a_{h1}a_{k0}\stateket{a}{jhk}{110}\gate{X}_h +
-    a_{j1}a_{h1}a_{k1}\stateket{a}{jhkl}{111\gate{X}}\gate{X}_h =                     \\
-     & =a_{j0}a_{k0}\stateket{a}{jk}{00}\gate{X}_h+
-    a_{j0}a_{k1}\stateket{a}{jk}{01}\gate{X}_h+                                       \\
-     & +a_{j1}a_{k0}\stateket{a}{jk}{10}\gate{X}_h+
-    a_{j1}a_{k1}\stateket{a}{jkl}{11\gate{X}}\gate{X}_h=                              \\
-     & =\ket{a}\stategate{X}{jk}{l}\gate{X}_h
-  \end{align*}
+  Sean $x,y,z\in\B$ y consideremos la componente $\stateket{a}{jhk}{xyz}$. Se aplican las tres puertas del lado izquierdo, de derecha a izquierda:
+  \begin{itemize}
+    \item la primera $\stategate{X}{jhk}{l}$ aplica $\gate{X}_l$ si y solo si $x=y=z=1$;
+    \item $\gate{X}_h$ cambia el valor del cúbit $h$ de $y$ a $1\oplus y$;
+    \item la segunda $\stategate{X}{jhk}{l}$ aplica $\gate{X}_l$ si y solo si $x=z=1$ y $1\oplus y=1$, es decir, si $x=z=1$ e $y=0$.
+  \end{itemize}
+  Ninguna de estas puertas modifica los cúbits $j$ y $k$. Si $x=z=1$, exactamente una de las dos puertas controladas aplica $\gate{X}_l$ (la primera si $y=1$ y la segunda si $y=0$); en otro caso no la aplica ninguna. Como $\gate{X}_l$ y $\gate{X}_h$ conmutan por~\eqref{eq:conmutacion-gates},
+  \[
+    \stategate{X}{jhk}{l}\gate{X}_h\stategate{X}{jhk}{l}\stateket{a}{jhk}{xyz}=
+    \begin{cases}
+      \gate{X}_l\gate{X}_h\stateket{a}{jhk}{xyz} & \text{si } x=z=1, \\
+      \gate{X}_h\stateket{a}{jhk}{xyz}           & \text{en otro caso,}
+    \end{cases}
+  \]
+  que es precisamente $\stategate{X}{jk}{l}\gate{X}_h\stateket{a}{jhk}{xyz}$, ya que $\gate{X}_h$ no cambia los cúbits de control $j$ y $k$. Por~\eqref{eq:descomposicion-indices} y la linealidad se obtiene la igualdad sobre $\ket{a}$.
 \end{proof}

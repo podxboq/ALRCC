@@ -1,0 +1,184 @@
+\section{Sintaxis y semántica del lenguaje}
+\label{sec:sintaxis-semantica}
+
+Hasta ahora las puertas se han introducido como notaciones para operadores concretos, y el signo $=$ se ha usado indistintamente para dos cosas distintas: que dos expresiones sean \emph{la misma expresión} y que \emph{representen el mismo operador}. Para poder razonar sobre reglas de reescritura (y demostrar que son correctas, que terminan o que son confluentes) es necesario separar ambos niveles. Esta sección lo hace en tres pasos: una \emph{sintaxis} que dice qué expresiones existen, una condición de \emph{buena formación} que descarta las que no tienen sentido, y una \emph{semántica denotacional} que asigna a cada expresión bien formada la matriz unitaria que representa.
+
+A lo largo de la sección se fija el número de cúbits $n\in\N$. Como en el resto del trabajo, se sigue el convenio de Dirac: una expresión $\gate{C}\gate{D}$ aplicada a $\ket{a}$ se lee $\gate{C}(\gate{D}\ket{a})$, de modo que $\gate{D}$ actúa primero.
+
+\subsection{Sintaxis abstracta}
+
+La sintaxis se describe mediante una gramática en \emph{forma de Backus--Naur} (BNF, \emph{Backus--Naur Form}), la notación introducida en el informe de ALGOL~60 para gramáticas libres de contexto. Cada regla tiene la forma $\nt{símbolo} ::= \alpha_1 \mid \alpha_2 \mid \cdots$, que se lee «un $\nt{símbolo}$ es un $\alpha_1$, o un $\alpha_2$, o\ldots». Los símbolos $::=$ y $\mid$ pertenecen a la notación; las llaves, la coma, los paréntesis, $\emptyset$ y los nombres de las puertas son símbolos del propio lenguaje.
+
+\begin{definition}[Sintaxis]
+  \label{def:bnf}
+  Los \define{términos} del lenguaje son las expresiones generadas por $\nt{circuito}$ en la gramática
+  \[
+    \begin{array}{rcl}
+      \nt{circuito} & ::= & \gate{I} \mid \nt{puerta} \mid \nt{circuito}\,\nt{circuito} \mid (\,\nt{circuito}\,) \\[0.5ex]
+      \nt{puerta}   & ::= & \nt{base}^{\,\nt{conjunto},\,\nt{conjunto}}_{\,\nt{conjunto}}                        \\[0.5ex]
+      \nt{base}     & ::= & \gate{X} \mid \gate{Y} \mid \gate{Z} \mid \gate{H} \mid \gate{S} \mid \gate{T}        \\[0.5ex]
+      \nt{conjunto} & ::= & \emptyset \mid \set{\,\nt{lista}\,}                                                 \\[0.5ex]
+      \nt{lista}    & ::= & \nt{índice} \mid \nt{índice}\,,\,\nt{lista}                                         \\[0.5ex]
+      \nt{índice}   & ::= & 1 \mid 2 \mid 3 \mid \cdots
+    \end{array}
+  \]
+  Una puerta $\stategate{A}{\Gamma_1,\Gamma_0}{\Lambda}$ tiene \define{controles positivos} $\Gamma_1$, que la activan cuando el cúbit vale $\ket{1}$, \define{controles negativos} $\Gamma_0$, que la activan cuando vale $\ket{0}$, y \define{objetivos} $\Lambda$.
+\end{definition}
+
+Se trabaja con la \emph{sintaxis abstracta}: un término es el árbol de derivación de la gramática, no la cadena de símbolos que lo escribe. Los paréntesis solo sirven para escribir sin ambigüedad un árbol concreto, y por eso $(\gate{C}\gate{D})\gate{E}$ y $\gate{C}(\gate{D}\gate{E})$ son términos \emph{distintos}; que representen el mismo operador será una consecuencia de la semántica (proposición~\ref{prop:sem-asociatividad}), no de la sintaxis.
+
+El conjunto de puertas base es una elección: la gramática se extiende sin cambios a cualquier conjunto finito $\mathcal{G}$ de puertas de un cúbit, o a familias parametrizadas como las rotaciones $R_z(\theta)$, añadiendo las alternativas correspondientes a $\nt{base}$.
+
+\begin{notation}
+  \label{not:abreviaturas}
+  Se mantienen las abreviaturas de las secciones anteriores, que ahora son \emph{azúcar sintáctico} (formas cortas de escribir términos de la gramática):
+  \begin{itemize}
+    \item $\stategate{A}{\Gamma}{\Lambda}$ abrevia $\stategate{A}{\Gamma,\emptyset}{\Lambda}$, y $\gate{A}_{\Lambda}$ abrevia $\stategate{A}{\emptyset,\emptyset}{\Lambda}$;
+    \item un índice $k$ abrevia el conjunto $\set{k}$, como en la sección de notación básica.
+  \end{itemize}
+  Así, por ejemplo, la puerta de Toffoli con controles en $1$ y $2$ y objetivo en $3$ es el término $\stategate{X}{1,2}{3}=\stategate{X}{\set{1,2},\emptyset}{\set{3}}$.
+\end{notation}
+
+\subsection{Buena formación}
+
+La gramática genera expresiones como $\stategate{X}{\set{1},\emptyset}{\set{1}}$, en la que el cúbit $1$ controla y es objetivo a la vez, o $\gate{X}_{7}$ en un registro de tres cúbits. Ninguna de las dos representa una operación. Una gramática libre de contexto no puede expresar condiciones como «estos tres conjuntos son disjuntos» o «todo índice es como mucho $n$», así que se añaden como una segunda capa.
+
+\begin{definition}[Buena formación]
+  \label{def:buena-formacion}
+  Se dice que un término $\gate{C}$ está \define{bien formado en $n$ cúbits}, y se escribe $\vdash_n \gate{C}$, cuando se deduce de las reglas siguientes:
+  \begin{enumerate}
+    \item $\vdash_n \gate{I}$;
+    \item $\vdash_n \stategate{A}{\Gamma_1,\Gamma_0}{\Lambda}$ si $\Gamma_1,\Gamma_0,\Lambda\subseteq\N_n$ y son disjuntos dos a dos, es decir, $\Gamma_1\cap\Gamma_0=\Gamma_1\cap\Lambda=\Gamma_0\cap\Lambda=\emptyset$;
+    \item $\vdash_n \gate{C}\gate{D}$ si $\vdash_n\gate{C}$ y $\vdash_n\gate{D}$.
+  \end{enumerate}
+\end{definition}
+
+Se permite $\Lambda=\emptyset$; en tal caso, como se vio en la sección de puertas controladas, la puerta representa la identidad.
+
+\subsection{Semántica denotacional}
+
+La semántica asigna a cada término bien formado una matriz de $\C^{2^n\times 2^n}$. Se define \emph{por recursión sobre la gramática}: hay una cláusula por cada alternativa de la definición~\ref{def:bnf}, de modo que el significado de un término compuesto depende solo del significado de sus partes.
+
+Para las puertas base se toman las matrices habituales:
+\[
+  \sem{\gate{X}}=\begin{pmatrix}0&1\\1&0\end{pmatrix},\quad
+  \sem{\gate{Y}}=\begin{pmatrix}0&-i\\i&0\end{pmatrix},\quad
+  \sem{\gate{Z}}=\begin{pmatrix}1&0\\0&-1\end{pmatrix},
+\]
+\[
+  \sem{\gate{H}}=\frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix},\quad
+  \sem{\gate{S}}=\begin{pmatrix}1&0\\0&i\end{pmatrix},\quad
+  \sem{\gate{T}}=\begin{pmatrix}1&0\\0&e^{i\pi/4}\end{pmatrix}.
+\]
+
+\begin{definition}
+  \label{def:proyector-control}
+  Dados $\Gamma_1,\Gamma_0\subseteq\N_n$ disjuntos, el \define{proyector de control} es
+  \[
+    \Pi_{\Gamma_1,\Gamma_0}=M_1\tensor\cdots\tensor M_n,
+    \qquad
+    M_j=\begin{cases}
+      \dyad{1} & \text{si } j\in\Gamma_1, \\
+      \dyad{0} & \text{si } j\in\Gamma_0, \\
+      I        & \text{en otro caso.}
+    \end{cases}
+  \]
+  Para una puerta base $\gate{A}$ y $\Lambda\subseteq\N_n$ se denota
+  $\sem{\gate{A}}_\Lambda=\sem{\gate{A}}^{\delta_{1\Lambda}}\tensor\cdots\tensor\sem{\gate{A}}^{\delta_{n\Lambda}}$, es decir, $\sem{\gate{A}}$ en las posiciones de $\Lambda$ y la identidad en las demás.
+\end{definition}
+
+\begin{definition}[Semántica denotacional]
+  \label{def:semantica}
+  Para cada término $\gate{C}$ con $\vdash_n\gate{C}$ se define $\sem{\gate{C}}\in\C^{2^n\times 2^n}$ por:
+  \begin{align*}
+    \sem{\gate{I}}                                 & = I_{2^n},                                                                                   \\
+    \sem{\stategate{A}{\Gamma_1,\Gamma_0}{\Lambda}} & = \left(I_{2^n}-\Pi_{\Gamma_1,\Gamma_0}\right)+\Pi_{\Gamma_1,\Gamma_0}\,\sem{\gate{A}}_\Lambda, \\
+    \sem{\gate{C}\gate{D}}                         & = \sem{\gate{C}}\,\sem{\gate{D}}.
+  \end{align*}
+\end{definition}
+
+La cláusula de las puertas dice exactamente lo esperado: sobre los estados en los que todos los controles toman el valor que los activa (la imagen de $\Pi_{\Gamma_1,\Gamma_0}$) se aplica $\gate{A}$ en los objetivos, y sobre el resto no se hace nada.
+
+\begin{proposition}
+  \label{prop:sem-unitaria}
+  Si $\vdash_n\gate{C}$, entonces $\sem{\gate{C}}$ es una matriz unitaria.
+\end{proposition}
+\begin{proof}
+  Por inducción sobre la estructura de $\gate{C}$. El caso $\gate{I}$ es inmediato, y el de $\gate{C}\gate{D}$ se sigue de que el producto de unitarias es unitario. Para una puerta, sean $\Pi=\Pi_{\Gamma_1,\Gamma_0}$ y $U=\sem{\gate{A}}_\Lambda$. Como $\Lambda$ es disjunto de $\Gamma_1\cup\Gamma_0$, $\Pi$ y $U$ actúan sobre factores tensoriales distintos y, por tanto, $\Pi U=U\Pi$ y $\Pi U^\dagger=U^\dagger\Pi$. Además $\Pi$ es un proyector ortogonal: $\Pi^\dagger=\Pi$, $\Pi^2=\Pi$ y $(I-\Pi)\Pi=0$. Entonces
+  \begin{align*}
+     & \left((I-\Pi)+\Pi U\right)^\dagger\left((I-\Pi)+\Pi U\right)                    \\
+     & \qquad = (I-\Pi)^2 + (I-\Pi)\Pi U + U^\dagger\Pi(I-\Pi) + U^\dagger\Pi^2 U \\
+     & \qquad = (I-\Pi) + \Pi\, U^\dagger U = (I-\Pi)+\Pi = I.
+  \end{align*}
+  En este cálculo es esencial la condición de buena formación: si $\Lambda$ y los controles se solaparan, $\Pi$ y $U$ no conmutarían en general y la expresión de la definición~\ref{def:semantica} podría no ser unitaria.
+\end{proof}
+
+\begin{proposition}
+  \label{prop:sem-coherente}
+  La semántica es coherente con la definición de puerta controlada de la sección de puertas controladas. Si $\Gamma=\set{h_1,\dots,h_l}$ y $\ket{a}=\ket{a_1\cdots a_n}$ es un ket producto, entonces
+  \[
+    \sem{\stategate{A}{\Gamma}{\Lambda}}\ket{a}
+    = \ket{a}-a_{h_{1}1}\cdots a_{h_{l}1}\stateket{a}{\Gamma}{1}+a_{h_{1}1}\cdots a_{h_{l}1}\,\sem{\gate{A}}_\Lambda\stateket{a}{\Gamma}{1}.
+  \]
+\end{proposition}
+\begin{proof}
+  Por la definición~\ref{def:proyector-control}, $\Pi_{\Gamma,\emptyset}$ actúa factor a factor: en cada $h\in\Gamma$ lleva $\ket{a_h}=a_{h0}\ket{0}+a_{h1}\ket{1}$ a $a_{h1}\ket{1}$, y deja los demás factores igual. Por tanto $\Pi_{\Gamma,\emptyset}\ket{a}=a_{h_{1}1}\cdots a_{h_{l}1}\stateket{a}{\Gamma}{1}$, y basta sustituir en la definición~\ref{def:semantica}.
+\end{proof}
+
+\begin{example}
+  Para $n=3$, el término $\stategate{X}{1,2}{3}$ está bien formado y
+  $\sem{\stategate{X}{1,2}{3}}=(I-\dyad{1}\tensor\dyad{1}\tensor I)+\dyad{1}\tensor\dyad{1}\tensor\sem{\gate{X}}$,
+  que es la matriz de la puerta de Toffoli: intercambia $\ket{110}$ y $\ket{111}$ y deja fijos los demás vectores de la base. En cambio, $\stategate{X}{1,\emptyset}{1}$ no está bien formado y no tiene semántica.
+\end{example}
+
+\subsection{Igualdad sintáctica e igualdad semántica}
+
+\begin{definition}
+  \label{def:equivalencia}
+  Dos términos $\gate{C},\gate{D}$ con $\vdash_n\gate{C}$ y $\vdash_n\gate{D}$ son \define{semánticamente equivalentes}, y se escribe $\gate{C}\cong\gate{D}$, si $\sem{\gate{C}}=\sem{\gate{D}}$.
+\end{definition}
+
+Así quedan separados dos niveles: dos términos pueden ser distintos como árboles y, sin embargo, equivalentes. Las igualdades entre puertas demostradas en las secciones anteriores, como~\eqref{eq:conmutacion-gates} o~\eqref{eq:puerta-involutiva}, son en este lenguaje equivalencias $\cong$ entre términos distintos.
+
+\begin{proposition}
+  \label{prop:sem-asociatividad}
+  Para términos bien formados, $(\gate{C}\gate{D})\gate{E}\cong\gate{C}(\gate{D}\gate{E})$, $\gate{I}\gate{C}\cong\gate{C}$ y $\gate{C}\gate{I}\cong\gate{C}$.
+\end{proposition}
+\begin{proof}
+  Por la definición~\ref{def:semantica}, se reduce a la asociatividad del producto de matrices y a que $I_{2^n}$ es su neutro.
+\end{proof}
+
+En lo sucesivo, por la proposición~\ref{prop:sem-asociatividad}, se omiten los paréntesis en las composiciones.
+
+Una \define{regla de reescritura} es un par de términos $\gate{L}\to\gate{R}$, posiblemente con conjuntos de índices como parámetros, junto con las condiciones sobre esos parámetros bajo las que se aplica. La regla es \define{correcta} (\emph{sound}) si $\gate{L}\cong\gate{R}$ para todos los valores de los parámetros que cumplen esas condiciones y hacen que ambos lados estén bien formados. La corrección de las reglas garantiza que reescribir un circuito nunca cambia el operador que representa.
+
+Como ejemplo, la regla siguiente cambia un control positivo por uno negativo conjugando con $\gate{X}$, y es la base para relacionar las puertas con controles negativos con las de la sección de puertas controladas.
+
+\begin{proposition}[Inversión de un control]
+  \label{prop:inversion-control}
+  Sean $\Gamma_1,\Gamma_0,\Lambda\subseteq\N_n$ disjuntos dos a dos y $c\in\N_n\setminus(\Gamma_1\cup\Gamma_0\cup\Lambda)$. Entonces
+  \[
+    \gate{X}_c\,\stategate{A}{\Gamma_1\cup\set{c},\,\Gamma_0}{\Lambda}\,\gate{X}_c
+    \;\cong\;
+    \stategate{A}{\Gamma_1,\,\Gamma_0\cup\set{c}}{\Lambda}.
+  \]
+\end{proposition}
+\begin{proof}
+  Sean $P=\sem{\gate{X}_c}$, $\Pi=\Pi_{\Gamma_1\cup\set{c},\Gamma_0}$ y $U=\sem{\gate{A}}_\Lambda$. Como $c\notin\Lambda$, $P$ y $U$ actúan sobre factores tensoriales distintos y conmutan; además $P^2=I$. Por tanto
+  \[
+    P\left((I-\Pi)+\Pi U\right)P = (I-P\Pi P) + P\Pi P\, U.
+  \]
+  El proyector $P\Pi P$ coincide con $\Pi$ en todos los factores salvo el $c$-ésimo, donde cambia $\dyad{1}$ por $\sem{\gate{X}}\dyad{1}\sem{\gate{X}}=\dyad{0}$. Es decir, $P\Pi P=\Pi_{\Gamma_1,\Gamma_0\cup\set{c}}$, y el lado derecho es $\sem{\stategate{A}{\Gamma_1,\Gamma_0\cup\set{c}}{\Lambda}}$.
+\end{proof}
+
+\begin{corollary}
+  \label{cor:controles-negativos}
+  En las condiciones anteriores,
+  $\stategate{A}{\Gamma_1,\Gamma_0}{\Lambda}\cong\gate{X}_{\Gamma_0}\,\stategate{A}{\Gamma_1\cup\Gamma_0}{\Lambda}\,\gate{X}_{\Gamma_0}$.
+  En particular, toda puerta con controles negativos es equivalente a un término que solo usa controles positivos.
+\end{corollary}
+\begin{proof}
+  Por inducción sobre $|\Gamma_0|$, aplicando la proposición~\ref{prop:inversion-control} a cada $c\in\Gamma_0$ y usando que las puertas $\gate{X}_c$ con $c\in\Gamma_0$ conmutan entre sí~\eqref{eq:conmutacion-gates}.
+\end{proof}
+
+Con esta base, los pasos siguientes de la formalización son fijar un conjunto de reglas orientadas, demostrar que cada una es correcta en el sentido anterior y estudiar si el sistema resultante termina y es confluente, lo que daría una forma normal para cada circuito. La pregunta inversa, si las reglas bastan para deducir \emph{toda} equivalencia $\gate{C}\cong\gate{D}$ (la \emph{completitud}), es la que resuelven para los circuitos cuánticos generales \textcite{Clement2023} y, para los circuitos Toffoli, \textcite{CockettComfort2018}.

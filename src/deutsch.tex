@@ -10,13 +10,13 @@ El algoritmo cuántico extrae exactamente este único bit de información con un
 
 Sea $\gate{U}$ el operador unitario definido sobre la base computacional por
 \[
-  \ket{xy}\gate{U}=\ket{x(y\oplus f(x))},
+  \gate{U}\ket{xy}=\ket{x(y\oplus f(x))},
 \]
 donde $\oplus$ es la suma módulo 2.
 Si aplicamos el operador $\gate{U}$ sobre el estado $\ket{+-}$ obtenemos:
 \[
   \begin{split}
-    \ket{+-}\gate{U} & = \frac{1}{\sqrt{2}}(\ket{+0}-\ket{+1})\gate{U}=\frac{1}{2}(\ket{00}+\ket{10}-\ket{01}-\ket{11})\gate{U}= \\
+    \gate{U}\ket{+-} & = \frac{1}{\sqrt{2}}\gate{U}(\ket{+0}-\ket{+1})=\frac{1}{2}\gate{U}(\ket{00}+\ket{10}-\ket{01}-\ket{11})= \\
                      & = \frac{1}{2}(\ket{0(0\oplus f(0))}+\ket{1(0\oplus f(1))}-\ket{0(1\oplus f(0))}-\ket{1(1\oplus f(1))})=   \\
                      & =\begin{cases}
                           \frac{1}{2}(\ket{00}+\ket{10}-\ket{01}-\ket{11})=\ket{+-}\text{ si $f(0)=0$ y $f(1) = 0$}  \\
@@ -26,29 +26,29 @@ Si aplicamos el operador $\gate{U}$ sobre el estado $\ket{+-}$ obtenemos:
                         \end{cases}
   \end{split}
 \]
-por lo que el estado resultante es, salvo fase global:
+por lo que el estado resultante es
 \[
-  \ket{+-}\gate{U}=(-1)^{f(0)}\begin{cases}
+  \gate{U}\ket{+-}=(-1)^{f(0)}\begin{cases}
     \ket{+-} & \text{ si $f$ es constante}   \\
     \ket{--} & \text{ si $f$ es equilibrada}
   \end{cases}.
 \]
 
 Consideremos un circuito cuántico que implementa el algoritmo de Deutsch.
-De acuerdo con la convención postfija, el circuito se lee de izquierda a derecha:
+El circuito aplica, por este orden, $\gate{X}_2$, $\gate{H}_{1,2}$, $\gate{U}$ y $\gate{H}_1$; con el convenio de Dirac se escribe en orden inverso:
 \[
-  \gate{D}=\gate{X}_2\gate{H}_{1,2}\gate{U}\gate{H}_1
+  \gate{D}=\gate{H}_1\gate{U}\gate{H}_{1,2}\gate{X}_2
 \]
 
 Aplicando el circuito al estado inicial $\ket{00}$ y usando el cálculo anterior:
 \begin{equation}
   \label{eq:deutchs-circuit}
   \begin{split}
-    \ket{00}\gate{D} & =\ket{00}\gate{X}_2\gate{H}_{1,2}\gate{U}\gate{H}_1=\ket{01}\gate{H}_{1,2}\gate{U}\gate{H}_1=\ket{+-}\gate{U}\gate{H}_1= \\
+    \gate{D}\ket{00} & =\gate{H}_1\gate{U}\gate{H}_{1,2}\gate{X}_2\ket{00}=\gate{H}_1\gate{U}\gate{H}_{1,2}\ket{01}=\gate{H}_1\gate{U}\ket{+-}= \\
                      & =(-1)^{f(0)}
     \begin{cases}
-      \ket{+-}\gate{H}_1 \\
-      \ket{--}\gate{H}_1
+      \gate{H}_1\ket{+-} \\
+      \gate{H}_1\ket{--}
     \end{cases}
     =(-1)^{f(0)}
     \begin{cases}

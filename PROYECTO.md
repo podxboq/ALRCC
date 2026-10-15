@@ -2,7 +2,7 @@
 
 *Algebraic Language for Representation of Quantum Circuits.* Punto de entrada único: aquí se recoge qué es el proyecto, dónde está cada cosa, el camino a seguir y los «inicios» recuperados de intentos anteriores.
 
-Última actualización: 2026-10-03.
+Última actualización: 2026-10-15.
 
 ---
 
@@ -45,10 +45,10 @@ Fuente: `src/critical_analysis.tex`, sección «Recomendaciones prioritarias» (
 
 | # | Recomendación | Estado |
 |---|---|---|
-| R0 | Corregir errores matemáticos de base: (a) conjugación $a_\gamma=\langle\gamma\|a\rangle$ en `notation.tex`; (b) ecuación de Hadamard; (c) casos intercambiados y abusos de tipo en `deutsch.tex`; (d) erratas en `ket.tex`, `pauli.tex`, normalización de $\|\pm\rangle$; (e) convención postfija y $a$/$\alpha$; (f) generalizar $\|a\rangle^k_\gamma$ a $\gamma$ estado arbitrario. *Días.* | En curso (commits 13-06-2026 en `notation.tex` y `ket.tex`; revisar qué apartados quedan) |
+| R0 | Corregir errores matemáticos de base: (a) conjugación $a_\gamma=\langle\gamma\|a\rangle$ en `notation.tex`; (b) ecuación de Hadamard; (c) casos intercambiados y abusos de tipo en `deutsch.tex`; (d) erratas en `ket.tex`, `pauli.tex`, normalización de $\|\pm\rangle$; (e) convención postfija y $a$/$\alpha$; (f) generalizar $\|a\rangle^k_\gamma$ a $\gamma$ estado arbitrario. *Días.* | Hecho (2026-10-15): todo el manuscrito pasa al convenio de Dirac (ket a la derecha); $a$/$\alpha$ unificados; $\ket{a}^{k_1\cdots k_l}_{b_1\cdots b_l}$ generalizado a estados arbitrarios; hipótesis de índices distintos añadidas; pruebas de `1-qubit-properties.tex` reescritas. |
 | R1 | Declarar el nicho H1 desde el inicio | Pendiente |
 | R2 | Sección de estado del arte comparando con ZX-calculus, PyZX, OpenQASM 3, Quipper | Pendiente (lectura en curso) |
-| R3 | Formalizar el cálculo: BNF, semántica denotacional, reglas, *soundness* | Pendiente |
+| R3 | Formalizar el cálculo: BNF, semántica denotacional, reglas, *soundness* | Iniciado (2026-10-15): `src/syntax.tex` con BNF, buena formación, semántica $[\![\cdot]\!]$, unitariedad, equivalencia $\cong$ y regla de inversión de control. Falta el conjunto de reglas orientadas, terminación y confluencia |
 | R4 | Resultado palanca: generalizar la reducción de controles (eq. `mainresult`) a $\Delta\subseteq\Gamma$ conjugados por $X_\Delta$ → cancelación en cascadas Toffoli | Pendiente |
 | R5 | Lema de extensión lineal, lemas de factorización, lema de *phase kickback* (completa `deutsch.tex`) | Pendiente |
 | R6 | Definición y propiedades de la medición | Pendiente |

@@ -1,10 +1,11 @@
 \usepackage[utf8]{inputenc}
-\usepackage[spanish]{babel}
+\usepackage[spanish,es-noshorthands]{babel} % es-noshorthands: necesario para style=apa
 \usepackage{amsthm,amsmath,amssymb}
 \usepackage{hyperref}
 \usepackage{csquotes}
-\usepackage{biblatex}
+\usepackage[style=apa,backend=biber]{biblatex}
 \addbibresource{bibliography.bib}
+\addbibresource{roadmap.bib}
 \usepackage[all]{hypcap}
 \usepackage{stmaryrd}
 \usepackage{graphicx}
@@ -79,6 +80,8 @@
 \newcommand{\con}[2]{{#1}_{#2}}
 \newcommand{\define}[1]{\textbf{#1}}
 \newcommand{\tensor}{\otimes}
+\newcommand{\sem}[1]{\llbracket #1\rrbracket}
+\newcommand{\nt}[1]{\langle\textit{#1}\rangle}
 
 \renewcommand{\boxed}[2]{\textcolor{#1}{%
     \tikz[baseline={([yshift=-1ex]current bounding box.center)}] \node [rectangle, minimum width=1ex,rounded corners,draw] {\normalcolor$\displaystyle#2$};}}

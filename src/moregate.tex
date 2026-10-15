@@ -7,7 +7,7 @@ Dos puertas de un qubit $\gate{A}$ y $\gate{B}$ pueden aplicarse sobre el primer
 		\bigotimes_{k=1}^n\gate{A}^{\delta_{hk}}\gate{B}^{\delta_{lk}}\ket{a_k}=
 		\begin{cases}
 			\ket{a_1\cdots a_h\gate{A}a_{h+1}\cdots a_l\gate{B}a_{l+1}\cdots a_n}\\
-			\ket{a}\gate{A}_h\gate{B}_l\\
+			\gate{A}_h\gate{B}_l\ket{a}\\
 			\stateket{a}{h,l}{\gate{A}\gate{B}}
 		\end{cases}
 		,
@@ -19,7 +19,7 @@ Por ejemplo, si $\ket{a}=\ket{a_1 a_2}$ entonces
 	\gate{A}\ket{a_1}\otimes \gate{B}\ket{a_2} =
 	\begin{cases}
 		\ket{a_1\gate{A}a_2\gate{B}}\\
-		\ket{a}\gate{A}_1\gate{B}_2\\
+		\gate{A}_1\gate{B}_2\ket{a}\\
 		\stateket{a}{1,2}{\gate{A}\gate{B}}
 	\end{cases}.
 \]
@@ -37,7 +37,7 @@ Por ejemplo, si $\ket{a}=\ket{a_1 a_2}$ entonces
 	Sea $\ket{a}$ un ket.
 	Para cualesquiera dos índices distintos $h,k \in \mathbb{N}_n$:
 	\begin{align*}
-		\ket{a}\gate{A}_k\gate{B}_{h}
-		&=\stateket{a}{k}{\gate{A}}\gate{B}_{h}=\stateket{a}{kh}{\gate{AB}}=\stateket{a}{h}{\gate{B}}\gate{A}_{k}=\ket{a}\gate{B}_{h}\gate{A}_k.
+		\gate{A}_k\gate{B}_{h}\ket{a}
+		&=\gate{A}_{k}\stateket{a}{h}{\gate{B}}=\stateket{a}{kh}{\gate{AB}}=\gate{B}_{h}\stateket{a}{k}{\gate{A}}=\gate{B}_{h}\gate{A}_k\ket{a}.
 	\end{align*}
 \end{proof}
